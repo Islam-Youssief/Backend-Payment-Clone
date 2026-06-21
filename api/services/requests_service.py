@@ -31,6 +31,7 @@ class RequestsWrapper:
 class WiremockRequester:
 
     def __init__(self, test_requests=None):
+        
         self._requests = test_requests or requests
         self._wiremock_url = '127.0.0.1:8080'
 

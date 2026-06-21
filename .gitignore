@@ -1,54 +1,7 @@
-
-# testing
-/coverage
-
-# build files
-/build
-/dist
-
-# Generated files
-docs/generated
-
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Byte-compiled / optimized / DLL files
 __pycache__/
 *.pyc
-*.py[cod]
-*$py.class
-instance/
-
 .pytest_cache/
 .coverage
-htmlcov
-
-# vscode
-.vscode/
-.idea/
-# eslint cache
-.eslintcache
-
-# env files
-.virtualenv
-.env
-.venv
-env/
+build/
+dist/
 venv/
-ENV/
-
-
-storage/
-*.dat
-*.bak
-*.dir
-
-flask.log
