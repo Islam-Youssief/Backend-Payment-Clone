@@ -1,0 +1,24 @@
+openapi: 3.0.1
+
+info:
+  title: "Payment API Documentation"
+  description: "Payment API Documentation"
+  version: "1.0.0"
+  termsOfService: "https://Islam-Youssief.com/terms-conditions"
+  contact:
+    email: "Islam.Youssief@gmail.com"
+  license:
+    name: "Islam Youssief"
+    url: "https://Islam-Youssief.com"
+
+servers:
+  - url: https://Stage.Islam-Youssief.com/api
+    description: Dummy Staging Services for testing purposes.
+
+  - url: 127.0.0.1:8080/api
+    description: Local server for development and testing.
+
+# TODO: Paths will be added later
+paths:
+  /about:
+    $ref: ""
