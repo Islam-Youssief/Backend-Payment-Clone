@@ -49,4 +49,8 @@ storage/
 *.dat
 *.bak
 *.dir
+
 flask.log
+
+**/__pycache__/
+*.pyc
