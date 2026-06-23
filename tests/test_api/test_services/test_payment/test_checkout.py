@@ -23,7 +23,7 @@ class TestCheckoutClient(unittest.TestCase):
         assert_that(response.json().get('message')).is_equal_to('success')
         self.request_sender.assert_that_request_is_called_with(
             method='POST',
-            url='/payments',
+            url=checkout.CHECKOUT_PAYMENT_URL,
             data='fake_data',
             headers={'Authorization': f"Bearer {os.environ.get('CHECKOUT_SECRET_KEY')}" ,
             'Content-Type':'application/json'
