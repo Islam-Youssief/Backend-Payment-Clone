@@ -29,18 +29,6 @@ class CheckoutClient:
     ################################# validations #################################
 
     def validate_payment_data(self, data):
-        required_fields = [
-        "source",
-        "currency",
-        "amount",
-        "processing_channel_id"
-    ]
-
-    for field in required_fields:
-        if field not in data:
-            raise exception.ValidationError(
-                f"Missing required field: {field}"
-            )
         self.validate_amount(data["amount"])
         self.validate_card_number(data["source"]["number"])
         self.validate_card_cvv(data["source"]["cvv"])
