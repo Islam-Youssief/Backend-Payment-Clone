@@ -1,24 +1,13 @@
-openapi: 3.0.1
-
+openapi: 3.0.3
 info:
-  title: "Payment API Documentation"
-  description: "Payment API Documentation"
-  version: "1.0.0"
-  termsOfService: "https://Islam-Youssief.com/terms-conditions"
-  contact:
-    email: "Islam.Youssief@gmail.com"
-  license:
-    name: "Islam Youssief"
-    url: "https://Islam-Youssief.com"
+  title: Accounts & Payments Service API
+  version: 1.0.0
+  description: Backend REST API for managing customer accounts, immutable transactions, and atomic transfers.
 
 servers:
-  - url: https://Stage.Islam-Youssief.com/api
-    description: Dummy Staging Services for testing purposes.
+  - url: http://127.0.0.1:8000
+    description: Local Development
 
-  - url: 127.0.0.1:8080/api
-    description: Local server for development and testing.
-
-# TODO: Paths will be added later
 paths:
-  /about:
-    $ref: ""
+  /api/about:
+    $ref: 'schemas/about.yaml#/paths/about'
