@@ -8,13 +8,16 @@ import api.services.payment.checkout as checkout
 import tests.doubles.requests as requests_doubles
 import api.core.exceptions as exception
 
+import api.core.configurations as configuration
+
 
 class TestCheckoutClient(unittest.TestCase):
     def setUp(self):
         self.request_sender = requests_doubles.RequestSenderDouble(json={'message': 'success'})
-        self.client = checkout.CheckoutClient('lcl' , self.request_sender)
+        self.validator_double = UserDataValidatorDouble()
+        self.client = checkout.CheckoutClient('lcl' , self.validator_double ,self.request_sender)
 
-    def card_fake_data(self):
+    def _get_dummy_card():
         return{
             "source":{
             "type": "card",
@@ -34,41 +37,55 @@ class TestCheckoutClient(unittest.TestCase):
 
     
     def test_pay_with_card_calls_requests_with_expected_params(self):
-        response = self.client.pay_with_card(data=self.card_fake_data())
+        response = self.client.pay_with_card(data=self._get_dummy_card)
         assert_that(response.json().get('message')).is_equal_to('success')
         self.request_sender.assert_that_request_is_called_with(
             method='POST',
             url=checkout.CHECKOUT_PAYMENT_URL,
-            data=self.card_fake_data(),
-            headers={'Authorization': f"Bearer {os.environ.get('CHECKOUT_SECRET_KEY')}" ,
+            data=self._get_dummy_card,
+            headers={'Authorization': f"Bearer {configuration.PaymentConfig.checkout_secret_key}" ,
             'Content-Type':'application/json'
 }
         )
+class TestUserDataValidator(unittest.TestCase):
+
+    def setUp(self):
+        self.validator = checkout.UserDataValidator()
 
     def test_invalid_amount_type_raise_error(self):
         with self.assertRaises(exception.InputDataTypeError):
-            self.client.validate_amount("ABC123")
+            self.validator.validate_amount("ABC123")
 
     def test_invalid_amount_value_raise_error(self):
-        with self.assertRaises(exception.ValidationError):
-            self.client.validate_amount(0)
-
+        with self.assertRaises(exception.InvalidInputError):
+            self.validator.validate_amount(0)
 
     def test_invalid_card_number_length_raise_error(self):
-        with self.assertRaises(exception.ValidationError):
-            self.client.validate_card_number("123")
+        with self.assertRaises(exception.InvalidInputError):
+            self.validator.validate_card_number("123")
 
     def test_invalid_card_number_type_raise_error(self):
-        with self.assertRaises(exception.ValidationError):
-            self.client.validate_card_number("a")
+        with self.assertRaises(exception.InputDataTypeError):
+            self.validator.validate_card_number("a")
 
     def test_validate_card_cvv_length_raise_error(self):
-        with self.assertRaises(exception.ValidationError):
-            self.client.validate_card_cvv("1")
+        with self.assertRaises(exception.InvalidInputError):
+            self.validator.validate_card_cvv("1")
 
     def test_validate_card_cvv_type_raise_error(self):
-        with self.assertRaises(exception.ValidationError):
-            self.client.validate_card_cvv("a")
-    
-    if __name__ == '__main__':
-        unittest.main()
+        with self.assertRaises(exception.InputDataTypeError):
+            self.validator.validate_card_cvv("a")
+
+class UserDataValidatorDouble:
+    def __init__(self):
+        self._validation_called = False
+
+    def validate_payment_data(self , data):
+        self._validation_called = True
+
+    def assert_that_validate_payment_data_is_called(self):
+        assert_that(self._validation_called).is_true()
+
+
+if __name__ == '__main__':
+    unittest.main()
