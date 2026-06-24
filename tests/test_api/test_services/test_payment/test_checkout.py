@@ -33,7 +33,7 @@ class TestCheckoutClient(unittest.TestCase):
 
     def test_client_uses_real_if_doubles_are_not_sent(self):
         client_without_doubles = checkout.CheckoutClient('lcl')
-        assert_that(client_without_doubles._request_sender).is_instance_of(requests_service.RequestsWrapper)
+        assert_that(client_without_doubles._request_sender).is_instance_of(requests_service.WiremockRequester)
 
     
     def test_pay_with_card_calls_requests_with_expected_params(self):
