@@ -44,6 +44,7 @@ bolt.register_task('start-dev', [
     'shell.npm-run',
     'sleep.infinitely',
 ])
+bolt.register_task('start-wiremock', ['shell.start-wiremock'])
 bolt.register_task('cov', ['clear-pyc', 'shell.pytest.coverage'])
 bolt.register_task('test-report', ['clear-pyc', 'shell.pytest.terminal-cov'])
 bolt.register_task('ot', ['clear-pyc', 'one-dir-test'])
@@ -71,8 +72,8 @@ CODE_DOCUMENTATION_DEST_DIR = os.path.join(BUILD_DIR, 'code-docs')
 TEST_COVERAGE_DEST_DIR = os.path.join(BUILD_DIR, 'coverage')
 
 # Wiremock
-WIREMOCK_PATH = os.path.join(TOOLS_DIR, 'wiremock')
-WIREMOCK_JAR_PATH = os.path.join(WIREMOCK_PATH, 'wiremock-standalone-3.13.1.jar')
+WIREMOCK_PATH = os.path.join(PROJECT_ROOT, 'tools', 'wiremock')
+WIREMOCK_JAR_PATH = os.path.join(WIREMOCK_PATH, 'wiremock-standalone-2.31.0.jar')
 WIREMOCK_PORT = '8000'
 # Files
 START_UP_SCRIPT = os.path.join(PROJECT_ROOT, 'run.py')
@@ -133,6 +134,14 @@ config = {
         "npm-run": {
             "command": 'npm',
             "arguments": ['run', 'dev']
+        },
+        "start-wiremock": {
+            "command": "java",
+            "arguments": [
+                "-jar", WIREMOCK_JAR_PATH,
+                "--port", WIREMOCK_PORT,
+                "--root-dir", WIREMOCK_PATH
+            ]
         }
     },
     'conttest': {
@@ -161,9 +170,6 @@ config = {
         'options': {
             'root_dir': WIREMOCK_PATH,
             'port': WIREMOCK_PORT,
-            'global-response-templating': True,
-            'enable-browser-proxying': True,
-            'enable-stub-cors': True,
         }
     },
     'behave-restful': {
