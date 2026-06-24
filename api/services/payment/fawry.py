@@ -9,10 +9,11 @@ FAWRY_PAYMENT_URL = 'atfawry.com/ECommerceWeb/Fawry/payments/charge'
 
 
 class FawryClient:
-    def __init__(self, env, test_request_sender=None, test_signature_builder=None):
+    def __init__(self, env, test_request_sender=None, test_signature_builder=None, test_validator=None):
         self._env = env
         self._request_sender = test_request_sender or requests_service.get_service(self._env)
         self._signature_builder = test_signature_builder or _FawrySignatureBuilder()
+        self._validator = test_validator or UserDataValidator()
 
     def pay_with_visa(self, data):
         """
@@ -26,7 +27,7 @@ class FawryClient:
         - cardExpiryMonth: 2-digit expiry month
         - cvv: 3-digit CVV
         """
-        self._validate_data(data)
+        self._validator.validate(data)
         data['signature'] = self._signature_builder.build_signature(data)
         response = self._request_sender.request(
             method='POST', 
@@ -36,7 +37,8 @@ class FawryClient:
         )
         return response
 
-    def _validate_data(self, data):
+class UserDataValidator:
+    def validate(self, data):
         required_fields = ['merchantRefNum', 'amount', 'cardNumber', 'cardExpiryYear', 'cardExpiryMonth', 'cvv']
         missing_fields = [field for field in required_fields if field not in data]
         if missing_fields:
