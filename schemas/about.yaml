@@ -1,0 +1,35 @@
+tags:
+  name: about
+  description: Simple endpoint to retrieve information about the API, such as version
+
+paths:
+  about:
+    get:
+      tags:
+        - about
+      summary: Retrieve API information
+      description: This endpoint provides information about the API, including its version, contact details, and license information.
+      responses:
+        200:
+          description: Successful retrieval of API information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/aboutResponse'
+
+components:
+  schemas:
+    aboutResponse:
+      type: object
+      required:
+        - version
+      properties:
+        id:
+          type: integer
+        service_type:
+          type: string
+        version:
+          type: string
+      example:
+        id: 1
+        version: '1.0.0'
