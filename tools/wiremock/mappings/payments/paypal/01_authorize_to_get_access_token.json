@@ -1,6 +1,6 @@
 {
   "request": {
-    "urlPath": "/api-m.paypal.com/v1/oauth2/token",
+    "urlPath": "/api-m.paypal.com/v2/oauth2/token",
     "method": "POST"
   },
   "response": {
