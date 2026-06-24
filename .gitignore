@@ -51,6 +51,3 @@ storage/
 *.dir
 
 flask.log
-
-**/__pycache__/
-*.pyc
