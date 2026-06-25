@@ -2,11 +2,9 @@ import unittest
 import os
 
 from assertpy import assert_that
-from coverage import data
 
 import api.services.requests_service as requests_service
 import api.services.payment.stripe as stripe
-
 import tests.doubles.requests as requests_doubles
 
 
@@ -18,7 +16,7 @@ class TestStripeClient(unittest.TestCase):
 
     def test_client_uses_real_if_doubles_are_not_sent(self):
         client_without_doubles = stripe.StripeClient("lcl")
-        assert_that(client_without_doubles._request_sender).is_instance_of(requests_service.RequestsWrapper)
+        assert_that(client_without_doubles._request_sender).is_instance_of(requests_service.WiremockRequester)
 
     def test_create_payment_intents_calls_stripe_correctly(self):
         data = {

@@ -1,0 +1,20 @@
+{
+  "request": {
+    "urlPath": "/api-m.paypal.com/v2/checkout/orders",
+    "method": "POST",
+    "bodyPatterns": [
+      {
+          "contains": "visa"
+      }
+    ]
+  },
+  "response": {
+      "status": 200,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+     "jsonBody": {
+          "message": "You have successfully paid with visa"
+    }
+  }
+}

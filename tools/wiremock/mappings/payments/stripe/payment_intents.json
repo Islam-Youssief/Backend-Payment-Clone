@@ -1,0 +1,15 @@
+{
+  "request": {
+    "urlPath": "/api.stripe.com/v1/payments_intents" ,
+    "method": "POST"
+  },
+  "response": {
+    "status":200,
+    "headers":{
+      "Content-Type": "application/json"
+    },
+    "jsonBody":{
+      "message": "You have successfully paid with visa"
+    }
+  }
+}
