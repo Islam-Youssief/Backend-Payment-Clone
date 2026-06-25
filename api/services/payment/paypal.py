@@ -4,7 +4,7 @@ import os
 import api.services.requests_service as requests_service
 
 
-PAYPAL_AUTHORIZATION_URL = 'api-m.paypal.com/v1/oauth2/token'
+PAYPAL_AUTHORIZATION_URL = 'api-m.paypal.com/v2/oauth2/token'
 PAYPAL_PAYMENT_URL = 'api-m.paypal.com/v2/checkout/orders'
 
 
@@ -42,5 +42,6 @@ class _PayPalAuthorizer:
 
 
     def authorize(self):
+        print(self._request_sender)
         response = self._request_sender.request(method='POST', url=PAYPAL_AUTHORIZATION_URL, headers=self._headers)
         return response.json().get('access_token')
