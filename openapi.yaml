@@ -11,3 +11,5 @@ servers:
 paths:
   /api/about:
     $ref: 'schemas/about.yaml#/paths/about'
+  /api/payment_providers/fawry/pay-with-visa:
+    $ref: 'schemas/payment_providers.yaml#/paths/fawry.pay_with_visa'
