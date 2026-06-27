@@ -1,15 +1,20 @@
 {
     "request": {
-        "urlPath":"/payments",
-        "method":"POST"
+        "urlPath": "/payments",
+        "method": "POST",
+        "bodyPatterns": [
+            {
+                "equalToJson": "{ \"source\": { \"type\": \"card\", \"number\": \"2242424242424242\", \"cvv\": \"100\", \"expiry_month\": 12, \"expiry_year\": 2030 }, \"currency\": \"USD\", \"amount\": 1000, \"processing_channel_id\": \"pc_test_123\" }"
+            }
+        ]
     },
     "response": {
-        "status":200,
-        "headers":{
-            "Content-Type":"application/json"
+        "status": 200,
+        "headers": {
+            "Content-Type": "application/json"
         },
         "jsonBody": {
-            "message":"you have successfully paid with card"
+            "message": "you have successfully paid with card"
         }
     }
 }
