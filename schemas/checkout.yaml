@@ -1,0 +1,83 @@
+tags:
+  - name: checkout
+    description: Checkout payment endpoints
+
+paths:
+  checkout:
+    post:
+      tags:
+        - checkout
+      summary: Create a payment
+      description: This endpoint enables you to create a payment.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutRequest'
+      responses:
+        '201':
+          description: Payment created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckoutResponse'
+
+components:
+  schemas:
+    CheckoutRequest:
+      type: object
+      required:
+        - source
+        - currency
+        - amount
+        - processing_channel_id
+      properties:
+        source:
+          type: object
+          required:
+            - type
+            - number
+            - cvv
+            - expiry_month
+            - expiry_year
+          properties:
+            type:
+              type: string
+            number:
+              type: string
+            cvv:
+              type: string
+            expiry_month:
+              type: integer
+            expiry_year:
+              type: integer
+
+        currency:
+          type: string
+
+        amount:
+          type: number
+          format: float
+
+        processing_channel_id:
+          type: string
+
+      example:
+        source:
+          type: card
+          number: "2242424242424242"
+          cvv: "100"
+          expiry_month: 12
+          expiry_year: 2030
+        currency: USD
+        amount: 1000
+        processing_channel_id: pc_test_123
+
+    CheckoutResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: You have successfully paid with card
