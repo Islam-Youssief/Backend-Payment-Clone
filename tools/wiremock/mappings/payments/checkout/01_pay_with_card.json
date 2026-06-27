@@ -1,0 +1,15 @@
+{
+    "request": {
+        "urlPath":"/payments",
+        "method":"POST"
+    },
+    "response": {
+        "status":200,
+        "headers":{
+            "Content-Type":"application/json"
+        },
+        "jsonBody": {
+            "message":"you have successfully paid with card"
+        }
+    }
+}
