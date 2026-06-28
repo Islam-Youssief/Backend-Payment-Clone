@@ -2,7 +2,7 @@
     "request": {
         "urlPath": "/payments",
         "method": "POST",
-        "bodyPatterns": {
+        "bodyPatterns": [{
             "equalToJson": {
                 "source": {
                     "type": "card",
@@ -15,7 +15,7 @@
                 "amount": 1000,
                 "processing_channel_id": "pc_test_123"
             }
-        }
+        }]
     },
     "response": {
         "status": 200,
