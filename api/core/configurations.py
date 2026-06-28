@@ -6,7 +6,7 @@ class AppConfig:
     @property
     def env(self):
         return os.environ.get('ENV', 'lcl')
-    
+
     @property
     def wiremock_url(self):
         return f'http://127.0.0.1:{self.wiremock_port}'
@@ -23,3 +23,7 @@ class PaymentsConfig:
     @property
     def fawry_security_key(self):
         return os.environ.get('FAWRY_SECURITY_KEY')
+
+    @property
+    def stripe_secret_key(self):
+        return os.environ.get('STRIPE_SECRET_KEY')

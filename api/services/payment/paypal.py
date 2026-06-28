@@ -42,6 +42,5 @@ class _PayPalAuthorizer:
 
 
     def authorize(self):
-        print(self._request_sender)
         response = self._request_sender.request(method='POST', url=PAYPAL_AUTHORIZATION_URL, headers=self._headers)
         return response.json().get('access_token')

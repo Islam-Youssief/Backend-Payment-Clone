@@ -27,7 +27,11 @@ class TestRequestWrapper(unittest.TestCase):
         self.wrapper = api_requests.RequestsWrapper(self.test_requests)
 
     def test_request_calls_requests_with_expected_params(self):
-        self.wrapper.request(method='GET', url='fake_url', data='fake_data', headers={'X-Test-Header': 'fake value'})
+        self.wrapper.request(method='GET',
+            url='fake_url',
+            data='fake_data',
+            headers={'X-Test-Header': 'fake value'}
+        )
         self.test_requests.assert_that_request_is_called_with(
             method='GET',
             url='fake_url',
