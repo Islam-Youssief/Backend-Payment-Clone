@@ -9,6 +9,7 @@ import tests.doubles.requests as requests_doubles
 
 
 class TestStripeClient(unittest.TestCase):
+
     def setUp(self):
         os.environ['STRIPE_SECRET_KEY'] = 'fake_secret_key'
         self.request_sender = requests_doubles.RequestSenderDouble(json={'id': 'pi_fake_123'})
@@ -26,8 +27,7 @@ class TestStripeClient(unittest.TestCase):
             "cvv":"123"
         }
         response = self.client.create_payment_intent(data=data)
-        assert_that(response.json().get('id'))\
-         .is_equal_to('pi_fake_123')
+        assert_that(response.json().get('id')).is_equal_to('pi_fake_123')
 
         self.request_sender.assert_that_request_is_called_with(
               method="POST",

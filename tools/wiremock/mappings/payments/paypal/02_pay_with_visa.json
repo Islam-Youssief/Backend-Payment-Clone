@@ -14,7 +14,7 @@
         "Content-Type": "application/json"
       },
      "jsonBody": {
-          "message": "You have successfully paid with visa"
+          "message": "Paypal: You have successfully paid with visa"
     }
   }
 }

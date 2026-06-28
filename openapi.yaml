@@ -11,5 +11,5 @@ servers:
 paths:
   /api/about:
     $ref: 'schemas/about.yaml#/paths/about'
-  /api/stripe-payment:
-    $ref: 'schemas/stripe_payment.ymal#/path/stripe_payment'
+  /api/stripe_payment:
+    $ref: 'schemas/stripe_payment.yaml#/paths/checkout'

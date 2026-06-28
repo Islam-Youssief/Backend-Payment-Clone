@@ -14,6 +14,7 @@ def get_service(env):
 
 
 class RequestsWrapper:
+
     def __init__(self, test_requests=None):
         self._requests = test_requests or requests
     
@@ -36,5 +37,5 @@ class WiremockRequester:
         self._wiremock_url = configurations.AppConfig().wiremock_url
 
     def request(self, method, url, **kwargs):
-        print(f'[{method}] (wiremock) {self._wiremock_url}/{url.replace('https://', '')} with kwargs: {kwargs}')
+        logging.info(f'[{method}] (wiremock) {self._wiremock_url}/{url.replace('https://', '')} with kwargs: {kwargs}')
         return self._requests.request(method, f'{self._wiremock_url}/{url.replace('https://', '')}', **kwargs)

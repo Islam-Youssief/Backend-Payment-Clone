@@ -9,7 +9,7 @@
       "Content-Type": "application/json"
     },
     "jsonBody":{
-      "message": "You have successfully paid with visa"
+      "message": "Stripe: You have successfully paid with visa"
     }
   }
 }

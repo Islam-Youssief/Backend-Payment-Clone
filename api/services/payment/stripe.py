@@ -1,5 +1,3 @@
-from email import header
-
 import api.core.configurations as configurations
 import api.services.requests_service as requests_service
 import api.services.payment.validators as validators
@@ -22,13 +20,11 @@ class StripeClient:
 
     def create_payment_intent(self,data):
         self._validator.validate(data)
-        print(data,self._headers)
         response = self._request_sender.request(
              method="POST",
              url=STRIPE_PAYMENT_INTENTS_URL,
              data=data,
              headers=self._headers
         )
-        print(response)
         return response
 
