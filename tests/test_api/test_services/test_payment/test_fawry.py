@@ -16,7 +16,7 @@ class TestFawryClient(unittest.TestCase):
         self.client = fawry.FawryClient('lcl', self.request_sender, self.signature_builder, self.validator)
 
     def test_client_uses_real_if_doubles_are_not_sent(self):
-        client_without_doubles = fawry.FawryClient('lcl')
+        client_without_doubles = fawry.FawryClient('prd')
         assert_that(client_without_doubles._request_sender).is_instance_of(requests_service.RequestsWrapper)
         assert_that(client_without_doubles._signature_builder).is_instance_of(fawry._FawrySignatureBuilder)
         assert_that(client_without_doubles._validator).is_instance_of(fawry.UserDataValidator)

@@ -38,3 +38,4 @@ response_client = checkout_client.pay_with_card(data={"source":{
         "amount": 1000,
         "processing_channel_id": "pc_test_123"})
 print(response_client.json())
+print(response.json())
