@@ -17,5 +17,13 @@ class AppConfig:
 
 class PaymentsConfig:
     @property
+    def fawry_merchant_code(self):
+        return os.environ.get('FAWRY_MERCHANT_CODE')
+    
+    @property
+    def fawry_security_key(self):
+        return os.environ.get('FAWRY_SECURITY_KEY')
+
+    @property
     def stripe_secret_key(self):
         return os.environ.get('STRIPE_SECRET_KEY')
