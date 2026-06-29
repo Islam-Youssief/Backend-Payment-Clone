@@ -27,7 +27,7 @@ class PaymentsConfig:
     @property
     def stripe_secret_key(self):
         return os.environ.get('STRIPE_SECRET_KEY')
-
+    
     @property
     def checkout_prefix_code(self):
         return os.environ.get('CHECKOUT_PREFIX_CODE')
@@ -35,4 +35,3 @@ class PaymentsConfig:
     @property
     def checkout_secret_key(self):
         return os.environ.get('CHECKOUT_SECRET_KEY')
-
