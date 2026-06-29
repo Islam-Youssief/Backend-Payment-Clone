@@ -14,8 +14,15 @@ class AppConfig:
     @property
     def wiremock_port(self):
         return '8080'
+
+class PaymentsConfig:
+    @property
+    def fawry_merchant_code(self):
+        return os.environ.get('FAWRY_MERCHANT_CODE')
     
-class PaymentConfig:
+    @property
+    def fawry_security_key(self):
+        return os.environ.get('FAWRY_SECURITY_KEY')
 
     @property
     def checkout_prefix_code(self):
