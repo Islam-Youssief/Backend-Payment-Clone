@@ -31,7 +31,7 @@ class PaymentsConfig:
 
     @property
     def checkout_prefix_code(self):
-        return os.environ.get('CHECKOUT_PREFIX_CODE')
+        return os.environ.get('CHECKOUT_PREFIX_CODE') or 'sl73izp6'
 
     @property
     def checkout_secret_key(self):

@@ -1,6 +1,6 @@
 {
     "request": {
-        "urlPath": "/payments",
+        "urlPath": "/sl73izp6.api.sandbox.checkout.com/payments",
         "method": "POST",
         "bodyPatterns": [
             {
