@@ -15,3 +15,5 @@ paths:
     $ref: 'schemas/stripe_payment.yaml#/paths/checkout'
   /api/checkout:
     $ref: 'schemas/checkout.yaml#/paths/checkout'
+  /api/payment_providers/fawry/pay-with-visa:
+    $ref: 'schemas/payment_providers.yaml#/paths/fawry.pay_with_visa'

@@ -1,0 +1,119 @@
+tags:
+  name: Payment Providers
+  description: Endpoints for all integrated payment providers (Fawry, PayPal, etc.)
+
+paths:
+  fawry.pay_with_visa:
+    post:
+      tags:
+        - Payment Providers
+      summary: Process payment via Fawry using Visa
+      description: Initiates a server-to-server card payment through Fawry API.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FawryPaymentRequest'
+      responses:
+        200:
+          description: Successful payment request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FawryPaymentResponse'
+        400:
+          description: Validation error or missing fields
+
+components:
+  schemas:
+    FawryPaymentRequest:
+      type: object
+      required:
+        - merchantRefNum
+        - amount
+        - cardNumber
+        - cardExpiryYear
+        - cardExpiryMonth
+        - cvv
+      properties:
+        merchantRefNum:
+          type: string
+          description: Unique order identifier
+        customerProfileId:
+          type: string
+          description: Optional customer ID
+        amount:
+          type: number
+          format: float
+          description: Order total amount (must be > 0)
+        cardNumber:
+          type: string
+          description: 16-digit credit card number
+        cardExpiryYear:
+          type: string
+          description: 2-digit expiry year (> 20)
+        cardExpiryMonth:
+          type: string
+          description: 2-digit expiry month (01-12)
+        cvv:
+          type: string
+          description: 3-digit CVV code
+      example:
+        merchantRefNum: "ORDER_123456"
+        customerProfileId: "CUST_987"
+        amount: 100.50
+        cardNumber: "4111111111111111"
+        cardExpiryYear: "25"
+        cardExpiryMonth: "12"
+        cvv: "123"
+
+    FawryPaymentResponse:
+      type: object
+      properties:
+        type:
+          type: string
+        referenceNumber:
+          type: string
+        merchantRefNumber:
+          type: string
+        orderAmount:
+          type: number
+        paymentAmount:
+          type: number
+        fawryFees:
+          type: number
+        paymentMethod:
+          type: string
+        orderStatus:
+          type: string
+        paymentTime:
+          type: integer
+        customerMobile:
+          type: string
+        customerMail:
+          type: string
+        customerProfileId:
+          type: string
+        signature:
+          type: string
+        statusCode:
+          type: integer
+        statusDescription:
+          type: string
+      example:
+        type: "ChargeResponse"
+        referenceNumber: "931317134"
+        merchantRefNumber: "ORDER_123456"
+        orderAmount: 100.50
+        paymentAmount: 100.50
+        fawryFees: 0.00
+        paymentMethod: "CARD"
+        orderStatus: "PAID"
+        paymentTime: 1640995200000
+        customerMobile: "01012345678"
+        customerMail: "test@example.com"
+        customerProfileId: "CUST_987"
+        signature: "generated_hash_string"
+        statusCode: 200
+        statusDescription: "Operation done successfully"
