@@ -1,6 +1,6 @@
 
-import api.services.payment.paypal as paypal
 import api.services.payment.fawry as fawry
+import api.services.payment.paypal as paypal
 import api.services.payment.stripe as stripe
 
 client = paypal.PayPalClient('lcl')

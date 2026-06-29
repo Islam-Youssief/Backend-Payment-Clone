@@ -1,9 +1,8 @@
 import hashlib
-import os
 
-import api.services.requests_service as requests_service
 import api.core.configurations as configurations
 import api.core.exceptions as exceptions
+import api.services.requests_service as requests_service
 
 FAWRY_PAYMENT_URL = 'atfawry.com/ECommerceWeb/Fawry/payments/charge'
 
