@@ -45,7 +45,7 @@ class TestCheckoutClient(unittest.TestCase):
             data=self._get_dummy_card,
             headers={
                 'Authorization': f"Bearer {configuration.PaymentConfig.checkout_secret_key}",
-                'Content-Type':'application/json'
+                'Content-Type': 'application/json'
             }
         )
 class TestUserDataValidator(unittest.TestCase):
