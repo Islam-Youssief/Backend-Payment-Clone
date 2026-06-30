@@ -43,9 +43,10 @@ class TestCheckoutClient(unittest.TestCase):
             method='POST',
             url=checkout.CHECKOUT_PAYMENT_URL,
             data=self._get_dummy_card,
-            headers={'Authorization': f"Bearer {configuration.PaymentConfig.checkout_secret_key}" ,
-            'Content-Type':'application/json'
-}
+            headers={
+                'Authorization': f"Bearer {configuration.PaymentConfig.checkout_secret_key}",
+                'Content-Type':'application/json'
+            }
         )
 class TestUserDataValidator(unittest.TestCase):
 
