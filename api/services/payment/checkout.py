@@ -6,7 +6,7 @@ import api.services.requests_service as requests_service
 import api.core.exceptions as exception
 
 
-CHECKOUT_PAYMENT_URL = "https://api.sandbox.checkout.com/payments"
+CHECKOUT_PAYMENT_URL = "api.sandbox.checkout.com/payments"
 
 
 class CheckoutClient:
