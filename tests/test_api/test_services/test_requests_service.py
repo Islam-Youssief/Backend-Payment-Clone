@@ -13,11 +13,11 @@ class TestGetService(unittest.TestCase):
 
     def test_returns_request_wrapper_when_env_is_lcl(self):
         wrapper = api_requests.get_service('lcl')
-        assert_that(wrapper).is_instance_of(api_requests.RequestsWrapper)
+        assert_that(wrapper).is_instance_of(api_requests.WiremockRequester)
 
     def test_returns_request_wiremock_when_env_is_not_lcl(self):
         wiremock = api_requests.get_service('prd')
-        assert_that(wiremock).is_instance_of(api_requests.WiremockRequester)
+        assert_that(wiremock).is_instance_of(api_requests.RequestsWrapper)
     
 
 class TestRequestWrapper(unittest.TestCase):
@@ -27,7 +27,11 @@ class TestRequestWrapper(unittest.TestCase):
         self.wrapper = api_requests.RequestsWrapper(self.test_requests)
 
     def test_request_calls_requests_with_expected_params(self):
-        self.wrapper.request(method='GET', url='fake_url', data='fake_data', headers={'X-Test-Header': 'fake value'})
+        self.wrapper.request(method='GET',
+            url='fake_url',
+            data='fake_data',
+            headers={'X-Test-Header': 'fake value'}
+        )
         self.test_requests.assert_that_request_is_called_with(
             method='GET',
             url='fake_url',
@@ -51,7 +55,7 @@ class TestWiremockRequester(unittest.TestCase):
         wrapper.request(method='GET', url='fake_url', data='fake_data', headers={'X-Test-Header': 'fake value'})
         self.test_requests.assert_that_request_is_called_with(
             method='GET',
-            url='127.0.0.1:8080/fake_url',
+            url='http://127.0.0.1:8080/fake_url',
             data='fake_data',
             headers={'X-Test-Header': 'fake value'}
         )

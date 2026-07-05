@@ -4,7 +4,7 @@ import os
 import api.services.requests_service as requests_service
 
 
-PAYPAL_AUTHORIZATION_URL = 'api-m.paypal.com/v1/oauth2/token'
+PAYPAL_AUTHORIZATION_URL = 'api-m.paypal.com/v2/oauth2/token'
 PAYPAL_PAYMENT_URL = 'api-m.paypal.com/v2/checkout/orders'
 
 

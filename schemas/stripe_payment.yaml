@@ -1,0 +1,57 @@
+tags:
+  - name: Payment Providers
+    description: Endpoints for all integrated payment providers (Stripe)
+
+paths:
+    checkout:
+      post:
+        tags:
+          - Payment Providers
+        summary: Create a payment intent
+        description: This endpoint enables you to create a payment.
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckoutRequest'
+        responses:
+          '201':
+            description: Payment Created Successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CheckoutResponse'
+
+components:
+  schemas:
+    CheckoutRequest:
+      type: object
+      required:
+        - user_name
+        - amount
+        - visa_number
+        - cvv
+      properties:
+        user_name:
+          type: string
+        amount:
+          type: number
+          format: float
+        visa_number:
+          type: string
+        cvv:
+          type: string
+      example:
+        user_name: "Ahmed Mohammad Ali"
+        amount: 100
+        visa_number: "4242424242424242"
+        cvv: "123"
+
+    CheckoutResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: "You have successfully paid with visa card"

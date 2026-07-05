@@ -17,7 +17,7 @@ class TestPayPalClient(unittest.TestCase):
         self.client = paypal.PayPalClient('lcl', self.request_sender, self.authorizer)
 
     def test_client_uses_real_if_doubles_are_not_sent(self):
-        client_without_doubles = paypal.PayPalClient('lcl')
+        client_without_doubles = paypal.PayPalClient('prd')
         assert_that(client_without_doubles._request_sender).is_instance_of(requests_service.RequestsWrapper)
         assert_that(client_without_doubles._authorizer).is_instance_of(paypal._PayPalAuthorizer)
 
@@ -52,7 +52,7 @@ class TestPayPalAuthorizer(unittest.TestCase):
         self.authorizer = paypal._PayPalAuthorizer('lcl', self.request_sender)
 
     def test_client_uses_real_if_doubles_are_not_sent(self):
-        client_without_doubles = paypal._PayPalAuthorizer('lcl')
+        client_without_doubles = paypal._PayPalAuthorizer('prd')
         assert_that(client_without_doubles._request_sender).is_instance_of(requests_service.RequestsWrapper)
 
     def test_authorize_calls_requests_with_expected_params(self):  

@@ -1,0 +1,17 @@
+openapi: 3.0.3
+info:
+  title: Accounts & Payments Service API
+  version: 1.0.0
+  description: Backend REST API for managing customer accounts, immutable transactions, and atomic transfers.
+
+servers:
+  - url: http://127.0.0.1:8000
+    description: Local Development
+
+paths:
+  /api/about:
+    $ref: 'schemas/about.yaml#/paths/about'
+  /api/stripe-payment:
+    $ref: 'schemas/stripe_payment.yaml#/paths/checkout'
+  /api/checkout:
+    $ref: 'schemas/checkout.yaml#/paths/checkout'

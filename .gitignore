@@ -45,7 +45,6 @@ env/
 venv/
 ENV/
 
-
 storage/
 *.dat
 *.bak
