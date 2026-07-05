@@ -1,0 +1,105 @@
+tags:
+  - name: Meeza Digital Payment
+    description: Endpoints for Meeza payment integration
+
+paths:
+  mezza.create_payment:
+    post:
+      tags:
+        - Meeza Digital Payment
+      summary: Create a Meeza payment
+      description: Initiates a payment request through the Meeza payment provider.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MeezaPaymentRequest'
+      responses:
+        '200':
+          description: Payment request created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeezaPaymentResponse'
+        '400':
+          description: Validation error or missing fields
+
+components:
+  schemas:
+    MeezaPaymentRequest:
+      type: object
+      required:
+        - amount
+        - currency
+        - country
+        - payment_method_id
+        - payment_method_flow
+        - payer
+        - order_id
+        - description
+        - notification_url
+        - callback_url
+      properties:
+        amount:
+          type: number
+          format: float
+          description: Payment amount in the specified currency
+        currency:
+          type: string
+          example: EGP
+        country:
+          type: string
+          example: EG
+        payment_method_id:
+          type: string
+          example: EW
+        payment_method_flow:
+          type: string
+          example: REDIRECT
+        payer:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Jane Doe
+        order_id:
+          type: string
+          example: ORDER_123
+        description:
+          type: string
+          example: Tshirt
+        notification_url:
+          type: string
+          format: uri
+          example: http://localhost/webhook
+        callback_url:
+          type: string
+          format: uri
+          example: http://localhost/callback
+      example:
+        amount: 100
+        currency: EGP
+        country: EG
+        payment_method_id: EW
+        payment_method_flow: REDIRECT
+        payer:
+          name: Jane Doe
+        order_id: ORDER_123
+        description: Tshirt
+        notification_url: http://localhost/webhook
+        callback_url: http://localhost/callback
+
+    MeezaPaymentResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+        message:
+          type: string
+      example:
+        id: pay_12345
+        status: PENDING
+        message: Meeza payment created successfully
