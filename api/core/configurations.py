@@ -36,3 +36,14 @@ class PaymentsConfig:
     @property
     def checkout_secret_key(self):
         return os.environ.get('CHECKOUT_SECRET_KEY')
+    
+    
+    
+    @property
+    def meeza_login(self):
+        return os.environ.get("MEZZA_LOGIN") or 'test-login'
+
+    @property
+    def meeza_trans_key(self):
+        return os.environ.get("MEZZA_TRANS_KEY") or 'test-trans-key'
+
