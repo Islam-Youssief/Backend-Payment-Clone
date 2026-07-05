@@ -29,11 +29,7 @@ class MezzaClient:
 
         return response
 
-    @property
-    def _headers(self):
-        return {
-            'Content-Type': 'application/json'
-        }
+
     
 
 
