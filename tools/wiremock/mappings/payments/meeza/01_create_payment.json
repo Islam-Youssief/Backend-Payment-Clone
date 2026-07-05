@@ -1,0 +1,25 @@
+{
+  "request": {
+    "urlPath": "/api.dlocal.com/payments",
+    "method": "POST",
+    "headers": {
+      "X-Login": {
+        "equalTo": "test-login"
+      },
+      "X-Trans-Key": {
+        "equalTo": "test-trans-key"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "id": "pay_12345",
+      "status": "Paid",
+      "message": "Meeza Digital payment created successfully"
+    }
+  }
+}
