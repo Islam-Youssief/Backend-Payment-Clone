@@ -36,3 +36,7 @@ class PaymentsConfig:
     @property
     def checkout_secret_key(self):
         return os.environ.get('CHECKOUT_SECRET_KEY')
+
+    @property
+    def paymob_secret_key(self):
+        return os.environ.get('PAYMOB_SECRET_KEY')
