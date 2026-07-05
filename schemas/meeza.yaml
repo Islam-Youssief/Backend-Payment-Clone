@@ -101,5 +101,5 @@ components:
           type: string
       example:
         id: pay_12345
-        status: PENDING
+        status: Paid
         message: Meeza payment created successfully
