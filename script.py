@@ -1,5 +1,6 @@
 import api.services.payment.checkout as checkout
 import api.services.payment.fawry as fawry
+import api.services.payment.mezza as mezza
 import api.services.payment.paypal as paypal
 import api.services.payment.stripe as stripe
 
@@ -39,3 +40,18 @@ response_client = checkout_client.pay_with_card(data={"source":{
         "processing_channel_id": "pc_test_123"})
 
 print(response_client.json())
+
+mezza_client = mezza.MezzaClient('lcl')
+mezza_response = mezza_client.create_payment(data={
+    "amount": 100,
+    "currency": "EGP",
+    "country": "EG",
+    "payment_method_id": "EW",
+    "payment_method_flow": "REDIRECT",
+    "payer": {"name": "Manoura"},
+    "order_id": "ORDER_123",
+    "description": "Tshirt",
+    "notification_url": "http://localhost/webhook",
+    "callback_url": "http://localhost/callback",
+})
+print(mezza_response.json())
