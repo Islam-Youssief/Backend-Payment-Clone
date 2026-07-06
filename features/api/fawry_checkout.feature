@@ -177,7 +177,7 @@ Feature: Fawry Payment Integration
     And a request json payload
       """
       {
-        "merchantRefNum": "ORDER_123461",
+        "merchantRefNum": "ORDER_123462",
         "amount": 100.50,
         "cardNumber": "4111111111111111",
         "cardExpiryYear": "25",
