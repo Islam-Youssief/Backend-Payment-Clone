@@ -1,0 +1,20 @@
+{
+    "request": {
+        "urlPath": "/sl73izp6.api.sandbox.checkout.com/payments",
+        "method": "POST",
+        "headers": {
+            "Authorization": {
+                "equalTo": "Bearer  invalid_secret_key"
+            }
+        }
+    },
+    "response": {
+        "status": 401,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "jsonBody": {
+            "message": "Unauthorized"
+        }
+    }
+}

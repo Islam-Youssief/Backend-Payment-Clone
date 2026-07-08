@@ -1,0 +1,20 @@
+{
+    "request": {
+        "urlPath": "/sl73izp6.api.sandbox.checkout.com/payments",
+        "method": "POST",
+        "bodyPatterns": [
+            {
+                "matchesJsonPath": "$[?(@.source.number == '2504450000000000')]"
+            }
+        ]
+    },
+    "response": {
+        "status": 400,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "jsonBody": {
+            "message": "Payment failed: declined card"
+        }
+    }
+}

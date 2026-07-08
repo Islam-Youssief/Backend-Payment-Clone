@@ -1,0 +1,32 @@
+{
+    "request": {
+        "urlPath": "/sl73izp6.api.sandbox.checkout.com/payments",
+        "method": "POST",
+        "bodyPatterns": [
+            {
+                "matchesJsonPath": "$[?(!@.source.number)]"
+            },
+            {
+                "matchesJsonPath": "$[?(@.source.type == 'card')]"
+            },
+            {
+                "matchesJsonPath": "$[?(@.source.cvv == '100')]"
+            },
+            {
+                "matchesJsonPath": "$[?(@.currency == 'USD')]"
+            },
+            {
+                "matchesJsonPath": "$[?(@.amount == 1000)]"
+            }
+        ]
+    },
+    "response": {
+        "status": 400,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "jsonBody": {
+            "message": "Payment failed: Missing required data"
+        }
+    }
+}

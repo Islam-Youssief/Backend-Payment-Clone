@@ -16,7 +16,7 @@
                 "matchesJsonPath": "$[?(@.source.expiry_month >= 1 && @.source.expiry_month <= 12)]"
             },
             {
-                "matchesJsonPath": "$[?(@.source.expiry_year >= 2026)]"
+                "matchesJsonPath": "$[?(@.source.expiry_year < 2026)]"
             },
             {
                 "matchesJsonPath": "$[?(@.currency == 'USD')]"
@@ -27,15 +27,16 @@
             {
                 "matchesJsonPath": "$[?(@.processing_channel_id == 'pc_test_123')]"
             }
+      
         ]
     },
     "response": {
-        "status": 200,
+        "status": 400,
         "headers": {
             "Content-Type": "application/json"
         },
         "jsonBody": {
-            "message": "you have successfully paid with card"
+            "message": "Payment failed: Card expired"
         }
     }
 }
