@@ -23,7 +23,7 @@ class StripeClient:
         response = self._request_sender.request(
              method="POST",
              url=STRIPE_PAYMENT_INTENTS_URL,
-             data=data,
+             json=data,
              headers=self._headers
         )
         return response

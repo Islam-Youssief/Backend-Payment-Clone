@@ -20,7 +20,7 @@ class UserPaymentDataValidator:
             raise exceptions.InvalidInputError(pname='user_name', invalid_value=user_name, message='User name must contain at least 3 names')
 
     def _validate_amount(self, amount):
-        if amount is '':
+        if amount == '':
             raise exceptions.RequiredInputError('amount')
         try:
             amount = float(amount)
@@ -30,7 +30,7 @@ class UserPaymentDataValidator:
             raise exceptions.InvalidInputError(pname='amount', invalid_value=amount, message='Amount must be a number')
 
     def _validate_visa_number(self, visa_number):
-            if visa_number is '':
+            if visa_number == '':
                 raise exceptions.RequiredInputError('visa_number')
             visa_clean = str(visa_number).replace(' ', '').replace('-', '')
 
@@ -38,7 +38,7 @@ class UserPaymentDataValidator:
                 raise exceptions.InvalidInputError(pname='visa_number', invalid_value=visa_number, message='Visa number must be 16 digits long')
 
     def _validate_cvv(self, cvv):
-        if cvv is '':
+        if cvv == '':
             raise exceptions.RequiredInputError('cvv')
         cvv_clean = str(cvv).strip()
         if not re.match(r'^[0-9]{3,4}$', cvv_clean):

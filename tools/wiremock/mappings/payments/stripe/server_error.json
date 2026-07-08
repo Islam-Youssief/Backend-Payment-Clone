@@ -1,0 +1,21 @@
+{
+  "request":{
+    "urlPath":"/api.stripe.com/v1/payments_intents",
+    "method":"POST",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath":"$[?(@.visa_number == '4000000000000000')]"
+      }
+    ]
+
+  },
+  "response":{
+    "status":500,
+    "headers":{
+      "content-type":"application/json"
+    },
+    "jsonBody":{
+      "message":"Payment server unavailable"
+    }
+  }
+}
