@@ -15,6 +15,7 @@ class AppConfig:
     def wiremock_port(self):
         return '8080'
 
+
 class PaymentsConfig:
     @property
     def fawry_merchant_code(self):
