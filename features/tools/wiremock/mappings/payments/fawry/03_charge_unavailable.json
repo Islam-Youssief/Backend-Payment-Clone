@@ -1,0 +1,20 @@
+{
+  "request": {
+    "urlPath": "/atfawry.com/ECommerceWeb/Fawry/payments/charge",
+    "method": "POST",
+    "bodyPatterns": [
+      {
+        "contains": "ORDER_123459"
+      }
+    ]
+  },
+  "response": {
+    "status": 503,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "message": "Service Unavailable"
+    }
+  }
+}
