@@ -29,12 +29,20 @@ class FawryController:
             return self._as_error_response(exc, http.HTTPStatus.BAD_REQUEST)
         except exceptions.UnauthorizedAccessError as exc:
             return self._as_error_response(exc, http.HTTPStatus.UNAUTHORIZED)
+        except exceptions.ResponseError as exc:
+            status_code = exc.status_code
+            if status_code in (http.HTTPStatus.BAD_GATEWAY, http.HTTPStatus.SERVICE_UNAVAILABLE):
+                err = exceptions.ValidationError("External service unavailable")
+                return self._as_error_response(err, http.HTTPStatus.BAD_GATEWAY)
+            elif status_code == http.HTTPStatus.INTERNAL_SERVER_ERROR:
+                err = exceptions.ValidationError("External service error")
+                return self._as_error_response(err, http.HTTPStatus.BAD_GATEWAY)
+            elif status_code == http.HTTPStatus.PAYMENT_REQUIRED:
+                err = exceptions.ValidationError("Insufficient Balance")
+                return self._as_error_response(err, http.HTTPStatus.PAYMENT_REQUIRED)
         except requests.exceptions.Timeout as exc:
             err = exceptions.ValidationError("External service timeout")
             return self._as_error_response(err, http.HTTPStatus.GATEWAY_TIMEOUT)
-        except requests.exceptions.RequestException as exc:
-            err = exceptions.ValidationError("External service unavailable")
-            return self._as_error_response(err, http.HTTPStatus.BAD_GATEWAY)
 
     def _as_error_response(self, error, status):
         logging.error(f"Creating error response: {error} {status}")
