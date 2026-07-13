@@ -73,3 +73,16 @@ def step_response_status_code(context, status_code):
 def step_response_message(context, message):
     assert context.response.json()['message'] == message
 
+@then('the payment status is equal to "{status}"')
+def step_response_payment_status(context, status):
+    assert context.response.json()['status'] == status
+
+@then('the payment amount is equal to {amount:d}')
+def step_response_payment_amount(context, amount):
+    assert context.response.json()['amount'] == amount
+
+@then('the payment id is not empty')
+def step_response_payment_id(context):
+    assert context.response.json()['payment_id']
+
+
