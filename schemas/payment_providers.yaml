@@ -1,13 +1,13 @@
 tags:
-  name: Payment Providers
-  description: Endpoints for all integrated payment providers (Fawry, PayPal, etc.)
+  - name: Payment Providers
+    description: Endpoints for all integrated payment providers (Fawry, PayPal, etc.)
 
 paths:
-  fawry.pay_with_visa:
+  api/payments/fawry:
     post:
       tags:
         - Payment Providers
-      summary: Process payment via Fawry using Visa
+      summary: Process payment via Fawry using Card
       description: Initiates a server-to-server card payment through Fawry API.
       requestBody:
         required: true
@@ -16,7 +16,7 @@ paths:
             schema:
               $ref: '#/components/schemas/FawryPaymentRequest'
       responses:
-        200:
+        201:
           description: Successful payment request
           content:
             application/json:
@@ -30,11 +30,9 @@ components:
     FawryPaymentRequest:
       type: object
       required:
-        - merchantRefNum
         - amount
         - cardNumber
-        - cardExpiryYear
-        - cardExpiryMonth
+        - cardHolder
         - cvv
       properties:
         merchantRefNum:
@@ -47,6 +45,9 @@ components:
           type: number
           format: float
           description: Order total amount (must be > 0)
+        cardHolder:
+          type: string
+          description: Card holder name
         cardNumber:
           type: string
           description: 16-digit credit card number
@@ -63,6 +64,7 @@ components:
         merchantRefNum: "ORDER_123456"
         customerProfileId: "CUST_987"
         amount: 100.50
+        cardHolder: "Mohamed Riyad"
         cardNumber: "4111111111111111"
         cardExpiryYear: "25"
         cardExpiryMonth: "12"
@@ -71,49 +73,49 @@ components:
     FawryPaymentResponse:
       type: object
       properties:
-        type:
+        url:
           type: string
-        referenceNumber:
+        reference_number:
           type: string
-        merchantRefNumber:
+        merchant_ref_number:
           type: string
-        orderAmount:
+        order_amount:
           type: number
-        paymentAmount:
+        payment_amount:
           type: number
-        fawryFees:
+        fawry_fees:
           type: number
-        paymentMethod:
+        payment_method:
           type: string
-        orderStatus:
+        order_status:
           type: string
-        paymentTime:
+        payment_time:
           type: integer
-        customerMobile:
+        customer_mobile:
           type: string
-        customerMail:
+        customer_mail:
           type: string
-        customerProfileId:
+        customer_profile_id:
           type: string
         signature:
           type: string
-        statusCode:
+        status_code:
           type: integer
-        statusDescription:
+        status_description:
           type: string
       example:
-        type: "ChargeResponse"
-        referenceNumber: "931317134"
-        merchantRefNumber: "ORDER_123456"
-        orderAmount: 100.50
-        paymentAmount: 100.50
-        fawryFees: 0.00
-        paymentMethod: "CARD"
-        orderStatus: "PAID"
-        paymentTime: 1640995200000
-        customerMobile: "01012345678"
-        customerMail: "test@example.com"
-        customerProfileId: "CUST_987"
+        url: "/api/payments/fawry"
+        reference_number: "931317134"
+        merchant_ref_number: "ORDER_123456"
+        order_amount: 100.50
+        payment_amount: 100.50
+        fawry_fees: 0.00
+        payment_method: "CARD"
+        order_status: "PAID"
+        payment_time: 1640995200000
+        customer_mobile: "01012345678"
+        customer_mail: "test@example.com"
+        customer_profile_id: "CUST_987"
         signature: "generated_hash_string"
-        statusCode: 200
-        statusDescription: "Operation done successfully"
+        status_code: 200
+        status_description: "Operation done successfully"
