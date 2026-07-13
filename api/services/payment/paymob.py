@@ -8,7 +8,7 @@ class PaymobClient:
        self._env = env
        self._request_sender = test_request_sender or requests_service.get_service(self._env)
        self._validator = test_validator  or PaymobUserDataValidator() 
-       self._secret_key = config.PaymentsConfig.paymob_secret_key 
+       self._secret_key = config.PaymentsConfig().paymob_secret_key 
 
     def _build_headers(self):
         return {

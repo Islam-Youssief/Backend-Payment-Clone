@@ -10,38 +10,7 @@ class TestPaymobClient(unittest.TestCase):
         self.request_sender = requests_doubles.RequestSenderDouble(json={"message" : "success"})
         self.validator = _UserDataValidatorDouble()
         self.client = paymob.PaymobClient('lcl',self.request_sender,self.validator)
-        self.fake_data={
-                    "amount": 2000,
-                    "currency": "EGP",
-                    "payment_methods": [158],
-                    "items": [
-                        {
-                        "name": "Item name",
-                        "amount": 2000,
-                        "description": "Item description",
-                        "quantity": 1
-                        }],
-                    "billing_data": {
-                        "apartment": "dumy",
-                        "first_name": "ala",
-                        "last_name": "zain",
-                        "street": "dumy",
-                        "building": "dumy",
-                        "phone_number": "+92345xxxxxxxx",
-                        "city": "dumy",
-                        "country": "dumy",
-                        "email": "ali@gmail.com",
-                        "floor": "dumy",
-                        "state": "dumy"
-                    },
-                    "extras": {
-                        "ee": 22
-                    },
-                    "special_reference": "phe4sjw11q-1xxxxxxxxx",
-                    "expiration": 3600,
-                    "notification_url": "https://webhook.site/dabe4968-5xxxxxxxxxxxxxxxxxxxxxx",
-                    "redirection_url": "https://www.google.com/"
-                    }
+        self.fake_data=_get_dummy_data()
         
     def test_client_uses_real_if_doubles_are_not_sent(self):
         client_without_doubles  = paymob.PaymobClient('prd')
@@ -117,5 +86,39 @@ class  _UserDataValidatorDouble:
         def assert_that_validation_is_called_with(self, data):
             assert_that(self._validate_called_with).is_equal_to(data)
 
+if __name__ == "__main__":
+    unittest.main()
 
-
+def _get_dummy_data(self):
+    return {
+                    "amount": 2000,
+                    "currency": "EGP",
+                    "payment_methods": [158],
+                    "items": [
+                        {
+                        "name": "Item name",
+                        "amount": 2000,
+                        "description": "Item description",
+                        "quantity": 1
+                        }],
+                    "billing_data": {
+                        "apartment": "dumy",
+                        "first_name": "ala",
+                        "last_name": "zain",
+                        "street": "dumy",
+                        "building": "dumy",
+                        "phone_number": "+92345xxxxxxxx",
+                        "city": "dumy",
+                        "country": "dumy",
+                        "email": "ali@gmail.com",
+                        "floor": "dumy",
+                        "state": "dumy"
+                    },
+                    "extras": {
+                        "ee": 22
+                    },
+                    "special_reference": "phe4sjw11q-1xxxxxxxxx",
+                    "expiration": 3600,
+                    "notification_url": "https://webhook.site/dabe4968-5xxxxxxxxxxxxxxxxxxxxxx",
+                    "redirection_url": "https://www.google.com/"
+                    }
