@@ -1,0 +1,20 @@
+{
+    "request": {
+        "urlPath": "/sl73izp6.api.sandbox.checkout.com/payments",
+        "method": "POST",
+        "bodyPatterns": [
+            {
+                "matchesJsonPath": "$[?(@.source.cvv =~ /\\D+/)]"
+            }
+        ]
+    },
+    "response": {
+        "status": 400,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "jsonBody": {
+            "message": "Payment failed: invalid CVV"
+        }
+    }
+}

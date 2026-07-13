@@ -2,19 +2,19 @@
     "request": {
         "urlPath": "/sl73izp6.api.sandbox.checkout.com/payments",
         "method": "POST",
-        "bodyPatterns": [
-            {
-                "matchesJsonPath": "$[?(@.source.cvv =~ /\\D+/)]"
+        "headers": {
+            "Authorization": {
+                "equalTo": ""
             }
-        ]
+        }
     },
     "response": {
-        "status": 400,
+        "status": 401,
         "headers": {
             "Content-Type": "application/json"
         },
         "jsonBody": {
-            "message": "Payment failed: Malformed card data"
+            "message": "Unauthorized"
         }
     }
 }
