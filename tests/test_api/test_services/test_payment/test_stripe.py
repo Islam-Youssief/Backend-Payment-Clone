@@ -21,9 +21,9 @@ class TestStripeClient(unittest.TestCase):
 
     def test_create_payment_intents_calls_stripe_correctly(self):
         data = {
-            "user_name": "Ahmed Mohammad Ali",
+            "cardHolder": "TESTER TESTING PAYMENT",
             "amount": 100,
-            "visa_number":"4242424242424242",
+            "cardNumber":"4242424242424242",
             "cvv":"123"
         }
         response = self.client.create_payment_intent(data=data)

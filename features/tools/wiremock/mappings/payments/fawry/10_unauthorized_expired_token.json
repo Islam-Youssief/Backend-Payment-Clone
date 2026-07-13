@@ -1,0 +1,23 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/fawry/pay_with_visa",
+    "bodyPatterns": [
+      {
+        "equalToJson": "{\"merchantRefNum\": \"ORDER_123462\", \"amount\": 100.50, \"cardNumber\": \"4111111111111111\", \"cardExpiryYear\": \"25\", \"cardExpiryMonth\": \"12\", \"cvv\": \"123\"}",
+        "ignoreArrayOrder": true,
+        "ignoreExtraElements": false
+      }
+    ]
+  },
+  "response": {
+    "status": 401,
+    "jsonBody": {
+      "statusCode": 401,
+      "message": "Token has expired."
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

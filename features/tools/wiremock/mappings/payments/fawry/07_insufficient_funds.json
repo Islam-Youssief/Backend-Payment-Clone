@@ -1,0 +1,23 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/fawry/pay_with_visa",
+    "bodyPatterns": [
+      {
+        "equalToJson": "{\"merchantRefNum\": \"ORDER_123458\", \"amount\": 999999.00, \"cardNumber\": \"4111111111111111\", \"cardExpiryYear\": \"25\", \"cardExpiryMonth\": \"12\", \"cvv\": \"123\"}",
+        "ignoreArrayOrder": true,
+        "ignoreExtraElements": false
+      }
+    ]
+  },
+  "response": {
+    "status": 402,
+    "jsonBody": {
+      "statusCode": 402,
+      "message": "Insufficient Balance"
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
