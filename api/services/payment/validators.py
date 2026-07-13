@@ -31,7 +31,7 @@ class UserPaymentDataValidator:
                 raise exceptions.InvalidInputError(pname='cardNumber', invalid_value=card, message='Card number must be 16 digits long')
 
     def _validate_amount(self, amount):
-        if not str(amount).isdigit() or amount <= 0:
+        if not isinstance(amount, (int, float)) or amount <= 0:
             raise exceptions.InvalidInputError(pname='amount', invalid_value=amount, message='Amount must be valid number')
     
     def _validate_cvv(self, cvv):
