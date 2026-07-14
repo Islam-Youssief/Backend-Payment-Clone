@@ -327,3 +327,28 @@ Feature: Fawry Payment API
         Then the response status is UNAUTHORIZED
           And the response json at $.status is equal to 401
           And the response json at $.message is equal to "Token has expired."
+
+  Scenario: 14 - Unauthorized access to the payment endpoint (Token is missing permissions)
+    The request fails with a 401 Unauthorized if the client provides a token that is missing permissions.
+
+    Given a request url ${BASE_URL}/api/payments/fawry
+        And request headers
+            | param         | value                                |
+            | Authorization | Bearer ${MISSING_PERMISSIONS_TOKEN} |
+        And a request json payload
+            """
+            {
+              "merchantRefNum": "ORDER_123463",
+              "cardHolder": "${VALID_CARD_HOLDER}",
+              "cardNumber": "${VALID_CARD_NUMBER}",
+              "amount": 100.50,
+              "cardExpiryYear": "25",
+              "cardExpiryMonth": "12",
+              "cvv": "123"
+            }
+            """
+        When the request sends POST
+        Then the response status is UNAUTHORIZED
+          And the response json at $.status is equal to 401
+          And the response json at $.message is equal to "Token is missing permissions"
+

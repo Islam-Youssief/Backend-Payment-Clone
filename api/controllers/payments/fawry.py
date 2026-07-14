@@ -19,12 +19,20 @@ class FawryController:
     @property
     def _body(self):
         return self._flask_request.json
+    
+    @property
+    def _token(self):
+        return self._flask_request.headers.get('Authorization')
+    
+    @property
+    def _url(self):
+        return self._flask_request.path
 
     def pay(self):
         try:
-            self._validator.validate(self._body)
+            self._validator.validate(self._body, self._token)
             invoice = self._handler.process_payment(self._body)
-            return self._serializer.serialize(invoice, self._flask_request.path), http.HTTPStatus.CREATED
+            return self._serializer.serialize(invoice, self._url), http.HTTPStatus.CREATED
         except (exceptions.RequiredInputError, exceptions.InvalidInputError) as exc:
             return self._as_error_response(exc, http.HTTPStatus.BAD_REQUEST)
         except exceptions.UnauthorizedAccessError as exc:
@@ -46,7 +54,7 @@ class FawryController:
 
     def _as_error_response(self, error, status):
         logging.error(f"Creating error response: {error} {status}")
-        return base.CoreErrorSerializer(error, status).serialize(self._flask_request.path), status
+        return base.CoreErrorSerializer(error, status).serialize(self._url), status
 
 class _FawryHandler:
     def __init__(self, app_config, test_client=None):

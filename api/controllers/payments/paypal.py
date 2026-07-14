@@ -19,13 +19,19 @@ class PayPalController:
     def _body(self):
         return self._flask_request.json
     
+    @property
+    def _token(self):
+        return self._flask_request.headers.get('Authorization')
+    
     def pay(self):
         try:
-            self._validator.validate(self._body)
+            self._validator.validate(self._body, self._token)
             invoice = self._handler.process_payment(data=self._body)
             return _PayPalSerializer(invoice).serialize(self._flask_request.path), http.HTTPStatus.CREATED
         except (exceptions.RequiredInputError, exceptions.InvalidInputError) as exc:
             return self._as_error_response(exc, http.HTTPStatus.BAD_REQUEST)
+        except exceptions.UnauthorizedAccessError as exc:
+            return self._as_error_response(exc, http.HTTPStatus.UNAUTHORIZED)
 
 
     def _as_error_response(self, error, status):
