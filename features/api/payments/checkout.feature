@@ -152,3 +152,26 @@ Feature: Checkout Payment API
             When the request is sent
             Then the response status should be 401
             And the response JSON at "$.message" should be "Unauthorized"
+
+    Scenario: 08- Unsuccessful payment when Checkout Payment returns an internal server error
+            Given the request URL is "${configuration.PaymentsConfig().checkout_prefix_code}.${CHECKOUT_PAYMENT_URL}"
+            And the request header contains the authorization token "Bearer ${configuration.PaymentsConfig().checkout_secret_key}"
+            And the Checkout Payment service returns status code 500
+            And the request json payload
+            """
+            {
+                "source": {
+                    "type": "card",
+                    "number": "2242424242424242",
+                    "cvv": "100",
+                    "expiry_month": 12,
+                    "expiry_year": 2030
+                },
+                "currency": "USD",
+                "amount": 1000,
+                "processing_channel_id": "pc_test_123"
+            }
+            """
+            When the request is sent
+            Then the response status should be 500
+            And the response JSON at "$.message" should be "Internal server error"
