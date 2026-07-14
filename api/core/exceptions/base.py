@@ -167,39 +167,6 @@ class UnknownError(SerializableError):
         serialized.update(traceback=tb)
 
 
-class CrudOperationError(SerializableError):
-    """
-    Exception representing any error that could happen on run time during a CRUD operation.
-
-    :param str operation_name:
-        Name of the operation that failed.
-    """
-
-    def __init__(self, message, operation_name):
-        super().__init__(message)
-        self.operation_name = operation_name
-
-    def _add_data(self, serialized):
-        serialized.update(operation_name=self.operation_name)
-
-
-class NotImplementedError(SerializableError):
-    """
-    Exception representing ant not implemented functionality
-
-    :param str message:
-        Message describing the error.
-    :param str missing:
-        Name of the function/class that is not implemented.
-    """
-
-    def __init__(self, message="Not Implemented", missing=""):
-        super().__init__(message)
-        self.missing = missing
-
-    def _add_data(self, serialized):
-        serialized.update(missing=self.missing)
-
 
 class RecordNotFoundError(SerializableError):
     """
@@ -215,6 +182,35 @@ class RecordNotFoundError(SerializableError):
 
     def _add_data(self, serialized):
         serialized.update(record_id=self.record_id)
+
+
+class UnauthorizedAccessError(SerializableError):
+    """
+    Exception representing unauthorized error when trying to access an api with invalid or missing authentication token.
+
+    :param str message: error message explains the error
+    """
+
+    def __init__(self, message="Unauthorized access. Please provide valid authentication credentials."):
+        super().__init__(message)
+
+
+class ConflictError(SerializableError):
+    """
+    Exception representing a conflict error when trying to create a resource that already exists.
+
+    :param str pname: Name of the attribute, property, or parameter that conflicts.
+    :param any value: The conflicting value.
+    :param str message: Optional message describing the conflict.
+    """
+
+    def __init__(self, pname, conflicting_value, message=None):
+        super().__init__(message or f"Resource conflict for <{pname}>: <{conflicting_value}> already exists")
+        self.name = pname
+        self.value = conflicting_value
+
+    def _add_data(self, serialized):
+        serialized.update(name=self.name, value=self.value)
 
 
 class InputDataTypeError(SerializableError):
@@ -234,28 +230,8 @@ class InputDataTypeError(SerializableError):
         serialized.update(field=self.field, expected_type=self.expected_type)
 
 
-class UnauthorizedAccessError(SerializableError):
-    """
-    Exception representing unauthorized error when trying to access an api with invalid or missing authentication token.
 
-    :param str message: error message explains the error
-    """
-
-    def __init__(self, message="Unauthorized access. Please provide valid authentication credentials."):
-        super().__init__(message)
-
-
-class ForbiddenAccessError(SerializableError):
-    """
-    Exception representing a forbidden Access error when trying to access an api with insufficient permissions.
-
-    :param str message: error message explains the error
-    """
-
-    def __init__(self, message="Access denied. You do not have sufficient permissions to perform this action."):
-        super().__init__(message)
-
-
+# TODO: Add more specific validation error types as needed.
 class ValidationError(SerializableError):
     """
     Exception raised when a validation error occurs.
@@ -263,95 +239,3 @@ class ValidationError(SerializableError):
 
     def __init__(self, message='Validation error'):
         super().__init__(message)
-
-
-class SecurityError(SerializableError):
-    """
-    Exception raised when security validation fails (e.g., virus detected in file upload).
-
-    :param str message: Error message describing the security issue
-    :param **data: Additional data about the security error
-    """
-
-    def __init__(self, message="Security validation failed", **data):
-        super().__init__(message)
-        self._data = data
-
-    def _add_data(self, serialized):
-        serialized.update(self._data)
-
-
-class ExternalServiceError(SerializableError):
-    """
-    Exception raised when an external service is unavailable or returns an error.
-
-    :param str message: Error message describing the issue
-    :param str service: Name of the external service
-    :param **data: Additional data about the error
-    """
-
-    def __init__(self, message="External service error", service="", **data):
-        super().__init__(message)
-        self.service = service
-        self._data = data
-
-    def _add_data(self, serialized):
-        serialized.update(service=self.service)
-        serialized.update(self._data)
-
-
-class ExternalServiceUnavailableError(SerializableError):
-    """
-    Exception raised when an external service is unavailable or cannot be reached.
-
-    :param str message: Error message describing the issue
-    :param str service: Name of the external service
-    :param **data: Additional data about the error
-    """
-
-    def __init__(self, message="External service unavailable", service="", **data):
-        super().__init__(message)
-        self.service = service
-        self._data = data
-
-    def _add_data(self, serialized):
-        serialized.update(service=self.service)
-        serialized.update(self._data)
-
-
-class EmptyRecordsError(SerializableError):
-    """
-    Exception representing an error when a query returns no records.
-    """
-
-    def __init__(self, message='No records found'):
-        super().__init__(message)
-
-
-class ConflictError(SerializableError):
-    """
-    Exception representing a conflict with the current state of a resource
-    (e.g., a duplicate that violates a uniqueness constraint). Maps to HTTP 409.
-    """
-
-    def __init__(self, message='Resource conflict'):
-        super().__init__(message)
-
-
-class MaximumLengthError(SerializableError):
-    """
-    Exception representing an error when an input exceeds its maximum allowed length.
-
-    :param str pname:
-        Name of the attribute, property, or parameter that exceeded the limit.
-    :param int max_length:
-        The maximum allowed length.
-    """
-
-    def __init__(self, pname=None, max_length=None, message=None):
-        super().__init__(message or f"Input <{pname}> exceeds maximum length of {max_length}")
-        self.name = pname
-        self.max_length = max_length
-
-    def _add_data(self, serialized):
-        serialized.update(name=self.name, max_length=self.max_length)

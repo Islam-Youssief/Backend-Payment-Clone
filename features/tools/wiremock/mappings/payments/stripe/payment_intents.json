@@ -1,0 +1,31 @@
+{
+  "request": {
+	"urlPath": "/api.stripe.com/v1/payments_intents",
+	"method": "POST",
+	"bodyPatterns": [
+	  {
+		"matchesJsonPath": "$[?(@.cardNumber == '4222422242224222')]"
+	  }
+	],
+	"headers":{
+	  "Authorization":{
+		"equalTo": "Bearer STRIPE_SECRET_KEY"
+	  }
+	}
+  },
+
+  "response": {
+	"status":200,
+	"headers":{
+	  "Content-Type": "application/json"
+	},
+	"jsonBody": {
+	  "message": "You have successfully paid with visa",
+	  "status": "success",
+	  "transactionId": "1234567890",
+	  "amount": "100.00",
+	  "currency": "USD",
+	  "paymentMethod": "visa"
+	}
+  }
+}

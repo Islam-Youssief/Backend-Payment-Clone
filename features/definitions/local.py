@@ -1,0 +1,14 @@
+
+
+vars = {
+    'BASE_URL': 'http://127.0.0.1:5000',
+    'VALID_CARD_HOLDER': 'TESTER TESTING PAYPAL',
+    'VALID_CARD_NUMBER': '4222422242224222',
+    'INVALID_CARD_NUMBER': '4000000000000001',
+    'SERVER_ERROR_CARD_NUMBER':'4111111111111111',
+    'MANY_REQUEST_CARD_NUMBER':'4294294294294294'
+
+}
+
+def initialize_definition(context):
+    context.vars.add_vars(vars)

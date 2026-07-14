@@ -1,0 +1,21 @@
+{
+  "request": {
+    "urlPath": "/api.stripe.com/v1/payments_intents" ,
+    "method": "POST",
+    "bodyPatterns":[
+      {
+        "matchesJsonPath":"$[?(@.cardNumber == '4000000000000001')]"
+      }
+    ]
+  },
+  "response": {
+    "status":200,
+    "headers":{
+      "Content-Type": "application/json"
+    },
+    "jsonBody":{
+      "message": "Reject The Payment Card Declined",
+	  "status": "declined"
+    }
+  }
+}

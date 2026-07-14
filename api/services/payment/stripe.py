@@ -14,17 +14,19 @@ class StripeClient:
 
     @property
     def _headers(self):
-         return {
+        return {
             "Authorization": f"Bearer {configurations.PaymentsConfig().stripe_secret_key}"
         }
 
-    def create_payment_intent(self,data):
+    def create_payment_intent(self,data, authorization):
         self._validator.validate(data)
         response = self._request_sender.request(
              method="POST",
              url=STRIPE_PAYMENT_INTENTS_URL,
              json=data,
-             headers=self._headers
+             headers={
+                 "Authorization": authorization
+             }
         )
         return response
 
