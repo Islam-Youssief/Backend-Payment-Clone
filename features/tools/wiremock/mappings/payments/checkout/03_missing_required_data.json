@@ -26,6 +26,9 @@
             "Content-Type": "application/json"
         },
         "jsonBody": {
+            "currency": "",
+            "amount": 0,
+            "processing_channel_id": "",
             "message": "Payment failed: Missing required data"
         }
     }

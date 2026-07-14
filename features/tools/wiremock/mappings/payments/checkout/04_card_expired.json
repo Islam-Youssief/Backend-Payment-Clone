@@ -36,6 +36,13 @@
             "Content-Type": "application/json"
         },
         "jsonBody": {
+            "currency": "USD",
+            "amount": 1000,
+            "processing_channel_id": "pc_test_123",
+            "source": {
+                "expiry_month": 12,
+                "expiry_year": 2020
+            },
             "message": "Payment failed: Card expired"
         }
     }

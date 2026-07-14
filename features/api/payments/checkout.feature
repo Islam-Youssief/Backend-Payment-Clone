@@ -29,6 +29,10 @@ Feature: Checkout Payment API
             When the request is sent
             Then the response status should be 200
             And the response JSON at "$.message" should be "Payment successful"
+            And the response JSON at "$.currency" should be "USD"
+            And the response JSON at "$.amount" should be 1000
+            And the response JSON at "$.processing_channel_id" should be "pc_test_123"
+
 
     Scenario: 2- Unsuccessful payment with an invalid card number
             Given the request URL is "${configuration.PaymentsConfig().checkout_prefix_code}.${CHECKOUT_PAYMENT_URL}"
@@ -52,6 +56,9 @@ Feature: Checkout Payment API
             When the request is sent
             Then the response status should be 400
             And the response JSON at "$.message" should be "Payment failed: Invalid card details"
+            And the response JSON at "$.currency" should be "USD"
+            And the response JSON at "$.amount" should be 1000
+            And the response JSON at "$.processing_channel_id" should be "pc_test_123"
     
     Scenario: 3- Unsuccessful payment with missing required data
             Given the request URL is "${configuration.PaymentsConfig().checkout_prefix_code}.${CHECKOUT_PAYMENT_URL}"
@@ -75,6 +82,9 @@ Feature: Checkout Payment API
             When the request is sent
             Then the response status should be 400
             And the response JSON at "$.message" should be "Payment failed: Missing required data"
+            And the response JSON at "$.currency" should be ""
+            And the response JSON at "$.amount" should be 0
+            And the response JSON at "$.processing_channel_id" should be ""
     
     Scenario: 4- Unsuccessful payment with an expired card
             Given the request URL is "${configuration.PaymentsConfig().checkout_prefix_code}.${CHECKOUT_PAYMENT_URL}"
@@ -98,6 +108,11 @@ Feature: Checkout Payment API
             When the request is sent
             Then the response status should be 400
             And the response JSON at "$.message" should be "Payment failed: Card expired"
+            And the response JSON at "$.currency" should be "USD"
+            And the response JSON at "$.amount" should be 1000
+            And the response JSON at "$.processing_channel_id" should be "pc_test_123"
+            And the response JSON at "$.source.expiry_month" should be 12
+            And the response JSON at "$.source.expiry_year" should be 2020
 
     Scenario: 5- Unsuccessful payment with an invalid authorization token
             Given the request URL is "${configuration.PaymentsConfig().checkout_prefix_code}.${CHECKOUT_PAYMENT_URL}"
@@ -106,6 +121,9 @@ Feature: Checkout Payment API
             When the request is sent
             Then the response status should be 401
             And the response JSON at "$.message" should be "Unauthorized"
+            And the response JSON at "$.currency" should be "USD"
+            And the response JSON at "$.amount" should be 1000
+            And the response JSON at "$.processing_channel_id" should be "pc_test_123"
 
     Scenario: 6- Unsuccessful payment with an invalid CVV
             Given the request URL is "${configuration.PaymentsConfig().checkout_prefix_code}.${CHECKOUT_PAYMENT_URL}"
@@ -129,7 +147,10 @@ Feature: Checkout Payment API
             When the request is sent
             Then the response status should be 400
             And the response JSON at "$.message" should be "Payment failed: Invalid cvv"
-    
+            And the response JSON at "$.currency" should be "USD"
+            And the response JSON at "$.amount" should be 1000
+            And the response JSON at "$.processing_channel_id" should be "pc_test_123"
+
     Scenario: 7- Unsuccessful payment with a missing authorization token
             Given the request URL is "${configuration.PaymentsConfig().checkout_prefix_code}.${CHECKOUT_PAYMENT_URL}"
             And the request header does not contain an authorization token
@@ -152,6 +173,9 @@ Feature: Checkout Payment API
             When the request is sent
             Then the response status should be 401
             And the response JSON at "$.message" should be "Unauthorized"
+            And the response JSON at "$.currency" should be "USD"
+            And the response JSON at "$.amount" should be 1000
+            And the response JSON at "$.processing_channel_id" should be "pc_test_123"
 
     Scenario: 08- Unsuccessful payment when Checkout Payment returns an internal server error
             Given the request URL is "${configuration.PaymentsConfig().checkout_prefix_code}.${CHECKOUT_PAYMENT_URL}"
@@ -175,3 +199,6 @@ Feature: Checkout Payment API
             When the request is sent
             Then the response status should be 500
             And the response JSON at "$.message" should be "Internal server error"
+            And the response JSON at "$.currency" should be "USD"
+            And the response JSON at "$.amount" should be 1000
+            And the response JSON at "$.processing_channel_id" should be "pc_test_123"

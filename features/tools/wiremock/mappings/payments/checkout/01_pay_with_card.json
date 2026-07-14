@@ -35,6 +35,9 @@
             "Content-Type": "application/json"
         },
         "jsonBody": {
+            "currency": "USD",
+            "amount": 1000,
+            "processing_channel_id": "pc_test_123",
             "message": "you have successfully paid with card"
         }
     }
