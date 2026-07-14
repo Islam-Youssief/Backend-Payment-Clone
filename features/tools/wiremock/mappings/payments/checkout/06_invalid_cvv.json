@@ -2,9 +2,14 @@
     "request": {
         "urlPath": "/sl73izp6.api.sandbox.checkout.com/payments",
         "method": "POST",
+        "headers": {
+            "Authorization": {
+                "equalTo": "Bearer sk_test_123456"
+            }
+        },
         "bodyPatterns": [
             {
-                "matchesJsonPath": "$[?(@.source.cvv =~ /\\D+/)]"
+                "matchesJsonPath": "$[?(@.source.cvv == '11')]"
             }
         ]
     },
@@ -17,7 +22,7 @@
             "currency": "USD",
             "amount": 1000,
             "processing_channel_id": "pc_test_123",
-            "message": "Payment failed: invalid CVV"
+            "message": "Payment failed: invalid cvv"
         }
     }
 }

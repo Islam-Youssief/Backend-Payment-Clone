@@ -2,6 +2,11 @@
     "request": {
         "urlPath": "/sl73izp6.api.sandbox.checkout.com/payments",
         "method": "POST",
+        "headers": {
+            "Authorization": {
+                "equalTo": "Bearer sk_test_123456"
+            }
+        },
         "bodyPatterns": [
             {
                 "matchesJsonPath": "$[?(@.source.type == 'card')]"

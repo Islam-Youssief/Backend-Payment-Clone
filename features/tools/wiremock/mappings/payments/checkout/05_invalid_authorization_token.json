@@ -6,7 +6,33 @@
             "Authorization": {
                 "equalTo": "Bearer  invalid_secret_key"
             }
-        }
+        },
+        "bodyPatterns": [
+            {
+                "matchesJsonPath": "$[?(@.source.type == 'card')]"
+            },
+            {
+                "matchesJsonPath": "$[?(@.source.number =~ /\\d{16}/)]"
+            },
+            {
+                "matchesJsonPath": "$[?(@.source.cvv =~ /\\d{3}/)]"
+            },
+            {
+                "matchesJsonPath": "$[?(@.source.expiry_month >= 1 && @.source.expiry_month <= 12)]"
+            },
+            {
+                "matchesJsonPath": "$[?(@.source.expiry_year >= 2026)]"
+            },
+            {
+                "matchesJsonPath": "$[?(@.currency == 'USD')]"
+            },
+            {
+                "matchesJsonPath": "$[?(@.amount > 0)]"
+            },
+            {
+                "matchesJsonPath": "$[?(@.processing_channel_id == 'pc_test_123')]"
+            }
+        ]
     },
     "response": {
         "status": 401,

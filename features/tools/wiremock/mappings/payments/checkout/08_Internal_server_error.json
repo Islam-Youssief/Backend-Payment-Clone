@@ -1,33 +1,7 @@
 {
     "request": {
         "urlPath": "/sl73izp6.api.sandbox.checkout.com/payments",
-        "method": "POST",
-        "bodyPatterns": [
-            {
-                "matchesJsonPath": "$[?(@.source.type == 'card')]"
-            },
-            {
-                "matchesJsonPath": "$[?(@.source.number =~ /\\d{16}/)]"
-            },
-            {
-                "matchesJsonPath": "$[?(@.source.cvv =~ /\\d{3}/)]"
-            },
-            {
-                "matchesJsonPath": "$[?(@.source.expiry_month >= 1 && @.source.expiry_month <= 12)]"
-            },
-            {
-                "matchesJsonPath": "$[?(@.source.expiry_year >= 2026)]"
-            },
-            {
-                "matchesJsonPath": "$[?(@.currency == 'USD')]"
-            },
-            {
-                "matchesJsonPath": "$[?(@.amount > 0)]"
-            },
-            {
-                "matchesJsonPath": "$[?(@.processing_channel_id == 'pc_test_123')]"
-            }
-        ]
+        "method": "POST"
     },
     "response": {
         "status": 500,
@@ -35,9 +9,6 @@
             "Content-Type": "application/json"
         },
         "jsonBody": {
-            "currency": "USD",
-            "amount": 1000,
-            "processing_channel_id": "pc_test_123",
             "message": "Internal server error"
         }
     }

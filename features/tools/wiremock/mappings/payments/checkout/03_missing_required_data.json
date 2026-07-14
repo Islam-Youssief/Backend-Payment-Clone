@@ -2,9 +2,14 @@
     "request": {
         "urlPath": "/sl73izp6.api.sandbox.checkout.com/payments",
         "method": "POST",
+        "headers": {
+            "Authorization": {
+                "equalTo": "Bearer sk_test_123456"
+            }
+        },
         "bodyPatterns": [
             {
-                "matchesJsonPath": "$[?(!@.source.number)]"
+                "matchesJsonPath": "$[?(@.source.number == '')]"
             },
             {
                 "matchesJsonPath": "$[?(@.source.type == 'card')]"
@@ -13,10 +18,13 @@
                 "matchesJsonPath": "$[?(@.source.cvv == '100')]"
             },
             {
-                "matchesJsonPath": "$[?(@.currency == 'USD')]"
+                "matchesJsonPath": "$[?(@.currency == '')]"
             },
             {
-                "matchesJsonPath": "$[?(@.amount == 1000)]"
+                "matchesJsonPath": "$[?(@.amount == 0)]"
+            },
+            {
+                "matchesJsonPath": "$[?(@.processing_channel_id == '')]"
             }
         ]
     },
@@ -26,9 +34,9 @@
             "Content-Type": "application/json"
         },
         "jsonBody": {
-            "currency": "",
-            "amount": 0,
-            "processing_channel_id": "",
+            "currency": "USD",
+            "amount": 1000,
+            "processing_channel_id": "pc_test_123",
             "message": "Payment failed: Missing required data"
         }
     }
