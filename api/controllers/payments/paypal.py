@@ -30,8 +30,6 @@ class PayPalController:
             return _PayPalSerializer(invoice).serialize(self._flask_request.path), http.HTTPStatus.CREATED
         except (exceptions.RequiredInputError, exceptions.InvalidInputError) as exc:
             return self._as_error_response(exc, http.HTTPStatus.BAD_REQUEST)
-        except exceptions.UnauthorizedAccessError as exc:
-            return self._as_error_response(exc, http.HTTPStatus.UNAUTHORIZED)
 
 
     def _as_error_response(self, error, status):
