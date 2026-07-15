@@ -37,20 +37,14 @@ class FawryController:
             return self._as_error_response(exc, http.HTTPStatus.BAD_REQUEST)
         except exceptions.UnauthorizedAccessError as exc:
             return self._as_error_response(exc, http.HTTPStatus.UNAUTHORIZED)
+        except (exceptions.ExternalServiceUnavailableError, exceptions.ExternalServiceError) as exc:
+            return self._as_error_response(exc, http.HTTPStatus.BAD_GATEWAY)
+        except exceptions.InsufficientBalanceError as exc:
+            return self._as_error_response(exc, http.HTTPStatus.PAYMENT_REQUIRED)
         except exceptions.ResponseError as exc:
-            status_code = exc.status_code
-            if status_code in (http.HTTPStatus.BAD_GATEWAY, http.HTTPStatus.SERVICE_UNAVAILABLE):
-                err = exceptions.ValidationError("External service unavailable")
-                return self._as_error_response(err, http.HTTPStatus.BAD_GATEWAY)
-            elif status_code == http.HTTPStatus.INTERNAL_SERVER_ERROR:
-                err = exceptions.ValidationError("External service error")
-                return self._as_error_response(err, http.HTTPStatus.BAD_GATEWAY)
-            elif status_code == http.HTTPStatus.PAYMENT_REQUIRED:
-                err = exceptions.ValidationError("Insufficient Balance")
-                return self._as_error_response(err, http.HTTPStatus.PAYMENT_REQUIRED)
+            return self._as_error_response(exc, exc.status_code)
         except requests.exceptions.Timeout as exc:
-            err = exceptions.ValidationError("External service timeout")
-            return self._as_error_response(err, http.HTTPStatus.GATEWAY_TIMEOUT)
+            return self._as_error_response(exceptions.ExternalServiceUnavailableError("External service timeout"), http.HTTPStatus.GATEWAY_TIMEOUT)
 
     def _as_error_response(self, error, status):
         logging.error(f"Creating error response: {error} {status}")
@@ -63,6 +57,16 @@ class _FawryHandler:
 
     def process_payment(self, data):
         response = self._client.pay_with_card(data=data)
+        if response.status_code != http.HTTPStatus.OK:
+            status_code = response.status_code
+            if status_code in (http.HTTPStatus.BAD_GATEWAY, http.HTTPStatus.SERVICE_UNAVAILABLE):
+                raise exceptions.ExternalServiceUnavailableError()
+            elif status_code == http.HTTPStatus.INTERNAL_SERVER_ERROR:
+                raise exceptions.ExternalServiceError()
+            elif status_code == http.HTTPStatus.PAYMENT_REQUIRED:
+                raise exceptions.InsufficientBalanceError()
+            else:
+                raise exceptions.ResponseError(response)
         invoice = sjson.JsonObject(response.json())
         return invoice
 

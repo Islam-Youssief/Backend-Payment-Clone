@@ -239,3 +239,29 @@ class ValidationError(SerializableError):
 
     def __init__(self, message='Validation error'):
         super().__init__(message)
+
+
+class ExternalServiceUnavailableError(SerializableError):
+    """
+    Exception representing an error when an external service is unavailable.
+    """
+
+    def __init__(self, message="External service unavailable"):
+        super().__init__(message)
+
+
+class ExternalServiceError(SerializableError):
+    """
+    Exception representing an error when an external service returns an error.
+    """
+
+    def __init__(self, message="External service error"):
+        super().__init__(message)
+
+
+class InsufficientBalanceError(SerializableError):
+    """
+    Exception representing an error when the balance is insufficient.
+    """
+    def __init__(self, message="Insufficient Balance"):
+        super().__init__(message)
