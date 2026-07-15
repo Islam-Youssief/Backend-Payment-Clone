@@ -1,7 +1,12 @@
 {
   "request": {
     "urlPath": "/atfawry.com/ECommerceWeb/Fawry/payments/charge",
-    "method": "POST"
+    "method": "POST",
+    "bodyPatterns": [
+      {
+        "contains": "ORDER_123456"
+      }
+    ]
   },
   "response": {
     "status": 200,

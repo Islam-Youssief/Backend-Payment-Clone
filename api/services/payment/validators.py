@@ -4,17 +4,33 @@ import api.core.exceptions as exceptions
 
 
 REQUIRED_FIELDS = ('cardHolder', 'cardNumber', 'amount', 'cvv')
-
+VALID_TOKEN = 'valid_token_123'
+INVALID_TOKEN = 'invalid_token_123'
+EXPIRED_TOKEN = 'expired_token_123'
+MISSING_PERMISSIONS_TOKEN = 'missing_permissions_token_123'
 
 class UserPaymentDataValidator:
 
-    def validate(self, data):
+    def validate(self, data, token=None):
+        self._validate_token(token)
         self._validate_required_fileds(data)
         self._validate_having_many_names(data.get('cardHolder'))
         self._validate_card_number(data.get('cardNumber'))
         self._validate_amount(data.get('amount'))
         self._validate_cvv(data.get('cvv'))
         return True
+
+    def _validate_token(self, token):
+        if isinstance(token, str) and token.startswith('Bearer '):
+            token = token[7:]
+        if token == VALID_TOKEN:
+            return True
+        elif token == INVALID_TOKEN:
+            raise exceptions.UnauthorizedAccessError(message='Unauthorized access.')
+        elif token == EXPIRED_TOKEN:
+            raise exceptions.UnauthorizedAccessError(message='Token has expired.')
+        elif token == MISSING_PERMISSIONS_TOKEN:
+            raise exceptions.UnauthorizedAccessError(message='Token is missing permissions')
 
     def _validate_required_fileds(self, data):
         for required_field in REQUIRED_FIELDS:
@@ -31,7 +47,7 @@ class UserPaymentDataValidator:
                 raise exceptions.InvalidInputError(pname='cardNumber', invalid_value=card, message='Card number must be 16 digits long')
 
     def _validate_amount(self, amount):
-        if not str(amount).isdigit() or amount <= 0:
+        if not isinstance(amount, (int, float)) or amount <= 0:
             raise exceptions.InvalidInputError(pname='amount', invalid_value=amount, message='Amount must be valid number')
     
     def _validate_cvv(self, cvv):

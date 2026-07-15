@@ -36,6 +36,7 @@ class TestRequestWrapper(unittest.TestCase):
             method='GET',
             url='fake_url',
             data='fake_data',
+            timeout=5,
             headers={'X-Test-Header': 'fake value'}
         )
 
@@ -57,6 +58,7 @@ class TestWiremockRequester(unittest.TestCase):
             method='GET',
             url='http://127.0.0.1:8080/fake_url',
             data='fake_data',
+            timeout=5,
             headers={'X-Test-Header': 'fake value'}
         )
 

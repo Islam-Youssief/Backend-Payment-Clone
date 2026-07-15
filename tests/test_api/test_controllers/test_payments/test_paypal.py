@@ -11,6 +11,7 @@ class TestPayPalController(unittest.TestCase):
     def setUp(self):
         self.json = {'cardNumber': '1234567890'}
         self.path = '/api/payments/paypal'
+        self.headers = {}
         self.config = {'env': 'lcl'} 
         self.validator = ValidatorDouble()
         self.handler = HandlerDouble()
@@ -42,7 +43,7 @@ class ValidatorDouble:
         self.data = None
         self.raise_exception = raise_exception
     
-    def validate(self, data):
+    def validate(self, data, token=None):
         self.data = data
         if self.raise_exception: 
             raise self.raise_exception

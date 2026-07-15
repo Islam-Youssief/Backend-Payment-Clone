@@ -1,0 +1,21 @@
+{
+  "request": {
+    "urlPath": "/atfawry.com/ECommerceWeb/Fawry/payments/charge",
+    "method": "POST",
+    "bodyPatterns": [
+      {
+        "contains": "ORDER_123464"
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "fixedDelayMilliseconds": 6000,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "message": "Timeout simulated"
+    }
+  }
+}

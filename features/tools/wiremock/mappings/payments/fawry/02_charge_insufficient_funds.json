@@ -1,0 +1,22 @@
+{
+  "request": {
+    "urlPath": "/atfawry.com/ECommerceWeb/Fawry/payments/charge",
+    "method": "POST",
+    "bodyPatterns": [
+      {
+        "contains": "ORDER_123458"
+      }
+    ]
+  },
+  "response": {
+    "status": 402,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "type": "ChargeResponse",
+      "statusCode": 402,
+      "statusDescription": "Insufficient Balance"
+    }
+  }
+}

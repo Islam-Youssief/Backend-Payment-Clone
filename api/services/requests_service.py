@@ -20,6 +20,7 @@ class RequestsWrapper:
     
     def request(self, method, url, **kwargs):
         logging.info(f'[{method}] {url} with kwargs: {kwargs}')
+        kwargs.setdefault('timeout', 5)
         response = self._requests.request(method, url, **kwargs)
         return self._handle_response(response, method, url, **kwargs)
 
@@ -38,4 +39,5 @@ class WiremockRequester:
 
     def request(self, method, url, **kwargs):
         logging.info(f'[{method}] (wiremock) {self._wiremock_url}/{url.replace('https://', '')} with kwargs: {kwargs}')
+        kwargs.setdefault('timeout', 5)
         return self._requests.request(method, f'{self._wiremock_url}/{url.replace('https://', '')}', **kwargs)

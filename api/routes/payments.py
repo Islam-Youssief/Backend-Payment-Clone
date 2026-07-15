@@ -8,7 +8,7 @@ import flask as fl
 
 import api.controllers.payments.paypal as paypal
 import api.core.configurations as configurations
-
+import api.controllers.payments.fawry as fawry
 
 payments_api = fl.Blueprint('payments', __name__, url_prefix='/payments')
 
@@ -17,3 +17,6 @@ payments_api = fl.Blueprint('payments', __name__, url_prefix='/payments')
 def paypal_payment():
     return paypal.PayPalController(fl.request, configurations.AppConfig()).pay()
 
+@payments_api.route('/fawry', methods=['POST'])
+def fawry_payment():
+    return fawry.FawryController(fl.request, configurations.AppConfig()).pay()
