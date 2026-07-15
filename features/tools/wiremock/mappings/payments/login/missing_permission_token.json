@@ -1,0 +1,27 @@
+{
+  "request": {
+	"urlPath": "/api.stripe.com/v1/login",
+	"method": "POST",
+	"bodyPatterns": [
+	  {
+		"matchesJsonPath": "$[?(@.email == 'TEST@TEST.TEST')]"
+	  }
+	],
+	"headers":{
+	  "Authorization":{
+		"equalTo": ""
+	  }
+	}
+  },
+
+  "response": {
+	"status":200,
+	"headers":{
+	  "Content-Type": "application/json"
+	},
+	"jsonBody": {
+	  "message": "Permission token is missing",
+	  "status": "missing_permission_token"
+	}
+  }
+}

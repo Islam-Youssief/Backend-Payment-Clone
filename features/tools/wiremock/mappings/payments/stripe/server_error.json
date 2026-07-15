@@ -1,0 +1,22 @@
+{
+  "request":{
+    "urlPath":"/api.stripe.com/v1/payments_intents",
+    "method":"POST",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath":"$[?(@.cardNumber == '4111111111111111')]"
+      }
+    ]
+
+  },
+  "response":{
+    "status":200,
+    "headers":{
+      "content-type":"application/json"
+    },
+    "jsonBody":{
+      "message":"Payment server unavailable",
+      "status": "server_error"
+    }
+  }
+}

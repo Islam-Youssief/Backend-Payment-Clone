@@ -1,0 +1,21 @@
+{
+  "request": {
+    "urlPath": "/api.stripe.com/v1/login",
+    "method": "POST",
+    "headers": {
+      "Authorization": {
+        "equalTo": "Bearer INVALID_TOKEN"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "message": "Unauthorized",
+      "status": "invalid_token"
+    }
+  }
+}

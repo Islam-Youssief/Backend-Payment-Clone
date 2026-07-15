@@ -5,7 +5,6 @@ Feature: PayPal Payment API
     - Valid credentials, invalid credentials, expired credentials, and missing credentials.
     - Missing the amount, missing the currency, and missing the payment method.
     - PayPal API errors, such as 400 Bad Request, 401 Unauthorized, and 500 Internal Server Error.
-  
 
   Scenario: 1 - Successfully retrieve payment invoice after a successful payment
     Customers can retrieve their payment invoice after a successful payment if he has valid token, 
@@ -22,7 +21,7 @@ Feature: PayPal Payment API
                 "cardNumber": "${VALID_CARD_NUMBER}",
                 "amount": 100,
                 "cardExpiryYear": "25",
-                "cardExpiryMonth": "12",
+                  "cardExpiryMonth": "12",
                 "cvv": "123"
             }
             """

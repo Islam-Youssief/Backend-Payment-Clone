@@ -1,0 +1,27 @@
+{
+  "request": {
+	"urlPath": "/api.stripe.com/v1/login",
+	"method": "POST",
+	"bodyPatterns": [
+	  {
+		"matchesJsonPath": "$[?(@.password == 'Ee123456')]"
+	  }
+	],
+	"headers":{
+	  "Authorization":{
+		"equalTo": "Bearer VALID_TOKEN"
+	  }
+	}
+  },
+
+  "response": {
+	"status":200,
+	"headers":{
+	  "Content-Type": "application/json"
+	},
+	"jsonBody": {
+	  "message": "You have successful login",
+	  "status": "success"
+	}
+  }
+}

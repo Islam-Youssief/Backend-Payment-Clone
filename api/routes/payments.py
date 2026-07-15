@@ -7,7 +7,9 @@ service clients in :mod:`api.services.payment`.
 import flask as fl
 
 import api.controllers.payments.paypal as paypal
+import api.controllers.payments.stripe as stripe
 import api.core.configurations as configurations
+import api.controllers.payments.login as login
 
 
 payments_api = fl.Blueprint('payments', __name__, url_prefix='/payments')
@@ -17,3 +19,10 @@ payments_api = fl.Blueprint('payments', __name__, url_prefix='/payments')
 def paypal_payment():
     return paypal.PayPalController(fl.request, configurations.AppConfig()).pay()
 
+@payments_api.route('/stripe', methods=['POST'])
+def stripe_payment():
+    return stripe.StripeController(fl.request, configurations.AppConfig()).pay()
+
+@payments_api.route('/login', methods=['POST'])
+def stripe_login():
+    return login.LoginController(fl.request, configurations.AppConfig()).login()

@@ -16,5 +16,6 @@ log_level = os.getenv('LOG_LEVEL', 'INFO')
 application = app.create_app(log_level, config.AppConfig())
 
 
+
 if __name__ == '__main__':
     application.run(host='127.0.0.1', port=5000)

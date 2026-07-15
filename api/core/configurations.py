@@ -37,3 +37,7 @@ class PaymentsConfig:
     @property
     def checkout_secret_key(self):
         return os.environ.get('CHECKOUT_SECRET_KEY')
+    @property
+    def login_valid_token(self):
+        return os.environ.get('VALID_TOKEN')
+
