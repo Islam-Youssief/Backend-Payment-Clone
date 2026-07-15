@@ -9,7 +9,22 @@
         },
         "bodyPatterns": [
             {
-                "matchesJsonPath": "$[?(@.source.cvv == '11')]"
+            "matchesJsonPath": "$[?(@.cardHolder == 'John Doe Johnson')]"
+            },
+            {
+                "matchesJsonPath": "$[?(@.cardNumber == '1111111111111111')]"
+            },
+            {
+                "matchesJsonPath": "$[?(@.amount == 1000)]"
+            },
+            {
+                "matchesJsonPath": "$[?(@.cardExpiryYear == '27')]"
+            },
+            {
+                "matchesJsonPath": "$[?(@.cardExpiryMonth == '12')]"
+            },
+            {
+                "matchesJsonPath": "$[?(@.cvv == '1')]"
             }
         ]
     },
@@ -19,9 +34,8 @@
             "Content-Type": "application/json"
         },
         "jsonBody": {
-            "currency": "USD",
+            "status": "bad_request",
             "amount": 1000,
-            "processing_channel_id": "pc_test_123",
             "message": "Payment failed: invalid cvv"
         }
     }

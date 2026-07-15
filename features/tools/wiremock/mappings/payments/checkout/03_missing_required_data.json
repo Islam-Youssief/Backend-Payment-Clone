@@ -9,22 +9,22 @@
         },
         "bodyPatterns": [
             {
-                "matchesJsonPath": "$[?(@.source.number == '')]"
+                "matchesJsonPath": "$[?(@.cardNumber == '1111111111111111')]"
             },
             {
-                "matchesJsonPath": "$[?(@.source.type == 'card')]"
+                "matchesJsonPath": "$[?(@.cvv == '123')]"
             },
             {
-                "matchesJsonPath": "$[?(@.source.cvv == '100')]"
+                "matchesJsonPath": "$[?(@.amount == 1000)]"
             },
             {
-                "matchesJsonPath": "$[?(@.currency == '')]"
+                "matchesJsonPath": "$[?(@.cardHolder == '')]"
             },
             {
-                "matchesJsonPath": "$[?(@.amount == 0)]"
+                "matchesJsonPath": "$[?(@.cardExpiryMonth == '12')]"
             },
             {
-                "matchesJsonPath": "$[?(@.processing_channel_id == '')]"
+                "matchesJsonPath": "$[?(@.cardExpiryYear == '27')]"
             }
         ]
     },
@@ -34,9 +34,8 @@
             "Content-Type": "application/json"
         },
         "jsonBody": {
-            "currency": "USD",
+            "status": "bad_request",
             "amount": 1000,
-            "processing_channel_id": "pc_test_123",
             "message": "Payment failed: Missing required data"
         }
     }

@@ -9,6 +9,7 @@
             "Content-Type": "application/json"
         },
         "jsonBody": {
+            "status": "Internal_server_error",
             "message": "Internal server error"
         }
     }

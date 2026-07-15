@@ -9,28 +9,22 @@
         },
         "bodyPatterns": [
             {
-                "matchesJsonPath": "$[?(@.source.type == 'card')]"
+                "matchesJsonPath": "$[?(@.cardNumber == '1111111111111111')]"
             },
             {
-                "matchesJsonPath": "$[?(@.source.number =~ /\\d{16}/)]"
+                "matchesJsonPath": "$[?(@.cvv == '123')]"
             },
             {
-                "matchesJsonPath": "$[?(@.source.cvv =~ /\\d{3}/)]"
+                "matchesJsonPath": "$[?(@.amount == 1000)]"
             },
             {
-                "matchesJsonPath": "$[?(@.source.expiry_month >= 1 && @.source.expiry_month <= 12)]"
+                "matchesJsonPath": "$[?(@.cardHolder == 'John Doe Johnson')]"
             },
             {
-                "matchesJsonPath": "$[?(@.source.expiry_year == 2020)]"
+                "matchesJsonPath": "$[?(@.cardExpiryMonth == '12')]"
             },
             {
-                "matchesJsonPath": "$[?(@.currency == 'USD')]"
-            },
-            {
-                "matchesJsonPath": "$[?(@.amount > 0)]"
-            },
-            {
-                "matchesJsonPath": "$[?(@.processing_channel_id == 'pc_test_123')]"
+                "matchesJsonPath": "$[?(@.cardExpiryYear == '20')]"
             }
         ]
     },
@@ -40,13 +34,8 @@
             "Content-Type": "application/json"
         },
         "jsonBody": {
-            "currency": "USD",
+            "status": "bad_request",
             "amount": 1000,
-            "processing_channel_id": "pc_test_123",
-            "source": {
-                "expiry_month": 12,
-                "expiry_year": 2020
-            },
             "message": "Payment failed: Card expired"
         }
     }
