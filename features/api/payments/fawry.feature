@@ -134,7 +134,31 @@ Feature: Fawry Payment API
           And the response json at $.status is equal to 400
           And the response json at $.message is equal to "Amount must be valid number"
 
-  Scenario: 6 - Payment fails due to invalid card number
+  Scenario: 6 - Payment fails due to zero amount
+    The request fails with a 400 Bad Request if the payment amount is zero.
+
+    Given a request url ${BASE_URL}/api/payments/fawry
+        And request headers
+            | param         | value                  |
+            | Authorization | Bearer ${VALID_TOKEN}  |
+        And a request json payload
+            """
+            {
+              "merchantRefNum": "ORDER_123460",
+              "amount": 0,
+              "cardHolder": "${VALID_CARD_HOLDER}",
+              "cardNumber": "${VALID_CARD_NUMBER}",
+              "cardExpiryYear": "25",
+              "cardExpiryMonth": "12",
+              "cvv": "123"
+            }
+            """
+        When the request sends POST
+        Then the response status is BAD REQUEST
+          And the response json at $.status is equal to 400
+          And the response json at $.message is equal to "Amount must be valid number"
+
+  Scenario: 7 - Payment fails due to invalid card number
     The request fails with a 400 Bad Request if the card number is not exactly 16 digits or contains non-numeric characters.
 
     Given a request url ${BASE_URL}/api/payments/fawry
@@ -160,7 +184,7 @@ Feature: Fawry Payment API
 
 
 
-  Scenario: 7 - Payment fails due to invalid CVV
+  Scenario: 8 - Payment fails due to invalid CVV
     The request fails with a 400 Bad Request if the CVV is not exactly 3 digits or contains non-numeric characters.
 
     Given a request url ${BASE_URL}/api/payments/fawry
@@ -184,7 +208,7 @@ Feature: Fawry Payment API
           And the response json at $.status is equal to 400
           And the response json at $.message is equal to "CVV must be 3 or 4 digits long"
 
-  Scenario: 8 - Payment fails due to insufficient funds
+  Scenario: 9 - Payment fails due to insufficient funds
     The request fails with a 402 Payment Required when the card does not have sufficient balance to complete the transaction.
 
     Given a request url ${BASE_URL}/api/payments/fawry
@@ -208,7 +232,7 @@ Feature: Fawry Payment API
           And the response json at $.status is equal to 402
           And the response json at $.message is equal to "Insufficient Balance"
 
-  Scenario: 9 - Fawry service is currently unavailable or returns Bad Gateway
+  Scenario: 10 - Fawry service is currently unavailable or returns Bad Gateway
     The request fails with a 502 Bad Gateway if the external Fawry service is down or returns a connection error.
 
     Given a request url ${BASE_URL}/api/payments/fawry
@@ -232,7 +256,7 @@ Feature: Fawry Payment API
           And the response json at $.status is equal to 502
           And the response json at $.message is equal to "External service unavailable"
 
-  Scenario: 10 - Fawry service returns an internal server error
+  Scenario: 11 - Fawry service returns an internal server error
     The request fails with a 502 Bad Gateway if the external Fawry service encounters an internal server error.
 
     Given a request url ${BASE_URL}/api/payments/fawry
@@ -256,7 +280,7 @@ Feature: Fawry Payment API
           And the response json at $.status is equal to 502
           And the response json at $.message is equal to "External service error"
 
-  Scenario: 11 - Fawry service request times out
+  Scenario: 12 - Fawry service request times out
     The request fails with a 504 Gateway Timeout if the external Fawry service times out.
 
     Given a request url ${BASE_URL}/api/payments/fawry
@@ -280,7 +304,7 @@ Feature: Fawry Payment API
           And the response json at $.status is equal to 504
           And the response json at $.message is equal to "External service timeout"
 
-  Scenario: 12 - Unauthorized access to the payment endpoint (Invalid token)
+  Scenario: 13 - Unauthorized access to the payment endpoint (Invalid token)
     The request fails with a 401 Unauthorized if the client provides an invalid authorization token.
 
     Given a request url ${BASE_URL}/api/payments/fawry
@@ -304,7 +328,7 @@ Feature: Fawry Payment API
           And the response json at $.status is equal to 401
           And the response json at $.message is equal to "Unauthorized access."
 
-  Scenario: 13 - Unauthorized access to the payment endpoint (Expired token)
+  Scenario: 14 - Unauthorized access to the payment endpoint (Expired token)
     The request fails with a 401 Unauthorized if the client provides an expired authorization token.
 
     Given a request url ${BASE_URL}/api/payments/fawry
@@ -328,7 +352,7 @@ Feature: Fawry Payment API
           And the response json at $.status is equal to 401
           And the response json at $.message is equal to "Token has expired."
 
-  Scenario: 14 - Unauthorized access to the payment endpoint (Token is missing permissions)
+  Scenario: 15 - Unauthorized access to the payment endpoint (Token is missing permissions)
     The request fails with a 401 Unauthorized if the client provides a token that is missing permissions.
 
     Given a request url ${BASE_URL}/api/payments/fawry
