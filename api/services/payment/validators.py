@@ -39,3 +39,15 @@ class UserPaymentDataValidator:
     def _validate_cvv(self, cvv):
         if not re.match(r'^[0-9]{3,4}$', cvv):
             raise exceptions.InvalidInputError(pname='cvv', invalid_value=cvv, message='CVV must be 3 or 4 digits long')
+
+    def _validate_email(self, email):
+        if email == "":
+            raise exceptions.RequiredInputError(pname='email',  message='Email address cannot be empty')
+        if not re.match(r'^[^@]+@[^@]+\.[^@]+$', email):
+            raise exceptions.InvalidInputError(pname='email', invalid_value=email, message='Email must be valid email')
+
+    def _validate_password(self, password):
+        if password == "":
+            raise exceptions.RequiredInputError(pname='password', message='Password cannot be empty')
+        if not re.match(r'^[0-9A-Za-z]{8,20}$', password):
+            raise exceptions.InvalidInputError(pname='password', invalid_value=password, message='Password must be between 8 and 20 alphanumeric characters')

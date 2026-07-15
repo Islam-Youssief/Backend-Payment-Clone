@@ -59,6 +59,10 @@ class _StripeHandler:
             invoice.http_status = http.HTTPStatus.UNAUTHORIZED
         elif invoice.status == 'invalid_secret':
             invoice.http_status = http.HTTPStatus.UNAUTHORIZED
+        elif invoice.status == 'invalid_token':
+            invoice.http_status = http.HTTPStatus.UNAUTHORIZED
+        elif invoice.status == 'expired_token':
+            invoice.http_status = http.HTTPStatus.UNAUTHORIZED
         return invoice
 
 

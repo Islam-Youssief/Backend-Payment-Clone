@@ -107,8 +107,8 @@ Feature: Stripe Payment Processing
 
 
   Scenario: 5. Reject payment when the secret key is invalid
-  Verify that the application rejects the payment request
-  after an invalid Stripe secret key is provided.
+    Verify that the application rejects the payment request
+    after an invalid Stripe secret key is provided.
 
   Given a request url ${BASE_URL}/api/payments/stripe
     And request headers
@@ -131,8 +131,8 @@ Feature: Stripe Payment Processing
         And the response json at $.status is equal to "invalid_secret"
 
   Scenario: 6. Reject payment when the secret key is missing
-  Verify that the application rejects the payment request
-  after the Stripe secret key is missing.
+    Verify that the application rejects the payment request
+    after the Stripe secret key is missing.
 
   Given a request url ${BASE_URL}/api/payments/stripe
     And request headers
