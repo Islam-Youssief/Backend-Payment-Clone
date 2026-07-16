@@ -36,6 +36,7 @@
         "jsonBody": {
             "status": "success",
             "amount": 1000,
+            "currency": "USD",
             "message": "you have successfully paid with card"
         }
     }

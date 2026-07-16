@@ -37,6 +37,7 @@
         "jsonBody": {
             "status": "bad_request",
             "amount": 1000,
+            "currency": "USD",
             "message": "Payment failed: Invalid card number"
         }
     }

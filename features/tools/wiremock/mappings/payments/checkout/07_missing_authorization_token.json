@@ -36,6 +36,7 @@
         "jsonBody": {
             "status": "unauthorized",
             "amount": 1000,
+            "currency": "USD",
             "message": "Unauthorized"
         }
     }

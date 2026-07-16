@@ -36,6 +36,7 @@
         "jsonBody": {
             "status": "invalid_secret_key",
             "amount": 1000,
+            "currency": "USD",
             "message": "Unauthorized"
         }
     }
