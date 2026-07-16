@@ -1,16 +1,18 @@
 {
-    "request": {
-        "urlPath": "/sl73izp6.api.sandbox.checkout.com/payments",
-        "method": "POST"
-    },
-    "response": {
-        "status": 500,
-        "headers": {
-            "Content-Type": "application/json"
-        },
-        "jsonBody": {
-            "status": "Internal_server_error",
-            "message": "Internal server error"
-        }
+  "request": {
+    "urlPath": "/sl73izp6.api.sandbox.checkout.com/payments",
+    "method": "POST",
+    "headers": {
+      "Authorization": {
+        "equalTo": "Bearer internal_server_error"
+      }
     }
+  },
+  "response": {
+    "status": 500,
+    "jsonBody": {
+      "status": "Internal_server_error",
+      "message": "Internal server error"
+    }
+  }
 }

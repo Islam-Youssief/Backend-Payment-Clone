@@ -11,7 +11,7 @@ Feature: Checkout Payment API
             Given the request URL is ${BASE_URL}/api/payments/checkout
                 And the request headers
                     | parameter | value |
-                    | Authorization | Bearer ${configuration.PaymentsConfig().checkout_secret_key} |
+                    | Authorization | Bearer CHECKOUT_SECRET_KEY |
                 And the request body contains valid card details
                 And the request json payload
                     """
@@ -35,7 +35,7 @@ Feature: Checkout Payment API
             Given the request URL is ${BASE_URL}/api/payments/checkout
                 And the request headers
                     | parameter | value |
-                    | Authorization | Bearer ${configuration.PaymentsConfig().checkout_secret_key} |
+                    | Authorization | Bearer CHECKOUT_SECRET_KEY |
                 And the request body contains invalid card number
                 And the request json payload
                     """
@@ -59,7 +59,7 @@ Feature: Checkout Payment API
             Given the request URL is ${BASE_URL}/api/payments/checkout
                 And the request headers
                     | parameter | value |
-                    | Authorization | Bearer ${configuration.PaymentsConfig().checkout_secret_key} |            
+                    | Authorization | Bearer CHECKOUT_SECRET_KEY |
                 And the request body contains missing data
                 And the request json payload
                     """
@@ -82,7 +82,7 @@ Feature: Checkout Payment API
             Given the request URL is ${BASE_URL}/api/payments/checkout
                 And the request headers
                         | parameter | value |
-                        | Authorization | Bearer ${configuration.PaymentsConfig().checkout_secret_key} |
+                        | Authorization | Bearer CHECKOUT_SECRET_KEY |
                 And the request body contains expired card details
                 And the request json payload
                     """
@@ -105,7 +105,7 @@ Feature: Checkout Payment API
             Given the request URL is ${BASE_URL}/api/payments/checkout
                 And the request headers
                         | parameter | value |
-                        | Authorization | Bearer invalid_secret_key |
+                        | Authorization | Bearer INVALID_SECRET_KEY |
                 And the request body contains valid card details
                 And the request json payload
                     """
@@ -128,7 +128,7 @@ Feature: Checkout Payment API
             Given the request URL is ${BASE_URL}/api/payments/checkout
                 And the request headers
                         | parameter | value |
-                        | Authorization | Bearer ${configuration.PaymentsConfig().checkout_secret_key} |
+                        | Authorization | Bearer CHECKOUT_SECRET_KEY |
                 And the request body contains invalid card cvv
                 And the request json payload
                     """
@@ -172,7 +172,7 @@ Feature: Checkout Payment API
             Given the request URL is ${BASE_URL}/api/payments/checkout
                 And the request headers
                     | parameter | value |
-                    | Authorization | Bearer ${configuration.PaymentsConfig().checkout_secret_key} |
+                    | Authorization | Bearer INTERNAL_SERVER_ERROR |
                 And the Checkout Payment service returns status code 500
             When the request is sent
             Then the response status should be 500
