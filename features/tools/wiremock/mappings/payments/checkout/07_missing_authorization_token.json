@@ -4,10 +4,10 @@
         "method": "POST",
         "headers": {
             "Authorization": {
-                "equalTo": "Bearer sk_test_123456"
+                "absent": true
             }
-        },
-        "bodyPatterns": [
+        }
+        ,"bodyPatterns": [
             {
                 "matchesJsonPath": "$[?(@.cardHolder == 'John Doe Johnson')]"
             },
@@ -29,15 +29,15 @@
         ]
     },
     "response": {
-        "status": 200,
+        "status": 401,
         "headers": {
             "Content-Type": "application/json"
         },
         "jsonBody": {
-            "status": "success",
+            "status": "unauthorized",
             "amount": 1000,
             "currency": "USD",
-            "message": "you have successfully paid with card"
+            "message": "Unauthorized"
         }
     }
 }

@@ -18,7 +18,7 @@ class CheckoutClient:
     
     def pay_with_card(self, data):
         self._user_data_validator.validate_payment_data(data)
-        response = self._request_sender.request(method='POST', url=f'{configuration.PaymentsConfig().checkout_prefix_code}.{CHECKOUT_PAYMENT_URL}', data=data, headers=self._headers)
+        response = self._request_sender.request(method='POST', url=f'{configuration.PaymentsConfig().checkout_prefix_code}.{CHECKOUT_PAYMENT_URL}', json=data, headers=self._headers)
         return response
 
     @property
@@ -30,13 +30,10 @@ class CheckoutClient:
 
 class UserDataValidator:
 
-    def validate_card(self, card):
-        self.validate_card_number(card["number"])
-        self.validate_card_cvv(card["cvv"])
-
     def validate_payment_data(self, data):
         self.validate_amount(data["amount"])
-        self.validate_card(data["source"])
+        self.validate_card_number(data["cardNumber"])
+        self.validate_card_cvv(data["cvv"])
 
     def validate_amount(self, amount):
         if type(amount) not in [int, float]:
@@ -50,11 +47,8 @@ class UserDataValidator:
         if len(number) != 16:
             raise exception.InvalidInputError(number, "Card number must be 16 digits")
 
-
-    def validate_card_cvv(self , cvv):
+    def validate_card_cvv(self, cvv):
         if not cvv.isdigit():
             raise exception.InputDataTypeError(cvv, "CVV must contain digits only")
-
         if len(cvv) != 3:
             raise exception.InvalidInputError(cvv, "CVV length must be 3 digits")
-
