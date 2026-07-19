@@ -1,4 +1,4 @@
-
+@current
 Feature: Paymob Payment API
   Test possible scenarios for creating a payment intention via the Paymob endpoint,
   Some scenarios include creating an intention with:
@@ -20,6 +20,9 @@ Feature: Paymob Payment API
                 "amount": 2000,
                 "currency": "EGP",
                 "payment_methods": [158],
+                "card_number": "4111111111111111",
+                "card_holder": "Rudeus greyrat",
+                "cvv": "679",
                 "items": [
                     {"name": "Staff", "amount": 2000}
                 ],
@@ -50,6 +53,9 @@ Feature: Paymob Payment API
                 "amount": 2000,
                 "currency": "EGP",
                 "payment_methods": [158],
+                "card_number": "4111111111111111",
+                "card_holder": "Rudeus greyrat",
+                "cvv": "679",
                 "items": [
                     {"name": "Staff", "amount": 2000}
                 ],
@@ -78,6 +84,9 @@ Feature: Paymob Payment API
                 "amount": 2000,
                 "currency": "EGP",
                 "payment_methods": [99999999999],
+                "card_number": "4111111111111111",
+                "card_holder": "Rudeus greyrat",
+                "cvv": "679",
                 "items": [
                     {"name": "Staff", "amount": 2000}
                 ],
@@ -106,6 +115,9 @@ Feature: Paymob Payment API
                 "amount": 2000,
                 "currency": "EGP",
                 "payment_methods": [158],
+                "card_number": "4111111111111111",
+                "card_holder": "Rudeus greyrat",
+                "cvv": "679",
                 "items": [
                     {"amount": 2000}
                 ],
@@ -134,6 +146,9 @@ Feature: Paymob Payment API
                 "amount": 2000,
                 "currency": "EGP",
                 "payment_methods": [158],
+                "card_number": "4111111111111111",
+                "card_holder": "Rudeus greyrat",
+                "cvv": "679",
                 "items": [
                     {"name": "Staff"}
                 ],
@@ -162,6 +177,9 @@ Feature: Paymob Payment API
                 "amount": 2000,
                 "currency": "EGP",
                 "payment_methods": [158],
+                "card_number": "4111111111111111",
+                "card_holder": "Rudeus greyrat",
+                "cvv": "679",
                 "items": [
                     {"name": "Staff", "amount": 2000}
                 ],
@@ -174,3 +192,122 @@ Feature: Paymob Payment API
         When the request sends POST
         Then the response status is BAD_REQUEST
           And the response json at $.billing_data.phone[0] is equal to "This field is required."
+
+
+    Scenario: 7 - Unsuccessful attempt with a missing cvv
+    The billing data must include an cvv.
+
+    Given a request url ${BASE_URL}/accept.paymob.com/v1/intention/
+        And request headers
+            | param         | value                      |
+            | Authorization | Token ${PAYMOB_SECRET_KEY} |
+        And a request json payload
+            """
+            {
+                "amount": 2000,
+                "currency": "EGP",
+                "payment_methods": [158],
+                "card_number": "4111111111111111",
+                "card_holder": "Rudeus greyrat",
+                "items": [
+                    {"name": "Staff", "amount": 2000}
+                ],
+                "billing_data": {
+                    "first_name": "Roxy",
+                    "last_name": "Migurdia",
+                    "phone": "010010010101"
+                }
+            }
+            """
+        When the request sends POST
+        Then the response status is BAD_REQUEST
+          And the response json at $.cvv[0] is equal to "This field is required."
+
+
+    Scenario: 8 - Unsuccessful attempt with a missing card_number
+    The billing data must include an card_number.
+
+    Given a request url ${BASE_URL}/accept.paymob.com/v1/intention/
+        And request headers
+            | param         | value                      |
+            | Authorization | Token ${PAYMOB_SECRET_KEY} |
+        And a request json payload
+            """
+            {
+                "amount": 2000,
+                "currency": "EGP",
+                "payment_methods": [158],
+                "card_holder": "Rudeus greyrat",
+                "cvv": "679",
+                "items": [
+                    {"name": "Staff", "amount": 2000}
+                ],
+                "billing_data": {
+                    "first_name": "Roxy",
+                    "last_name": "Migurdia",
+                    "phone": "010010010101"
+                }
+            }
+            """
+        When the request sends POST
+        Then the response status is BAD_REQUEST
+          And the response json at $.card_number[0] is equal to "This field is required."
+
+    Scenario: 9 - Unsuccessful attempt with a missing card_holder
+    The billing data must include an card_holder.
+
+    Given a request url ${BASE_URL}/accept.paymob.com/v1/intention/
+        And request headers
+            | param         | value                      |
+            | Authorization | Token ${PAYMOB_SECRET_KEY} |
+        And a request json payload
+            """
+            {
+                "amount": 2000,
+                "currency": "EGP",
+                "payment_methods": [158],
+                "card_number": "4111111111111111",
+                "cvv": "679",
+                "items": [
+                    {"name": "Staff", "amount": 2000}
+                ],
+                "billing_data": {
+                    "first_name": "Roxy",
+                    "last_name": "Migurdia",
+                    "phone": "010010010101"
+                }
+            }
+            """
+        When the request sends POST
+        Then the response status is BAD_REQUEST
+          And the response json at $.card_holder[0] is equal to "This field is required."
+
+    
+    Scenario: 10 - Unsuccessful attempt with a missing amount
+    The billing data must include an amount.
+
+    Given a request url ${BASE_URL}/accept.paymob.com/v1/intention/
+        And request headers
+            | param         | value                      |
+            | Authorization | Token ${PAYMOB_SECRET_KEY} |
+        And a request json payload
+            """
+            {
+                "currency": "EGP",
+                "payment_methods": [158],
+                "card_number": "4111111111111111",
+                "card_holder": "Rudeus greyrat",
+                "cvv": "679",
+                "items": [
+                    {"name": "Staff", "amount": 2000}
+                ],
+                "billing_data": {
+                    "first_name": "Roxy",
+                    "last_name": "Migurdia",
+                    "phone": "010010010101"
+                }
+            }
+            """
+        When the request sends POST
+        Then the response status is BAD_REQUEST
+          And the response json at $.amount[0] is equal to "This field is required."

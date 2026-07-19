@@ -13,6 +13,9 @@
           "amount": 2000,
           "currency": "EGP",
           "payment_methods": [158],
+          "card_number": "4111111111111111",
+          "card_holder": "Rudeus greyrat",
+          "cvv": "679",
           "items": [
               {"name": "Staff"}
           ],

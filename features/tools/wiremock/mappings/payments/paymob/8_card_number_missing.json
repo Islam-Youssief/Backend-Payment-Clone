@@ -13,11 +13,10 @@
           "amount": 2000,
           "currency": "EGP",
           "payment_methods": [158],
-          "card_number": "4111111111111111",
           "card_holder": "Rudeus greyrat",
           "cvv": "679",
           "items": [
-              {"amount": 2000}
+              {"name": "Staff", "amount": 2000}
           ],
           "billing_data": {
               "first_name": "Roxy",
@@ -34,9 +33,7 @@
       "Content-Type": "application/json"
     },
     "jsonBody": {
-      "items": {
-        "name": ["This field is required."]
-      }
+        "card_number": ["This field is required."]
     }
   }
 }
