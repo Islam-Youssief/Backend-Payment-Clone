@@ -1,7 +1,7 @@
 from api.models import db,TimestampMixin
 
 
-class paymentsHistory(db.Model,TimestampMixin):
+class PaymentsHistory(db.Model,TimestampMixin):
     __tablename__ = "payments_history"
     id = db.Column(db.Integer,primary_key=True,autoincrement=True)
     transaction_id = db.Column(db.String(255),nullable=False,unique=True)
@@ -12,4 +12,5 @@ class paymentsHistory(db.Model,TimestampMixin):
     status = db.Column(db.String(20),nullable=False)
     failure_reason = db.Column(db.Text,nullable=True)
     payment_type = db.Column(db.String(60))
-    customer = db.relationship("customer",back_populates="paymentsHistory")
+
+    customer = db.relationship("Customer",back_populates="payments")

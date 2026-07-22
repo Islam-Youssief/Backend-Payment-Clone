@@ -28,5 +28,5 @@ class User(db.Model, TimestampMixin):
     salt = db.Column(db.Text, nullable=False)
 
 
-from .customer import customer
-from .paymentsHistory import paymentsHistory
+from .customer import Customer
+from .paymentsHistory import PaymentsHistory

@@ -1,8 +1,8 @@
 """added customers and payments_history tables
 
-Revision ID: 9e9a8a1430b2
+Revision ID: eb77766c0c5c
 Revises: 
-Create Date: 2026-07-22 12:48:51.254348
+Create Date: 2026-07-22 13:31:55.127267
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '9e9a8a1430b2'
+revision = 'eb77766c0c5c'
 down_revision = None
 branch_labels = None
 depends_on = None
