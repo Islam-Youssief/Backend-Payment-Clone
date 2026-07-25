@@ -10,6 +10,7 @@ import api.controllers.payments.paypal as paypal
 import api.controllers.payments.stripe as stripe
 import api.core.configurations as configurations
 import api.controllers.payments.login as login
+import api.controllers.payments.payment_history as payment_history
 
 
 payments_api = fl.Blueprint('payments', __name__, url_prefix='/payments')
@@ -26,3 +27,17 @@ def stripe_payment():
 @payments_api.route('/login', methods=['POST'])
 def stripe_login():
     return login.LoginController(fl.request, configurations.AppConfig()).login()
+
+@payments_api.route('/<int:payment_id>', methods=['GET'])
+def get_payment(payment_id):
+    return payment_history.PaymentsHistoryController(
+        fl.request,
+        configurations.AppConfig()
+    ).get_payment(payment_id)
+
+@payments_api.route("/customer/<int:customer_id>", methods=["GET"])
+def get_customer_payments(customer_id):
+    return payment_history.PaymentsHistoryController(
+        fl.request,
+        configurations.AppConfig()
+    ).get_customer_payments(customer_id)

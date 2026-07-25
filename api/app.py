@@ -16,4 +16,5 @@ def create_app(log_level, config_class=None):
     models.db.init_app(app)
     models.migrate.init_app(app, models.db, render_as_batch=True)
     routes.register_blueprints(app)
+    print(app.config["SQLALCHEMY_DATABASE_URI"])
     return app
