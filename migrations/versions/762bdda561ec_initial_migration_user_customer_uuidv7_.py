@@ -1,8 +1,8 @@
-"""Initial migration: User, Customer (UUIDv7), PaymentAttempt (UUIDv7 & UUID idempotency_key)
+"""Initial migration: User, Customer (UUIDv7), PaymentAttempt (UUIDv7 & NOT NULL idempotency_key)
 
-Revision ID: 120acb260e01
+Revision ID: 762bdda561ec
 Revises: 
-Create Date: 2026-07-25 16:49:14.523195
+Create Date: 2026-07-25 17:04:17.196554
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '120acb260e01'
+revision = '762bdda561ec'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -45,7 +45,7 @@ def upgrade():
     sa.Column('customer_email', sa.String(length=255), nullable=False),
     sa.Column('provider', sa.String(length=50), nullable=False),
     sa.Column('provider_reference', sa.String(length=255), nullable=True),
-    sa.Column('idempotency_key', sa.UUID(), nullable=True),
+    sa.Column('idempotency_key', sa.UUID(), nullable=False),
     sa.Column('amount', sa.Float(), nullable=False),
     sa.Column('currency', sa.String(length=10), nullable=False),
     sa.Column('status', sa.String(length=50), nullable=False),

@@ -14,7 +14,7 @@ class PaymentAttempt(db.Model, TimestampMixin):
     
     provider = db.Column(db.String(50), nullable=False) # e.g., 'FAWRY', 'STRIPE'
     provider_reference = db.Column(db.String(255), nullable=True)
-    idempotency_key = db.Column(UUID(as_uuid=True), unique=True, nullable=True)
+    idempotency_key = db.Column(UUID(as_uuid=True), unique=True, nullable=False)
     
     amount = db.Column(db.Float, nullable=False)
     currency = db.Column(db.String(10), nullable=False, default='EGP')
