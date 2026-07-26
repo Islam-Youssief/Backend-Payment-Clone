@@ -30,3 +30,4 @@ class User(db.Model, TimestampMixin):
 
 from .customer import Customer
 from .paymentsHistory import PaymentsHistory
+from .idempotencyKeys import IdempotencyKeys
