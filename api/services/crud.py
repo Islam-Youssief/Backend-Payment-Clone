@@ -48,4 +48,23 @@ class Crud:
         """
         return self._get_record(record_id)
 
+    def get_all(self):
+        """
+        Retrieve all records of the model.
+        :return: A list of all records.
+        """
+        return self.session.query(self.model).all()
+    
+    def get_all_by_field(self, field_name, value):
+        """
+        Retrieve all records where a specific field matches a given value.
+        :param field_name: The name of the field to filter by.
+        :param value: The value to match in the specified field.
+        :return: A list of matching records.
+        """
+        field = getattr(self.model, field_name)
+        if field is None:
+            raise ValueError(f"Field '{field_name}' does not exist in {self.model.__name__}")
+        return self.session.query(self.model).filter(field == value).all()
+
      
