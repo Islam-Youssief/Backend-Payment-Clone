@@ -1,7 +1,6 @@
-import logging
-
-from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
+
+import api.core.exceptions as exceptions
 
 
 class Crud:
@@ -13,11 +12,11 @@ class Crud:
     def _get_record(self, record_id):
         """
         Helper method to retrieve a record by its ID.
-        Raises ValueError if the record is not found.
+        Raises RecordNotFoundError: If the record is not found.
         """
         record = self.session.get(self.model, record_id)
         if record is None:
-            raise ValueError(
+            raise exceptions.RecordNotFoundError(
                 f"{self.model.__name__} with id {record_id} not found"
             )
         return record
@@ -27,17 +26,11 @@ class Crud:
         Create a new record in the database.
         :param data: Dictionary containing the data for the new record.
         :return: The created record.
-        :raises SQLAlchemyError: If there is an error during the database operation.
         """
-        try:
-            record = self.model(**data)
-            self.session.add(record)
-            self.session.commit()
-            return record
-        except SQLAlchemyError as e:
-            self.session.rollback()
-            logging.exception("Error creating record")
-            raise
+        record = self.model(**data)
+        self.session.add(record)
+        self.session.commit()
+        return record
     
     def read(self, record_id):
         """
@@ -62,7 +55,7 @@ class Crud:
         :param value: The value to match in the specified field.
         :return: A list of matching records.
         """
-        field = getattr(self.model, field_name)
+        field = getattr(self.model, field_name, None)
         if field is None:
             raise ValueError(f"Field '{field_name}' does not exist in {self.model.__name__}")
         return self.session.query(self.model).filter(field == value).all()
