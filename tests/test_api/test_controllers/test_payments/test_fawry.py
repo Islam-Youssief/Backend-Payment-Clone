@@ -114,7 +114,7 @@ class HandlerDouble:
         self.status_code = '200'
         self.status_description = 'Operation done successfully'
     
-    def process_payment(self, data):
+    def process_payment(self, data, idempotency_key=None):
         self.data = data
         if self.raise_exception:
             raise self.raise_exception
@@ -124,11 +124,22 @@ class HandlerDouble:
         assert_that(data).is_equal_to(self.data)
 
 
+class TrackerDouble:
+    def create_attempt(self, provider, customer_name, customer_email, amount, currency, idempotency_key):
+        class DummyPaymentAttempt:
+            id = 'fake_id'
+        return DummyPaymentAttempt()
+
+    def update_status(self, payment_id, status, provider_reference=None, failure_reason=None):
+        pass
+
+
 class TestFawryHandler(unittest.TestCase):
     def test_returns_expected_response_from_client(self):
         client_double = FawryClientDouble()
-        handler = fawry._FawryHandler(ConfigDouble(), client_double)
-        response = handler.process_payment(data={'amount': 100.5})
+        tracker_double = TrackerDouble()
+        handler = fawry._FawryHandler(ConfigDouble(), client_double, tracker_double)
+        response = handler.process_payment(data={'amount': 100.5}, idempotency_key='019f9e96-74ab-7092-a1ac-f1f94d09fb99')
         assert_that(response.reference_number).is_equal_to('1234567890')
         client_double.assert_that_pay_with_card_sent_with({'amount': 100.5})
 

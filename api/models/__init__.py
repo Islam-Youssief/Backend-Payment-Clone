@@ -26,3 +26,9 @@ class User(db.Model, TimestampMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.Text, nullable=False)
     salt = db.Column(db.Text, nullable=False)
+
+
+from api.models.customer import Customer
+from api.models.payment_attempt import PaymentAttempt
+
+__all__ = ['db', 'migrate', 'TimestampMixin', 'User', 'Customer', 'PaymentAttempt']
