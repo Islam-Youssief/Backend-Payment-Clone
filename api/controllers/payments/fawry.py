@@ -3,6 +3,7 @@ import logging
 import uuid
 import requests
 import flask as fl
+import sqlalchemy.exc as sa_exc
 
 import api.controllers.base as base
 import api.core.exceptions as exceptions
@@ -49,41 +50,64 @@ class FawryController:
             return self._as_error_response(exc, exc.status_code)
         except requests.exceptions.Timeout as exc:
             return self._as_error_response(exceptions.ExternalServiceUnavailableError("External service timeout"), http.HTTPStatus.GATEWAY_TIMEOUT)
+        except sa_exc.IntegrityError as exc:
+            return self._as_error_response(exceptions.ValidationError(str(exc)), http.HTTPStatus.UNPROCESSABLE_ENTITY)
 
     def _as_error_response(self, error, status):
         logging.error(f"Creating error response: {error} {status}")
         return base.CoreErrorSerializer(error, status).serialize(self._url), status
 
-class _FawryHandler:
-    def __init__(self, app_config, test_client=None, customer_svc=None, payment_attempt_svc=None):
-        self._config = app_config
-        self._client = test_client or fawry_service.FawryClient(self._config.env)
+class _PaymentTracker:
+    def __init__(self, customer_svc=None, payment_attempt_svc=None):
         self._customer_service = customer_svc or customer_service.CustomerService()
         self._payment_attempt_service = payment_attempt_svc or payment_attempt_service.PaymentAttemptService()
 
-    def process_payment(self, data):
-        customer_name = data.get('customer_name') or data.get('card_holder') or data.get('cardHolder') or 'Fawry Customer'
-        customer_email = data.get('customer_email') or data.get('customer_mail') or data.get('email') or 'customer@fawry.com'
-        amount = float(data.get('amount', 0.0))
-        currency = data.get('currency', 'EGP')
-        raw_idem = fl.request.headers.get('X-Idempotency-Key') if fl.has_request_context() else None
-        idem_key = uuid.UUID(str(raw_idem)) if raw_idem else uuid.uuid7()
-
+    def create_attempt(self, provider, customer_name, customer_email, amount, currency, idempotency_key):
         customer = self._customer_service.get_or_create_customer(name=customer_name, email=customer_email)
-        payment_attempt = self._payment_attempt_service.create_payment_attempt(
+        return self._payment_attempt_service.create_payment_attempt(
             customer_id=customer.id,
-            provider='FAWRY',
+            provider=provider,
             amount=amount,
             customer_name=customer.name,
             customer_email=customer.email,
-            idempotency_key=idem_key,
+            idempotency_key=idempotency_key,
             currency=currency,
             status='PENDING'
         )
 
+    def update_status(self, payment_id, status, provider_reference=None, failure_reason=None):
+        return self._payment_attempt_service.update_payment_attempt_status(
+            payment_id=payment_id,
+            status=status,
+            provider_reference=provider_reference,
+            failure_reason=failure_reason
+        )
+
+class _FawryHandler:
+    def __init__(self, app_config, test_client=None, tracker=None):
+        self._config = app_config
+        self._client = test_client or fawry_service.FawryClient(self._config.env)
+        self._tracker = tracker or _PaymentTracker()
+
+    def process_payment(self, data):
+        customer_name = data.get('card_holder')
+        customer_email = data.get('customer_email')
+        amount = float(data.get('amount', 0.0))
+        currency = data.get('currency', 'EGP')
+        idem_key = uuid.UUID(str(fl.request.headers.get('X-Idempotency-Key')))
+
+        payment_attempt = self._tracker.create_attempt(
+            provider='FAWRY',
+            customer_name=customer_name,
+            customer_email=customer_email,
+            amount=amount,
+            currency=currency,
+            idempotency_key=idem_key
+        )
+
         response = self._client.pay_with_card(data=data)
         if response.status_code != http.HTTPStatus.OK:
-            self._payment_attempt_service.update_payment_attempt_status(
+            self._tracker.update_status(
                 payment_id=payment_attempt.id,
                 status='FAILED',
                 provider_reference='NONE',
@@ -101,7 +125,7 @@ class _FawryHandler:
 
         invoice = sjson.JsonObject(response.json())
         ref_num = str(getattr(invoice, 'reference_number', 'FAWRY_REF'))
-        self._payment_attempt_service.update_payment_attempt_status(payment_id=payment_attempt.id, status='SUCCESS', provider_reference=ref_num)
+        self._tracker.update_status(payment_id=payment_attempt.id, status='SUCCESS', provider_reference=ref_num)
         return invoice
 
 
