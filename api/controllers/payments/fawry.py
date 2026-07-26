@@ -27,7 +27,7 @@ class FawryController:
     
     @property
     def _token(self):
-        return self._flask_request.headers.get('Authorization') 
+        return self._flask_request.headers.get('Authorization')
 
     @property
     def _idempotency_key(self):

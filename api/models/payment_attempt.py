@@ -1,9 +1,17 @@
 import uuid
+from sqlalchemy import CheckConstraint, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from api.models import db, TimestampMixin
 
 class PaymentAttempt(db.Model, TimestampMixin):
     __tablename__ = 'payment_attempts'
+
+    __table_args__ = (
+        CheckConstraint('amount > 0', name='check_positive_amount'),
+        CheckConstraint("status IN ('PENDING', 'SUCCESS', 'FAILED', 'DECLINED')", name='check_valid_status'),
+        CheckConstraint("provider IN ('FAWRY', 'STRIPE', 'PAYPAL')", name='check_valid_provider'),
+        UniqueConstraint('provider', 'provider_reference', name='uq_provider_reference'),
+    )
 
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid7)
     customer_id = db.Column(UUID(as_uuid=True), db.ForeignKey('customers.id', ondelete='SET NULL'), nullable=True)
