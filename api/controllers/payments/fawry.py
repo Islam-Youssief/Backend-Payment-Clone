@@ -30,13 +30,17 @@ class FawryController:
         return self._flask_request.headers.get('Authorization') 
 
     @property
+    def _idempotency_key(self):
+        return self._flask_request.headers.get('X-Idempotency-Key')
+
+    @property
     def _url(self):
         return self._flask_request.path
 
     def pay(self):
         try:
             self._validator.validate(self._body, self._token)
-            invoice = self._handler.process_payment(self._body)
+            invoice = self._handler.process_payment(self._body, self._idempotency_key)
             return self._serializer.serialize(invoice, self._url), http.HTTPStatus.CREATED
         except (exceptions.RequiredInputError, exceptions.InvalidInputError) as exc:
             return self._as_error_response(exc, http.HTTPStatus.BAD_REQUEST)
@@ -89,12 +93,12 @@ class _FawryHandler:
         self._client = test_client or fawry_service.FawryClient(self._config.env)
         self._tracker = tracker or _PaymentTracker()
 
-    def process_payment(self, data):
-        customer_name = data.get('card_holder')
-        customer_email = data.get('customer_email')
+    def process_payment(self, data, idempotency_key):
+        customer_name = data.get('cardHolder')
+        customer_email = data.get('customerEmail')
         amount = float(data.get('amount', 0.0))
         currency = data.get('currency', 'EGP')
-        idem_key = uuid.UUID(str(fl.request.headers.get('X-Idempotency-Key')))
+        idem_key = uuid.UUID(str(idempotency_key))
 
         payment_attempt = self._tracker.create_attempt(
             provider='FAWRY',

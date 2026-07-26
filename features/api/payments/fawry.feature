@@ -15,12 +15,14 @@ Feature: Fawry Payment API
         And request headers
             | param         | value                  |
             | Authorization | Bearer ${VALID_TOKEN}  |
+            | X-Idempotency-Key | 46a71704-4040-4664-be11-6a146994bd06 |
         And a request json payload
             """
             {
               "merchantRefNum": "ORDER_123456",
               "customerProfileId": "CUST_987",
               "amount": 100.50,
+              "customerEmail": "tester@test.com",
               "cardHolder": "${VALID_CARD_HOLDER}",
               "cardNumber": "${VALID_CARD_NUMBER}",
               "cardExpiryYear": "25",
@@ -43,11 +45,13 @@ Feature: Fawry Payment API
         And request headers
             | param         | value                  |
             | Authorization | Bearer ${VALID_TOKEN}  |
+            | X-Idempotency-Key | 4f489a31-f386-42a7-85c6-22b84f9fd1be |
         And a request json payload
             """
             {
               "merchantRefNum": "ORDER_123456",
               "customerProfileId": "CUST_987",
+              "customerEmail": "tester@test.com",
               "cardHolder": "${VALID_CARD_HOLDER}",
               "cardNumber": "${VALID_CARD_NUMBER}",
               "cardExpiryYear": "25",
@@ -67,11 +71,13 @@ Feature: Fawry Payment API
         And request headers
             | param         | value                  |
             | Authorization | Bearer ${VALID_TOKEN}  |
+            | X-Idempotency-Key | 56f657c8-6d9c-41f8-a13d-6f25c1966075 |
         And a request json payload
             """
             {
               "merchantRefNum": "ORDER_123456",
               "customerProfileId": "CUST_987",
+              "customerEmail": "tester@test.com",
               "cardHolder": "${VALID_CARD_HOLDER}",
               "amount": 100.50,
               "cardExpiryYear": "25",
@@ -93,12 +99,14 @@ Feature: Fawry Payment API
         And request headers
             | param         | value                  |
             | Authorization | Bearer ${VALID_TOKEN}  |
+            | X-Idempotency-Key | 2bad3b01-7e71-40e0-b9fa-67e07971cbdf |
         And a request json payload
             """
             {
               "merchantRefNum": "ORDER_123456",
               "customerProfileId": "CUST_987",
               "amount": 100.50,
+              "customerEmail": "tester@test.com",
               "cardHolder": "${VALID_CARD_HOLDER}",
               "cardNumber": "${VALID_CARD_NUMBER}",
               "cardExpiryYear": "25",
@@ -117,11 +125,13 @@ Feature: Fawry Payment API
         And request headers
             | param         | value                  |
             | Authorization | Bearer ${VALID_TOKEN}  |
+            | X-Idempotency-Key | e4f94dfd-b81c-49e9-97b7-0e10d43e6e26 |
         And a request json payload
             """
             {
               "merchantRefNum": "ORDER_123460",
               "amount": -50.00,
+              "customerEmail": "tester@test.com",
               "cardHolder": "${VALID_CARD_HOLDER}",
               "cardNumber": "${VALID_CARD_NUMBER}",
               "cardExpiryYear": "25",
@@ -141,11 +151,13 @@ Feature: Fawry Payment API
         And request headers
             | param         | value                  |
             | Authorization | Bearer ${VALID_TOKEN}  |
+            | X-Idempotency-Key | b0e5da2f-73a6-4799-9f46-f820f193ec2c |
         And a request json payload
             """
             {
               "merchantRefNum": "ORDER_123460",
               "amount": 0,
+              "customerEmail": "tester@test.com",
               "cardHolder": "${VALID_CARD_HOLDER}",
               "cardNumber": "${VALID_CARD_NUMBER}",
               "cardExpiryYear": "25",
@@ -165,11 +177,13 @@ Feature: Fawry Payment API
         And request headers
             | param         | value                  |
             | Authorization | Bearer ${VALID_TOKEN}  |
+            | X-Idempotency-Key | 5d9c04ba-8e3a-44c6-8c7d-d859d14f06f3 |
         And a request json payload
             """
             {
               "merchantRefNum": "ORDER_123457",
               "amount": 100.50,
+              "customerEmail": "tester@test.com",
               "cardHolder": "${VALID_CARD_HOLDER}",
               "cardNumber": "411",
               "cardExpiryYear": "25",
@@ -191,11 +205,13 @@ Feature: Fawry Payment API
         And request headers
             | param         | value                  |
             | Authorization | Bearer ${VALID_TOKEN}  |
+            | X-Idempotency-Key | 48f2702f-1541-413f-87b5-d05db0373932 |
         And a request json payload
             """
             {
               "merchantRefNum": "ORDER_123457",
               "amount": 100.50,
+              "customerEmail": "tester@test.com",
               "cardHolder": "${VALID_CARD_HOLDER}",
               "cardNumber": "${VALID_CARD_NUMBER}",
               "cardExpiryYear": "25",
@@ -215,11 +231,13 @@ Feature: Fawry Payment API
         And request headers
             | param         | value                  |
             | Authorization | Bearer ${VALID_TOKEN}  |
+            | X-Idempotency-Key | b7e4a54d-2126-4f1a-87c3-c558b341ccf5 |
         And a request json payload
             """
             {
               "merchantRefNum": "ORDER_123458",
               "amount": 999999.00,
+              "customerEmail": "tester@test.com",
               "cardHolder": "${VALID_CARD_HOLDER}",
               "cardNumber": "${VALID_CARD_NUMBER}",
               "cardExpiryYear": "25",
@@ -239,11 +257,13 @@ Feature: Fawry Payment API
         And request headers
             | param         | value                  |
             | Authorization | Bearer ${VALID_TOKEN}  |
+            | X-Idempotency-Key | 08475dcb-0b4c-4e3a-a694-03d01a19cf8c |
         And a request json payload
             """
             {
               "merchantRefNum": "ORDER_123459",
               "amount": 100.50,
+              "customerEmail": "tester@test.com",
               "cardHolder": "${VALID_CARD_HOLDER}",
               "cardNumber": "${VALID_CARD_NUMBER}",
               "cardExpiryYear": "25",
@@ -263,11 +283,13 @@ Feature: Fawry Payment API
         And request headers
             | param         | value                  |
             | Authorization | Bearer ${VALID_TOKEN}  |
+            | X-Idempotency-Key | 1bff152c-f9ac-4998-bf5a-db1696cbc7a8 |
         And a request json payload
             """
             {
               "merchantRefNum": "ORDER_123463",
               "amount": 100.50,
+              "customerEmail": "tester@test.com",
               "cardHolder": "${VALID_CARD_HOLDER}",
               "cardNumber": "${VALID_CARD_NUMBER}",
               "cardExpiryYear": "25",
@@ -287,11 +309,13 @@ Feature: Fawry Payment API
         And request headers
             | param         | value                  |
             | Authorization | Bearer ${VALID_TOKEN}  |
+            | X-Idempotency-Key | 6c44763c-1c64-425c-a6d4-7bb905094eee |
         And a request json payload
             """
             {
               "merchantRefNum": "ORDER_123464",
               "amount": 100.50,
+              "customerEmail": "tester@test.com",
               "cardHolder": "${VALID_CARD_HOLDER}",
               "cardNumber": "${VALID_CARD_NUMBER}",
               "cardExpiryYear": "25",
@@ -311,10 +335,12 @@ Feature: Fawry Payment API
         And request headers
             | param         | value                  |
             | Authorization | Bearer ${INVALID_TOKEN} |
+            | X-Idempotency-Key | 256f920b-349f-4ead-87ac-f12adeda4e6a |
         And a request json payload
             """
             {
               "merchantRefNum": "ORDER_123461",
+              "customerEmail": "tester@test.com",
               "cardHolder": "${VALID_CARD_HOLDER}",
               "cardNumber": "${VALID_CARD_NUMBER}",
               "amount": 100.50,
@@ -335,10 +361,12 @@ Feature: Fawry Payment API
         And request headers
             | param         | value                  |
             | Authorization | Bearer ${EXPIRED_TOKEN} |
+            | X-Idempotency-Key | f2d4d318-e7eb-4b8d-96b1-f9aed5f5c20f |
         And a request json payload
             """
             {
               "merchantRefNum": "ORDER_123462",
+              "customerEmail": "tester@test.com",
               "cardHolder": "${VALID_CARD_HOLDER}",
               "cardNumber": "${VALID_CARD_NUMBER}",
               "amount": 100.50,
@@ -359,10 +387,12 @@ Feature: Fawry Payment API
         And request headers
             | param         | value                                |
             | Authorization | Bearer ${MISSING_PERMISSIONS_TOKEN} |
+            | X-Idempotency-Key | 3c4cf697-0d7b-435d-8fbb-292c854fdfa4 |
         And a request json payload
             """
             {
               "merchantRefNum": "ORDER_123463",
+              "customerEmail": "tester@test.com",
               "cardHolder": "${VALID_CARD_HOLDER}",
               "cardNumber": "${VALID_CARD_NUMBER}",
               "amount": 100.50,
