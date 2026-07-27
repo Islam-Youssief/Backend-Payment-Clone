@@ -21,3 +21,12 @@ class PaymentHistoryController:
 
         respone = PaymentHistorySerializer(payment).serialize()
         return respone, http.HTTPStatus.OK
+
+    def get_by_customer_id(self,customer_id):
+        payments = PaymentHistoryService.get_by_customer(customer_id)
+
+        if not payments:
+          return {"message":"This customer doesn't have payments"}, http.HTTPStatus.NOT_FOUND
+        
+        response = [PaymentHistorySerializer(payment).serialize() for payment in payments]
+        return response, http.HTTPStatus.OK
