@@ -10,6 +10,8 @@ class PaymentHistorySerializer:
             "id": self._payment.id,
             "transaction_id": self._payment.transaction_id,
             "customer_id": self._payment.customer_id,
+            "customer_name": self._payment.customer.name,
+            "customer_email": self._payment.customer.email,
             "amount": float(self._payment.amount),
             "currency": self._payment.currency,
             "provider": self._payment.provider,
@@ -17,5 +19,5 @@ class PaymentHistorySerializer:
             "failure_reason": self._payment.failure_reason,
             "payment_type": self._payment.payment_type,
             "created_at": self._payment.created_at.isoformat(),
-            "updated_at": self._payment.updated_at.isoformat(),
+            "updated_at": self._payment.updated_at.isoformat(), 
         }
