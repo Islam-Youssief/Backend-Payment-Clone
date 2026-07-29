@@ -12,13 +12,15 @@ import api.services.customer_service as customer_service
 import api.services.payment_attempt_service as payment_attempt_service
 import api.services.payment.validators as validators
 import api.services.payment.fawry as fawry_service
+import api.services.rate_limiter_service as rate_limiter_service
 
 class FawryController:
-    def __init__(self, flask_request, app_config, validator=None, handler=None):
+    def __init__(self, flask_request, app_config, validator=None, handler=None, rate_limiter=None):
         self._flask_request = flask_request
         self._app_config = app_config
         self._validator = validator or validators.UserPaymentDataValidator()
         self._handler = handler or _FawryHandler(self._app_config)
+        self._rate_limiter = rate_limiter or rate_limiter_service.RateLimiterService()
         self._serializer = _FawrySerializer()
 
     @property
@@ -34,11 +36,16 @@ class FawryController:
         return self._flask_request.headers.get('X-Idempotency-Key')
 
     @property
+    def _client_ip(self):
+        return self._flask_request.remote_addr
+
+    @property
     def _url(self):
         return self._flask_request.path
 
     def pay(self):
         try:
+            self._rate_limiter.check_rate_limit(self._client_ip, self._url)
             self._validator.validate(self._body, self._token)
             invoice = self._handler.process_payment(self._body, self._idempotency_key)
             return self._serializer.serialize(invoice, self._url), http.HTTPStatus.CREATED
@@ -56,6 +63,8 @@ class FawryController:
             return self._as_error_response(exceptions.ExternalServiceUnavailableError("External service timeout"), http.HTTPStatus.GATEWAY_TIMEOUT)
         except sa_exc.IntegrityError as exc:
             return self._as_error_response(exceptions.ValidationError(str(exc)), http.HTTPStatus.UNPROCESSABLE_ENTITY)
+        except exceptions.RateLimitExceededError as exc:
+            return self._as_error_response(exc, http.HTTPStatus.TOO_MANY_REQUESTS)
 
     def _as_error_response(self, error, status):
         logging.error(f"Creating error response: {error} {status}")

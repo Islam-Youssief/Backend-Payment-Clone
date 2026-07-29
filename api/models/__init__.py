@@ -30,5 +30,6 @@ class User(db.Model, TimestampMixin):
 
 from api.models.customer import Customer
 from api.models.payment_attempt import PaymentAttempt
+from api.models.rate_limit_log import RateLimitLog
 
-__all__ = ['db', 'migrate', 'TimestampMixin', 'User', 'Customer', 'PaymentAttempt']
+__all__ = ['db', 'migrate', 'TimestampMixin', 'User', 'Customer', 'PaymentAttempt', 'RateLimitLog']

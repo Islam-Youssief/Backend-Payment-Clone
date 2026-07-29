@@ -406,3 +406,29 @@ Feature: Fawry Payment API
           And the response json at $.status is equal to 401
           And the response json at $.message is equal to "Token is missing permissions"
 
+  Scenario: 16 - Rate limit exceeded after too many requests
+    The request fails with a 429 Too Many Requests if the client sends more than 5 requests within one minute.
+
+    Given a request url ${BASE_URL}/api/payments/fawry
+        And request headers
+            | param         | value                  |
+            | Authorization | Bearer ${VALID_TOKEN}  |
+            | X-Idempotency-Key | a1b2c3d4-e5f6-7890-abcd-ef1234567890 |
+        And a request json payload
+            """
+            {
+              "merchantRefNum": "ORDER_RATE_LIMIT",
+              "customerProfileId": "CUST_987",
+              "amount": 100.50,
+              "customerEmail": "ratelimit@test.com",
+              "cardHolder": "${VALID_CARD_HOLDER}",
+              "cardNumber": "${VALID_CARD_NUMBER}",
+              "cardExpiryYear": "25",
+              "cardExpiryMonth": "12",
+              "cvv": "123"
+            }
+            """
+        When the request sends POST 6 times
+        Then the response status is TOO MANY REQUESTS
+          And the response json at $.status is equal to 429
+          And the response json at $.message is equal to "Rate limit exceeded. Try again later."
