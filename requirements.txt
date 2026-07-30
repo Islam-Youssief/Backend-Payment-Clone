@@ -4,3 +4,4 @@ Flask-Migrate
 flask_sqlalchemy
 requests
 psycopg2-binary
+throttled-py
