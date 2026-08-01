@@ -26,3 +26,7 @@ def get_payment_history():
 @payments_api.route('/history/<int:payment_id>', methods=['GET'])
 def get_payment_history_by_id(payment_id):
     return payment_history.PaymentHistoryController().get_by_id(payment_id)
+
+@payments_api.route('/history/customers/<int:customer_id>',methods=['GET'])
+def get_payment_history_by_customer(customer_id):
+    return payment_history.PaymentHistoryController().get_by_customer_id(customer_id)

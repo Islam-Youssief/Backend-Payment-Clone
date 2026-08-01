@@ -12,4 +12,4 @@ class PaymentHistoryService:
 
     @staticmethod
     def get_by_customer_id(customer_id):
-        return PaymentsHistory.query.get(customer_id)
+        return PaymentsHistory.query.filter_by(customer_id=customer_id).all()
