@@ -14,10 +14,11 @@ class CheckoutClient:
         self._env = env 
         self._request_sender = test_request_sender or requests_service.get_service(env)
         self._user_data_validator= user_data_validator or UserDataValidator()
-        self._rate_limiter = rate_limiter
+        self._rate_limiter = rate_limiter or rate_limiter.RateLimitService()
         
     
-    def pay_with_card(self, data):
+    def pay_with_card(self, data , idempotency_key):
+        self._idempotency_key = idempotency_key
         self._user_data_validator.validate_payment_data(data)
         self._rate_limiter.check(configuration.PaymentsConfig().checkout_secret_key)
         response = self._request_sender.request(method='POST', url=f'{configuration.PaymentsConfig().checkout_prefix_code}.{CHECKOUT_PAYMENT_URL}', json=data, headers=self._headers)
@@ -27,7 +28,8 @@ class CheckoutClient:
     def _headers(self):
         return{
             'Content-Type':'application/json',
-            'Authorization': f"Bearer {configuration.PaymentsConfig().checkout_secret_key}"
+            'Authorization': f"Bearer {configuration.PaymentsConfig().checkout_secret_key}",
+            "Cko-Idempotency-Key": self._idempotency_key,
         }
 
 class UserDataValidator:

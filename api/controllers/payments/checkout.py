@@ -18,11 +18,16 @@ class CheckoutController:
     @property
     def _body(self):
         return self._flask_request.json
+    
+    @property
+    def _idempotency_key(self):
+        return self._flask_request.headers.get("Idempotency-Key")
+    
 
     def pay(self):
         try:
             self._validator.validate(self._body)
-            invoice = self._handler.process_payment(data=self._body)
+            invoice = self._handler.process_payment(data=self._body , idempotency_key=self._idempotency_key)
             return (
                 _CheckoutSerializer(invoice).serialize(self._flask_request.path),
                 invoice.http_status
@@ -42,8 +47,8 @@ class _CheckoutHandler:
         self._config = config
         self._client = test_client or checkout_service.CheckoutClient(self._config.env)
 
-    def process_payment(self, data):
-        response = self._client.pay_with_card(data=data)
+    def process_payment(self, data, idempotency_key):
+        response = self._client.pay_with_card(data=data, idempotency_key=idempotency_key)
         invoice = sjson.JsonObject(response.json())
         if invoice.status == 'success':
             invoice.http_status = http.HTTPStatus.CREATED
