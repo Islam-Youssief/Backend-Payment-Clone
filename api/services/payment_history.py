@@ -21,6 +21,6 @@ class PaymentHistoryService:
             payment.status = status
             if failure_reason:
                 payment.failure_reason = failure_reason
-                db.session.commit()
+            db.session.commit()
         return payment
     
