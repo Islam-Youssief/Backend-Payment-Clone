@@ -36,6 +36,9 @@ class CheckoutController:
             return self._as_error_response(exc, http.HTTPStatus.BAD_REQUEST)  
         except exceptions.UnauthorizedAccessError as exc:  
             return self._as_error_response(exc, http.HTTPStatus.UNAUTHORIZED)
+        except exceptions.RateLimitExceeded as exc:
+            return self._as_error_response(exc, http.HTTPStatus.TOO_MANY_REQUESTS)
+
 
 
     def _as_error_response(self, error, status):
@@ -73,5 +76,4 @@ class _CheckoutSerializer:
             "status": self._invoice.status,       
             "amount": self._invoice.amount,
             "currency": self._invoice.currency,
-            
         }
