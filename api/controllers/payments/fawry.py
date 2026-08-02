@@ -137,15 +137,60 @@ class _FawryHandler:
                 raise exceptions.ResponseError(response)
 
         invoice = sjson.JsonObject(response.json())
-        ref_num = str(getattr(invoice, 'reference_number', 'FAWRY_REF'))
-        self._tracker.update_status(payment_id=payment_attempt.id, status='SUCCESS', provider_reference=ref_num)
+        invoice.payment_id = str(payment_attempt.id)
         return invoice
+
+
+class FawryWebhookController:
+    def __init__(self, flask_request, payment_attempt_svc=None, serializer=None):
+        self._flask_request = flask_request
+        self._payment_attempt_service = payment_attempt_svc or payment_attempt_service.PaymentAttemptService()
+        self._serializer = serializer or _FawryWebhookSerializer()
+
+    @property
+    def _body(self):
+        return self._flask_request.json or {}
+
+    @property
+    def _url(self):
+        return self._flask_request.path
+
+    def handle_webhook(self, payment_id):
+        try:
+            attempt = self._payment_attempt_service.get_payment_attempt_by_id(payment_id)
+            if not attempt:
+                raise exceptions.RecordNotFoundError(f"Payment attempt <{payment_id}> not found", record_id=str(payment_id))
+            status = self._body.get('status')
+            provider_ref = self._body.get('provider_reference')
+            failure_reason = self._body.get('failure_reason')
+            updated_attempt = self._payment_attempt_service.update_payment_attempt_status(payment_id=payment_id, status=status, provider_reference=provider_ref, failure_reason=failure_reason)
+            return self._serializer.serialize(updated_attempt, self._url), http.HTTPStatus.OK
+        except exceptions.RecordNotFoundError as exc:
+            return self._as_error_response(exc, http.HTTPStatus.NOT_FOUND)
+
+    def _as_error_response(self, error, status):
+        logging.error(f"Creating error response: {error} {status}")
+        return base.CoreErrorSerializer(error, status).serialize(self._url), status
+
+
+
+class _FawryWebhookSerializer:
+
+    def serialize(self, attempt, url):
+        return {
+            "url": url,
+            "message": "Webhook processed successfully",
+            "payment_id": str(attempt.id),
+            "status": attempt.status,
+            "provider_reference": attempt.provider_reference
+        }
 
 
 class _FawrySerializer:
 
     def serialize(self, invoice, url):
         return {
+            "payment_id": getattr(invoice, 'payment_id', None),
             "url": url,
             "reference_number": invoice.reference_number,
             "merchant_ref_number": invoice.merchant_ref_number,

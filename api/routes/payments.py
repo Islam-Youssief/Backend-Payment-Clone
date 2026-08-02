@@ -22,6 +22,10 @@ def paypal_payment():
 def fawry_payment():
     return fawry.FawryController(fl.request, configurations.AppConfig()).pay()
 
+@payments_api.route('/fawry/webhook/<uuid:payment_id>', methods=['POST'])
+def fawry_webhook(payment_id):
+    return fawry.FawryWebhookController(fl.request).handle_webhook(payment_id)
+
 @payments_api.route('/customer/<string:customer_id>', methods=['GET'])
 def get_customer_payments(customer_id):
     return history.CustomerPaymentsController(fl.request).get(customer_id)

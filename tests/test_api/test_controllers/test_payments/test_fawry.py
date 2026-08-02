@@ -217,5 +217,43 @@ class TestFawrySerializer(unittest.TestCase):
         return invoice
 
 
+class TestFawryWebhookController(unittest.TestCase):
+    def setUp(self):
+        self.json = {'status': 'SUCCESS', 'provider_reference': 'FAWRY_123'}
+        self.path = '/api/payments/fawry/webhook/019f9e96-74ab-7092-a1ac-f1f94d09fb99'
+        self.svc_double = PaymentAttemptServiceDouble()
+        self.controller = fawry.FawryWebhookController(self, self.svc_double)
+
+    def test_handle_webhook_success(self):
+        response, status_code = self.controller.handle_webhook('019f9e96-74ab-7092-a1ac-f1f94d09fb99')
+        assert_that(status_code).is_equal_to(http.HTTPStatus.OK)
+        assert_that(response.get('status')).is_equal_to('SUCCESS')
+        assert_that(response.get('url')).is_equal_to(self.path)
+        assert_that(response.get('message')).is_equal_to('Webhook processed successfully')
+
+    def test_handle_webhook_not_found(self):
+        self.svc_double.attempt = None
+        response, status_code = self.controller.handle_webhook('non_existent')
+        assert_that(status_code).is_equal_to(http.HTTPStatus.NOT_FOUND)
+
+
+class PaymentAttemptServiceDouble:
+    def __init__(self):
+        class DummyAttempt:
+            id = '019f9e96-74ab-7092-a1ac-f1f94d09fb99'
+            status = 'SUCCESS'
+            provider_reference = 'FAWRY_123'
+        self.attempt = DummyAttempt()
+
+    def get_payment_attempt_by_id(self, payment_id):
+        return self.attempt
+
+    def update_payment_attempt_status(self, payment_id, status, provider_reference=None, failure_reason=None):
+        if self.attempt:
+            self.attempt.status = status
+            self.attempt.provider_reference = provider_reference
+        return self.attempt
+
+
 if __name__ == '__main__':
     unittest.main()
