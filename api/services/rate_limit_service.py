@@ -6,7 +6,7 @@ class RateLimitService:
 
         self.throttle = Throttled(
             using = RateLimiterType.FIXED_WINDOW.value,
-            quota = rate_limiter.per_sec(1),
+            quota = rate_limiter.per_min(10),
         )
     
     def check(self, key):
