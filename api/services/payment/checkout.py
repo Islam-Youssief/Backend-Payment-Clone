@@ -4,7 +4,7 @@ import json
 import api.core.configurations as configuration
 import api.services.requests_service as requests_service
 import api.core.exceptions as exception
-import api.services.rate_limit_service as rate_limiter
+import api.services.rate_limit_service as rate_limiter_service
 
 CHECKOUT_PAYMENT_URL = "api.sandbox.checkout.com/payments"
 
@@ -14,7 +14,7 @@ class CheckoutClient:
         self._env = env 
         self._request_sender = test_request_sender or requests_service.get_service(env)
         self._user_data_validator= user_data_validator or UserDataValidator()
-        self._rate_limiter = rate_limiter or rate_limiter.RateLimitService()
+        self._rate_limiter = rate_limiter or  rate_limiter_service.RateLimitService()
         
     
     def pay_with_card(self, data , idempotency_key):
