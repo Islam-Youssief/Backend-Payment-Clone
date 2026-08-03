@@ -265,3 +265,13 @@ class InsufficientBalanceError(SerializableError):
     """
     def __init__(self, message="Insufficient Balance"):
         super().__init__(message)
+
+
+class RateLimitExceededError(SerializableError):
+    """
+    Exception raised when a client exceeds the allowed number of requests
+    within the configured time window.
+    """
+    def __init__(self, message="Rate limit exceeded. Try again later."):
+        super().__init__(message)
+

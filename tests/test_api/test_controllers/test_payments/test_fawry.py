@@ -13,10 +13,12 @@ class TestFawryController(unittest.TestCase):
         self.json = {'cardNumber': '1234567890123456'}
         self.path = '/api/payments/fawry'
         self.headers = {}
+        self.remote_addr = '127.0.0.1'
         self.config = ConfigDouble()
         self.validator = ValidatorDouble()
         self.handler = HandlerDouble()
-        self.controller = fawry.FawryController(self, self.config, self.validator, self.handler)
+        self.rate_limiter = RateLimiterDouble()
+        self.controller = fawry.FawryController(self, self.config, self.validator, self.handler, self.rate_limiter)
 
     def test_pay_calls_right_components(self):
         response, status_code = self.controller.pay()
@@ -74,9 +76,24 @@ class TestFawryController(unittest.TestCase):
         assert_that(response.get('message')).is_equal_to('External service timeout')
         assert_that(status_code).is_equal_to(http.HTTPStatus.GATEWAY_TIMEOUT)
 
+    def test_controller_catch_rate_limit_exceeded_error(self):
+        self.rate_limiter.raise_exception = exceptions.RateLimitExceededError()
+        response, status_code = self.controller.pay()
+        assert_that(response.get('message')).is_equal_to('Rate limit exceeded. Try again later.')
+        assert_that(status_code).is_equal_to(http.HTTPStatus.TOO_MANY_REQUESTS)
+
 class ConfigDouble:
     def __init__(self):
         self.env = 'lcl'
+
+
+class RateLimiterDouble:
+    def __init__(self, raise_exception=None):
+        self.raise_exception = raise_exception
+
+    def check_rate_limit(self, client_ip, endpoint):
+        if self.raise_exception:
+            raise self.raise_exception
 
 
 class ValidatorDouble:

@@ -15,6 +15,19 @@ class AppConfig:
     def wiremock_port(self):
         return '8080'
 
+    @property
+    def redis_host(self):
+        return os.environ.get('REDIS_HOST', 'localhost')
+
+    @property
+    def redis_port(self):
+        return int(os.environ.get('REDIS_PORT', 6379))
+
+    @property
+    def redis_db(self):
+        return int(os.environ.get('REDIS_DB', 0))
+
+
 
 class PaymentsConfig:
     @property
