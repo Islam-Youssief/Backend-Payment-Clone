@@ -3,7 +3,7 @@ import logging
 import dotenv
 from api.app import create_app
 from api.models import db, PaymentAttempt, Customer, User
-from api.models.rate_limit_log import RateLimitLog
+from api.services.redis_service import RedisService
 
 def before_scenario(context, scenario):
     """
@@ -13,7 +13,8 @@ def before_scenario(context, scenario):
     dotenv.load_dotenv()
     app = create_app(logging.DEBUG)
     with app.app_context():
-        db.session.query(RateLimitLog).delete()
         db.session.query(PaymentAttempt).delete()
         db.session.query(Customer).delete()
         db.session.commit()
+    redis_service = RedisService()
+    redis_service.flush_pattern("rate_limit:*")
