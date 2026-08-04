@@ -5,6 +5,7 @@
 	"bodyPatterns": [
 	  {
 		"matchesJsonPath": "$[?(@.cardNumber == '1111111111111111')]"
+
 	  }
 	],
 	"headers":{
@@ -25,7 +26,9 @@
 	  "transactionId": "1234567890",
 	  "amount": "100.00",
 	  "currency": "USD",
-	  "paymentMethod": "visa"
+	  "paymentMethod": "visa",
+	  "customer_id": "1",
+	  "idempotency_key": "payment-001"
 	}
   }
 }

@@ -4,7 +4,8 @@ DO-NOT-EDIT
 Auto-generated file from behave-restful
 """
 import os
-
+import logging
+from api.extensions import limiter
 import behave_restful.app as br_app
 
 
@@ -13,10 +14,8 @@ def before_all(context):
     br_app.BehaveRestfulApp().initialize_context(context, this_directory)
     context.hooks.invoke(br_app.BEFORE_ALL, context)
 
-
 def after_all(context):
     context.hooks.invoke(br_app.AFTER_ALL, context)
-
 
 def before_feature(context, feature):
     context.hooks.invoke(br_app.BEFORE_FEATURE, context, feature)
@@ -28,7 +27,10 @@ def after_feature(context, feature):
 
 def before_scenario(context, scenario):
     context.hooks.invoke(br_app.BEFORE_SCENARIO, context, scenario)
-
+    try:
+        limiter.storage.reset()
+    except Exception:
+        pass
 
 def after_scenario(context, scenario):
     context.hooks.invoke(br_app.AFTER_SCENARIO, context, scenario)

@@ -11,20 +11,24 @@ import api.controllers.payments.stripe as stripe
 import api.core.configurations as configurations
 import api.controllers.payments.login as login
 import api.controllers.payments.payment_history as payment_history
+from api.extensions import limiter
 
 
 payments_api = fl.Blueprint('payments', __name__, url_prefix='/payments')
 
 
 @payments_api.route('/paypal', methods=['POST'])
+@limiter.limit("5 per minute")
 def paypal_payment():
     return paypal.PayPalController(fl.request, configurations.AppConfig()).pay()
 
 @payments_api.route('/stripe', methods=['POST'])
+@limiter.limit("5 per minute")
 def stripe_payment():
     return stripe.StripeController(fl.request, configurations.AppConfig()).pay()
 
 @payments_api.route('/login', methods=['POST'])
+@limiter.limit("10 per minute")
 def stripe_login():
     return login.LoginController(fl.request, configurations.AppConfig()).login()
 

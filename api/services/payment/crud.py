@@ -1,6 +1,8 @@
 from sqlalchemy.exc import SQLAlchemyError
 
 from api.models import Payment, db
+from api.routes import payments
+
 
 class PaymentCrud:
 
@@ -28,3 +30,9 @@ class PaymentCrud:
             .order_by(Payment.created_at.desc())
             .all()
         )
+    def clear_payments(self):
+
+        Payment.query.delete()
+        db.session.commit()
+
+
