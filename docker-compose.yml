@@ -1,0 +1,61 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: flask_user
+      POSTGRES_PASSWORD: ryad
+      POSTGRES_DB: payment_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  flask-app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      FLASK_APP: run.py
+      DATABASE_URL: postgresql://flask_user:ryad@postgres:5432/payment_db
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_DB: 0
+      CELERY_BROKER_URL: amqp://guest:guest@rabbitmq:5672//
+      CELERY_RESULT_BACKEND: redis://redis:6379/1
+      ENV: lcl
+      RUN_MIGRATIONS: "true"
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+
+  celery-worker:
+    build: .
+    command: celery -A api.celery_app.celery_app worker --loglevel=info
+    environment:
+      DATABASE_URL: postgresql://flask_user:ryad@postgres:5432/payment_db
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_DB: 0
+      CELERY_BROKER_URL: amqp://guest:guest@rabbitmq:5672//
+      CELERY_RESULT_BACKEND: redis://redis:6379/1
+      ENV: lcl
+      RUN_MIGRATIONS: "false"
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+
+volumes:
+  postgres_data:

@@ -5,3 +5,4 @@ flask_sqlalchemy
 requests
 psycopg2-binary
 redis
+celery

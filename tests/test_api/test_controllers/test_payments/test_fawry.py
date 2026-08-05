@@ -217,12 +217,21 @@ class TestFawrySerializer(unittest.TestCase):
         return invoice
 
 
+class SendPaymentNotificationDouble:
+    def __init__(self):
+        self.called_with = None
+
+    def delay(self, payload):
+        self.called_with = payload
+
+
 class TestFawryWebhookController(unittest.TestCase):
     def setUp(self):
         self.json = {'status': 'SUCCESS', 'provider_reference': 'FAWRY_123'}
         self.path = '/api/payments/fawry/webhook/019f9e96-74ab-7092-a1ac-f1f94d09fb99'
         self.svc_double = PaymentAttemptServiceDouble()
-        self.controller = fawry.FawryWebhookController(self, self.svc_double)
+        self.send_payment_notification = SendPaymentNotificationDouble()
+        self.controller = fawry.FawryWebhookController(self, self.svc_double, send_payment_notification=self.send_payment_notification)
 
     def test_handle_webhook_success(self):
         response, status_code = self.controller.handle_webhook('019f9e96-74ab-7092-a1ac-f1f94d09fb99')
@@ -230,6 +239,8 @@ class TestFawryWebhookController(unittest.TestCase):
         assert_that(response.get('status')).is_equal_to('SUCCESS')
         assert_that(response.get('url')).is_equal_to(self.path)
         assert_that(response.get('message')).is_equal_to('Webhook processed successfully')
+        assert_that(self.send_payment_notification.called_with.get('payment_id')).is_equal_to('019f9e96-74ab-7092-a1ac-f1f94d09fb99')
+        assert_that(self.send_payment_notification.called_with.get('status')).is_equal_to('SUCCESS')
 
     def test_handle_webhook_not_found(self):
         self.svc_double.attempt = None
@@ -243,6 +254,11 @@ class PaymentAttemptServiceDouble:
             id = '019f9e96-74ab-7092-a1ac-f1f94d09fb99'
             status = 'SUCCESS'
             provider_reference = 'FAWRY_123'
+            customer_email = 'tester@test.com'
+            customer_name = 'Test User'
+            amount = 100.5
+            currency = 'EGP'
+            provider = 'FAWRY'
         self.attempt = DummyAttempt()
 
     def get_payment_attempt_by_id(self, payment_id):

@@ -27,6 +27,14 @@ class AppConfig:
     def redis_db(self):
         return int(os.environ.get('REDIS_DB', 0))
 
+    @property
+    def celery_broker_url(self):
+        return os.environ.get('CELERY_BROKER_URL', 'amqp://guest:guest@localhost:5672//')
+
+    @property
+    def celery_result_backend(self):
+        return os.environ.get('CELERY_RESULT_BACKEND', f'redis://{self.redis_host}:{self.redis_port}/1')
+
 
 
 class PaymentsConfig:
