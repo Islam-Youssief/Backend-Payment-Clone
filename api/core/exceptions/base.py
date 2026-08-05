@@ -239,3 +239,18 @@ class ValidationError(SerializableError):
 
     def __init__(self, message='Validation error'):
         super().__init__(message)
+
+
+class RateLimitExceeded(SerializableError):
+    """
+    Exception raised when the rate limit is exceeded.
+    """
+
+    def __init__(self, retry_after=None):
+        self.retry_after = retry_after
+
+        message = "Rate limit exceeded"
+        if retry_after is not None:
+            message += f". Try again in {retry_after} seconds."
+
+        super().__init__(message)

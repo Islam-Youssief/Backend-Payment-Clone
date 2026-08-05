@@ -15,7 +15,8 @@ class TestCheckoutClient(unittest.TestCase):
     def setUp(self):
         self.request_sender = requests_doubles.RequestSenderDouble(json={'message': 'success'})
         self.validator_double = UserDataValidatorDouble()
-        self.client = checkout.CheckoutClient('lcl' , self.validator_double ,self.request_sender)
+        self.rate_limiter_double = RateLimiterDouble()
+        self.client = checkout.CheckoutClient('lcl' ,self.rate_limiter_double, self.validator_double ,self.request_sender)
 
     def test_client_uses_real_if_doubles_are_not_sent(self):
         client_without_doubles = checkout.CheckoutClient('lcl')
@@ -23,15 +24,16 @@ class TestCheckoutClient(unittest.TestCase):
 
     
     def test_pay_with_card_calls_requests_with_expected_params(self):
-        response = self.client.pay_with_card(data=self._get_dummy_card())
+        response = self.client.pay_with_card(data=self._get_dummy_card(), idempotency_key="test_idempotency_key")
         assert_that(response.json().get('message')).is_equal_to('success')
         self.request_sender.assert_that_request_is_called_with(
             method='POST',
             url=f'{configuration.PaymentsConfig().checkout_prefix_code}.{checkout.CHECKOUT_PAYMENT_URL}',
-            data=self._get_dummy_card(),
+            json=self._get_dummy_card(),
             headers={
                 'Authorization': f"Bearer {configuration.PaymentsConfig().checkout_secret_key}",
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Cko-Idempotency-Key': "test_idempotency_key"
             }
         )
 
@@ -88,6 +90,16 @@ class UserDataValidatorDouble:
 
     def assert_that_validate_payment_data_is_called(self):
         assert_that(self._validation_called).is_true()
+
+class RateLimiterDouble:
+    def __init__(self):
+        self._check_called = False
+
+    def check(self, key):
+        self._check_called = True
+
+    def assert_that_check_is_called(self):
+        assert_that(self._check_called).is_true()
 
 
 if __name__ == '__main__':
