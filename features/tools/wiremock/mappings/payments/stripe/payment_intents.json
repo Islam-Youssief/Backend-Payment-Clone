@@ -5,6 +5,7 @@
 	"bodyPatterns": [
 	  {
 		"matchesJsonPath": "$[?(@.cardNumber == '1111111111111111')]"
+
 	  }
 	],
 	"headers":{
@@ -22,10 +23,12 @@
 	"jsonBody": {
 	  "message": "You have successfully paid with visa",
 	  "status": "success",
-	  "transactionId": "1234567890",
-	  "amount": "100.00",
+	  "transaction_id": "1234567890",
+	  "amount": 100.00,
 	  "currency": "USD",
-	  "paymentMethod": "visa"
+	  "payment_method": "visa",
+	  "customer_id": 1,
+	  "idempotency_key": "payment-002"
 	}
   }
 }
