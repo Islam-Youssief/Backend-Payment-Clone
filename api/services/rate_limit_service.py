@@ -1,15 +1,18 @@
-from throttled import Throttled, RateLimiterType, rate_limiter
+from api.services.redis_service import RedisService
 import api.core.exceptions as exceptions
 
 class RateLimitService:
-    def __init__(self):
+    def __init__(self, window = 60, limit = 10, redis_service=None):
 
-        self.throttle = Throttled(
-            using = RateLimiterType.FIXED_WINDOW.value,
-            quota = rate_limiter.per_min(10),
-        )
-    
+        self.redis_service = redis_service or RedisService()
+        self.window = window
+        self.limit = limit
+
     def check(self, key):
-        result = self.throttle.limit(key)
-        if result.limited:
-            raise exceptions.RateLimitExceeded(result.state.retry_after)
+        redis = self.redis_service.redis_client
+        current_count = redis.incr(key, amount=1)
+        if current_count == 1:
+            redis.expire(key, self.window)
+        if current_count > self.limit:
+            retry_after = redis.ttl(key)
+            raise exceptions.RateLimitExceeded(retry_after)
