@@ -13,6 +13,7 @@ import api.services.payment_attempt_service as payment_attempt_service
 import api.services.payment.validators as validators
 import api.services.payment.fawry as fawry_service
 import api.services.rate_limiter_service as rate_limiter_service
+import api.tasks.payment_tasks as payment_tasks
 
 class FawryController:
     def __init__(self, flask_request, app_config, validator=None, handler=None, rate_limiter=None):
@@ -142,10 +143,11 @@ class _FawryHandler:
 
 
 class FawryWebhookController:
-    def __init__(self, flask_request, payment_attempt_svc=None, serializer=None):
+    def __init__(self, flask_request, payment_attempt_svc=None, serializer=None, send_payment_notification=None):
         self._flask_request = flask_request
         self._payment_attempt_service = payment_attempt_svc or payment_attempt_service.PaymentAttemptService()
         self._serializer = serializer or _FawryWebhookSerializer()
+        self._send_payment_notification = send_payment_notification or payment_tasks.send_payment_notification
 
     @property
     def _body(self):
@@ -164,6 +166,16 @@ class FawryWebhookController:
             provider_ref = self._body.get('provider_reference')
             failure_reason = self._body.get('failure_reason')
             updated_attempt = self._payment_attempt_service.update_payment_attempt_status(payment_id=payment_id, status=status, provider_reference=provider_ref, failure_reason=failure_reason)
+            self._send_payment_notification.delay({
+                'payment_id': str(payment_id),
+                'customer_email': updated_attempt.customer_email,
+                'customer_name': updated_attempt.customer_name,
+                'amount': float(updated_attempt.amount),
+                'currency': updated_attempt.currency,
+                'status': updated_attempt.status,
+                'provider': updated_attempt.provider,
+                'provider_reference': updated_attempt.provider_reference
+            })
             return self._serializer.serialize(updated_attempt, self._url), http.HTTPStatus.OK
         except exceptions.RecordNotFoundError as exc:
             return self._as_error_response(exc, http.HTTPStatus.NOT_FOUND)
