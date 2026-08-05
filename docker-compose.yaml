@@ -1,0 +1,20 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  wiremock:
+    image: wiremock/wiremock:3.13.1
+    container_name: wiremock
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./features/tools/wiremock/mappings:/home/wiremock/mappings
+      - ./features/tools/wiremock/__files:/home/wiremock/__files

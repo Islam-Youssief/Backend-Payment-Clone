@@ -5,3 +5,6 @@ flask_sqlalchemy
 request
 psycopg2-binary
 Flask-Limiter
+redis
+rabbitmq
+celery

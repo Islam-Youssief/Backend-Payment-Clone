@@ -8,6 +8,8 @@ import api.core.serializers.json as sjson
 import api.services.payment.validators as validators
 import api.services.payment.stripe as stripe_service
 import api.services.payment.crud as payment_crud
+from  api.tasks.email import send_receipt_email
+from  api.tasks.webhook import send_webhook
 
 
 class StripeController:
@@ -66,7 +68,9 @@ class _PaymentHandler:
             data=data,
             authorization=authorization
         )
-
+        print(response.status_code)
+        print(response.headers)
+        print(response.text)
         invoice = sjson.JsonObject(response.json())
 
         if invoice.status == "success":
@@ -82,6 +86,20 @@ class _PaymentHandler:
                 "status": invoice.status,
                 "failure_reason": None,
             })
+            payment_data = {
+                "payment_id": invoice.transaction_id,
+                "amount": invoice.amount,
+                "currency": invoice.currency,
+                "customer_id": invoice.customer_id,
+            }
+            send_webhook.delay(payment_data)
+            if data.get("email"):
+                send_receipt_email.delay(
+                    data["email"],
+                    invoice.transaction_id,
+                    invoice.amount
+                )
+
 
         elif invoice.status == "declined":
             invoice.http_status = http.HTTPStatus.PAYMENT_REQUIRED
