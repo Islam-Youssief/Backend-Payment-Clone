@@ -7,7 +7,6 @@ import flask as fl
 import api.models as models
 import api.routes as routes
 
-
 def create_app(log_level, config_class=None):
     app = fl.Flask(__name__)
     app.logger.setLevel(log_level)
