@@ -1,5 +1,6 @@
 import unittest
 import api.services.payment.paymob as paymob
+import api.services.payment.validators as validators
 import api.services.requests_service as requests_service
 from assertpy import assert_that
 import tests.doubles.requests as requests_doubles
@@ -15,7 +16,7 @@ class TestPaymobClient(unittest.TestCase):
     def test_client_uses_real_if_doubles_are_not_sent(self):
         client_without_doubles  = paymob.PaymobClient('prd')
         assert_that(client_without_doubles._request_sender).is_instance_of(requests_service.RequestsWrapper)
-        assert_that(client_without_doubles._validator).is_instance_of(paymob.PaymobUserDataValidator)
+        assert_that(client_without_doubles._validator).is_instance_of(validators.UserPaymentDataValidator)
 
     def test_client_create_intention_calls_requests_with_expected_params(self):
         response = self.client.create_intention(self.fake_data)
@@ -34,7 +35,7 @@ class TestPaymobClient(unittest.TestCase):
 
 class TestUserDataValidator(unittest.TestCase):
     def setUp(self):
-        self.validator = paymob.PaymobUserDataValidator()
+        self.validator = validators.UserPaymentDataValidator()
         self.fake_data ={
             "amount": 2000,
             "currency": "EGP",
@@ -89,7 +90,7 @@ class  _UserDataValidatorDouble:
 if __name__ == "__main__":
     unittest.main()
 
-def _get_dummy_data(self):
+def _get_dummy_data():
     return {
                     "amount": 2000,
                     "currency": "EGP",
