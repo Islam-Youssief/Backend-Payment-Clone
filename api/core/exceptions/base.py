@@ -239,3 +239,20 @@ class ValidationError(SerializableError):
 
     def __init__(self, message='Validation error'):
         super().__init__(message)
+
+class RedisServiceError(SerializableError):
+    """
+    Exception representing an error from a Redis operation (connection, get, set, delete, clear,increment).
+
+    :param str message:
+        Message describing the Redis operation that failed.
+    :param str key:
+        Optional key involved in the failed operation, if applicable.
+    """
+
+    def __init__(self, message, key=None):
+        super().__init__(message)
+        self.key = key
+
+    def _add_data(self, serialized):
+        serialized.update(key=self.key)

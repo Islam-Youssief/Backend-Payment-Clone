@@ -9,7 +9,8 @@ import flask as fl
 import api.controllers.payments.paypal as paypal
 import api.controllers.payments.payment_history as payment_history
 import api.core.configurations as configurations
-from api.core.extentions import limiter
+from api.core.extentions import rate_limiter
+
 
 payments_api = fl.Blueprint('payments', __name__, url_prefix='/payments')
 
@@ -20,7 +21,7 @@ def paypal_payment():
 
 
 @payments_api.route('/history', methods=['GET'])
-@limiter.limit("5 per minute")
+@rate_limiter.limit(max_requests=5, window_seconds=60)
 def get_payment_history():
     return payment_history.PaymentHistoryController().get_all()
 

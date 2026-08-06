@@ -1,4 +1,5 @@
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
+from api.services.redis import RedisService
+from api.services.rate_limiter import RateLimiter
 
-limiter = Limiter(key_func=get_remote_address)
+redis_service = RedisService()
+rate_limiter = RateLimiter(redis_service, fail_open=True)
