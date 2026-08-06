@@ -60,4 +60,28 @@ class Crud:
             raise ValueError(f"Field '{field_name}' does not exist in {self.model.__name__}")
         return self.session.query(self.model).filter(field == value).all()
 
-     
+    def update(self, record_id, data):
+        """
+        Update an existing record in the database.
+        :param record_id: The ID of the record to update.
+        :param data: Dictionary containing the updated data for the record.
+        :return: The updated record.
+        :raises ValueError: If the record is not found.
+        """
+        record = self._get_record(record_id)
+        for key, value in data.items():
+            setattr(record, key, value)
+        self.session.commit()
+        return record
+
+    def get_all_by_field(self, field_name, value):
+        """
+        Retrieve all records where a specific field matches a given value.
+        :param field_name: The name of the field to filter by.
+        :param value: The value to match in the specified field.
+        :return: A list of matching records.
+        """
+        field = getattr(self.model, field_name, None)
+        if field is None:
+            raise ValueError(f"Field '{field_name}' does not exist in {self.model.__name__}")
+        return self.session.query(self.model).filter(field == value).all()

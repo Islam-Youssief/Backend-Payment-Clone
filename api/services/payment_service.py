@@ -37,3 +37,20 @@ class PaymentService:
         :return: A list of payment records for the specified customer.
         """
         return self._crud.get_all_by_field('customer_id', customer_id)
+
+    def update_payment(self, payment_id, data):
+        """
+        Update a payment record by its ID.
+        :param payment_id: The ID of the payment record to update.
+        :param data: Dictionary containing the updated data for the payment.
+        :return: The updated payment record if found, else None.
+        """
+        return self._crud.update(payment_id, data)
+
+    def get_payment_by_checkout_payment_id(self, checkout_payment_id):
+        """
+        Retrieve a payment record by its checkout payment ID.
+        :param checkout_payment_id: The checkout payment ID of the payment record to retrieve.
+        :return: The payment record if found, else None.
+        """
+        return self._crud.get_by_field('checkout_payment_id', checkout_payment_id)
