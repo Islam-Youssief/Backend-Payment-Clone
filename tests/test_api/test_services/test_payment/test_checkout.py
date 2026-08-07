@@ -17,37 +17,39 @@ class TestCheckoutClient(unittest.TestCase):
         self.validator_double = UserDataValidatorDouble()
         self.client = checkout.CheckoutClient('lcl' , self.validator_double ,self.request_sender)
 
-    def _get_dummy_card():
-        return{
-            "source":{
-            "type": "card",
-            "number": "2242424242424242",
-            "cvv": "100",
-            "expiry_month": 12,
-            "expiry_year": 2030
-        },
-        "currency": "USD",
-        "amount": 1000,
-        "processing_channel_id": "pc_test_123"
-        }
-
     def test_client_uses_real_if_doubles_are_not_sent(self):
         client_without_doubles = checkout.CheckoutClient('lcl')
         assert_that(client_without_doubles._request_sender).is_instance_of(requests_service.WiremockRequester)
 
     
     def test_pay_with_card_calls_requests_with_expected_params(self):
-        response = self.client.pay_with_card(data=self._get_dummy_card)
+        response = self.client.pay_with_card(data=self._get_dummy_card())
         assert_that(response.json().get('message')).is_equal_to('success')
         self.request_sender.assert_that_request_is_called_with(
             method='POST',
-            url=checkout.CHECKOUT_PAYMENT_URL,
-            data=self._get_dummy_card,
+            url=f'{configuration.PaymentsConfig().checkout_prefix_code}.{checkout.CHECKOUT_PAYMENT_URL}',
+            data=self._get_dummy_card(),
             headers={
-                'Authorization': f"Bearer {configuration.PaymentConfig.checkout_secret_key}",
+                'Authorization': f"Bearer {configuration.PaymentsConfig().checkout_secret_key}",
                 'Content-Type': 'application/json'
             }
         )
+
+    def _get_dummy_card(self):
+        return {
+            "source": {
+                "type": "card",
+                "number": "2242424242424242",
+                "cvv": "100",
+                "expiry_month": 12,
+                "expiry_year": 2030
+            },
+            "currency": "USD",
+            "amount": 1000,
+            "processing_channel_id": "pc_test_123"
+        }
+    
+
 class TestUserDataValidator(unittest.TestCase):
 
     def setUp(self):

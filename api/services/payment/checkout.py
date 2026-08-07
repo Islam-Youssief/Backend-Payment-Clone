@@ -18,7 +18,7 @@ class CheckoutClient:
     
     def pay_with_card(self, data):
         self._user_data_validator.validate_payment_data(data)
-        response = self._request_sender.request(method='POST', url=f'{configuration.PaymentsConfig().checkout_prefix_code}.{CHECKOUT_PAYMENT_URL}', data=json.dumps(data), headers=self._headers)
+        response = self._request_sender.request(method='POST', url=f'{configuration.PaymentsConfig().checkout_prefix_code}.{CHECKOUT_PAYMENT_URL}', data=data, headers=self._headers)
         return response
 
     @property
