@@ -9,6 +9,7 @@ import flask as fl
 import api.controllers.payments.paypal as paypal
 import api.controllers.payments.payment_history as payment_history
 import api.core.configurations as configurations
+import api.controllers.payments.paymob as paymob
 
 
 payments_api = fl.Blueprint('payments', __name__, url_prefix='/payments')
@@ -29,4 +30,9 @@ def get_payment_history_by_id(payment_id):
 
 @payments_api.route('/history/customers/<int:customer_id>',methods=['GET'])
 def get_payment_history_by_customer(customer_id):
+    return payment_history.PaymentHistoryController().get_by_customer_id(customer_id)
+
+@payments_api.route('/paymob/webhook', methods=['POST'])
+def paymob_webhook_endpoint():
+    return paymob.PaymobWebhookController(fl.request).handle_webhook()
     return payment_history.PaymentHistoryController().get_by_customer_id(customer_id)
