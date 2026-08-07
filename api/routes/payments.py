@@ -35,3 +35,4 @@ def get_payment_history_by_customer(customer_id):
 @payments_api.route('/paymob/webhook', methods=['POST'])
 def paymob_webhook_endpoint():
     return paymob.PaymobWebhookController(fl.request).handle_webhook()
+    return payment_history.PaymentHistoryController().get_by_customer_id(customer_id)
