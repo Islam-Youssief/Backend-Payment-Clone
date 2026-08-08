@@ -1,5 +1,7 @@
 import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 class AppConfig:
     
@@ -43,4 +45,38 @@ class PaymentsConfig:
     
     @property
     def paymob_hmac_secret(self):
-        return os.environ.get('PAYMOB_HMAC_SECRET')    
+        return os.environ.get('PAYMOB_HMAC_SECRET')   
+
+class RedisConfig:
+    @property
+    def url(self):
+        return os.environ.get('REDIS_URL', 'redis://localhost:6379/2')
+
+    @property
+    def port(self):
+        return int(os.environ.get('REDIS_PORT', 6379))
+
+class CeleryConfig:
+    @property
+    def broker_url(self):
+        return os.environ.get('CELERY_BROKER_URL', 'redis://localhost:6379/2')
+
+    @property
+    def result_backend(self):
+        return os.environ.get('CELERY_RESULT_BACKEND', 'redis://localhost:6379/2')
+
+    @property
+    def task_serializer(self):
+        return os.environ.get('CELERY_TASK_SERIALIZER', 'json')
+
+    @property
+    def task_time_limit(self):
+        return int(os.environ.get('CELERY_TASK_TIME_LIMIT', 600))
+
+    @property
+    def task_acks_late(self):
+        return os.environ.get('CELERY_TASK_ACKS_LATE', 'True')
+
+    @property
+    def worker_concurrency(self):
+        return int(os.environ.get('CELERY_WORKER_CONCURRENCY', 2))
