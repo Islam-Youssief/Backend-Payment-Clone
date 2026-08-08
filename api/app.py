@@ -2,11 +2,12 @@
 Flask application factory for the Accounts & Payments Service API.
 """
 import os
-
+from dotenv import load_dotenv
 import flask as fl
 import api.models as models
 import api.routes as routes
 
+load_dotenv()
 
 def create_app(log_level, config_class=None):
     app = fl.Flask(__name__)

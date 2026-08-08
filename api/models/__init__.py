@@ -26,3 +26,8 @@ class User(db.Model, TimestampMixin):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.Text, nullable=False)
     salt = db.Column(db.Text, nullable=False)
+
+
+from .customer import Customer
+from .paymentsHistory import PaymentsHistory
+from .idempotencyKeys import IdempotencyKeys
