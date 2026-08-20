@@ -80,3 +80,7 @@ class CeleryConfig:
     @property
     def worker_concurrency(self):
         return int(os.environ.get('CELERY_WORKER_CONCURRENCY', 2))
+
+class TotpConfig:
+    totp_encryption_key = os.environ.get('TOTP_ENCRYPTION_KEY')
+    jwt_secret_key = os.environ.get('JWT_SECRET_KEY')
