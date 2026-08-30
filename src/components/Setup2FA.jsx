@@ -124,18 +124,6 @@ export default function Setup2FA({
                 </div>
             )}
 
-            <div>
-                <h3>Manual setup</h3>
-
-                <p>
-                    If you cannot scan the QR code,
-                    enter this secret manually:
-                </p>
-
-                <strong>
-                    {secret}
-                </strong>
-            </div>
 
             <form onSubmit={handleConfirm}>
                 <div>
