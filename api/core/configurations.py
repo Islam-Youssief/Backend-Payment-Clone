@@ -84,3 +84,19 @@ class CeleryConfig:
 class TotpConfig:
     totp_encryption_key = os.environ.get('TOTP_ENCRYPTION_KEY')
     jwt_secret_key = os.environ.get('JWT_SECRET_KEY')
+
+class SmtpConfig:
+    smtp_host = os.environ.get('SMTP_HOST')
+    smtp_port = os.environ.get('SMTP_PORT')
+    smtp_username = os.environ.get('SMTP_USERNAME')
+    smtp_password = os.environ.get('SMTP_PASSWORD')
+    smtp_from = os.environ.get('SMTP_FROM')
+
+class WhatsAppConfig: #Local
+    api_url = os.environ.get("WHATSAPP_API_URL","http://localhost:2785/api")
+    api_key = os.environ.get("WHATSAPP_API_KEY")
+    session_id = os.environ.get("WHATSAPP_SESSION_ID")
+
+class WaConfig: #using wasenderapi.com
+    api_url = os.environ.get("WA_SENDER_API_URL","https://www.wasenderapi.com/api/send-message")
+    api_key = os.environ.get("WA_API_KEY")

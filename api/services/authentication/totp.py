@@ -35,3 +35,12 @@ class TotpService:
         except Exception:
           db.session.rollback()
         return True
+    
+    @staticmethod
+    def verify(user, code):
+        if not user.totp_secret:
+            return False
+
+        secret = EncryptionService.decrypt(user.totp_secret)
+
+        return pyotp.TOTP(secret).verify(code)

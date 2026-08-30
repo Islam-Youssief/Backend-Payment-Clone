@@ -10,3 +10,4 @@ class Customer(db.Model, TimestampMixin):
     email = db.Column(db.String(255),nullable=False,unique=True)
     
     payments = db.relationship("PaymentsHistory",back_populates="customer")
+    transactions = db.relationship("Transaction",back_populates="customer")
