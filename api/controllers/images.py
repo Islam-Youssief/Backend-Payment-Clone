@@ -1,12 +1,10 @@
-from flask import request
-
 from api.services.image import ImageService
 
 
 class ImageController:
 
     @staticmethod
-    def get_images(limit=20, cursor=None):
+    def get_images(limit=2, cursor=None):
         result = ImageService.get_images(
             limit=limit,
             cursor=cursor,

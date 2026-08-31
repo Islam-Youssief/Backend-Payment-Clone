@@ -22,6 +22,7 @@ class TimestampMixin:
 
 class User(db.Model, TimestampMixin):
     __tablename__ = 'users'
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -30,7 +31,9 @@ class User(db.Model, TimestampMixin):
     salt = db.Column(db.Text, nullable=False)
     totp_secret = db.Column(db.Text, nullable=True)
     totp_enabled = db.Column(db.Boolean, nullable=False, default=False)
-    
+
+    user_permissions = db.relationship("UserPermission",back_populates="user",cascade="all, delete-orphan")
+
     def set_password(self, password):
         self.salt = secrets.token_hex(32)
 
@@ -48,3 +51,5 @@ from .paymentsHistory import PaymentsHistory
 from .idempotencyKeys import IdempotencyKeys
 from api.models.transaction import Transaction
 from api.models.image import Image
+from api.models.permission import Permission
+from api.models.userPermission import UserPermission

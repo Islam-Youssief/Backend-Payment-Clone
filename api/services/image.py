@@ -4,7 +4,7 @@ from api.models import Image
 class ImageService:
 
     @staticmethod
-    def get_images(limit=20, cursor=None):
+    def get_images(limit=2, cursor=None):
         query = Image.query
 
         if cursor:

@@ -2,9 +2,11 @@ import flask as fl
 
 import api.routes.payments as payments
 import api.routes.auth as auth
+import api.routes.permissions as permissions
+import api.routes.dashboard as dashboard
 
 BLUEPRINTS = [
-    payments.payments_api,auth.auth_api,
+    payments.payments_api,auth.auth_api,permissions.permissions_api,dashboard.dashboard_api
 ]
 
 

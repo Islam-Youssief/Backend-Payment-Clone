@@ -4,10 +4,13 @@ import Register from "./components/Register";
 import Setup2FA from "./components/Setup2FA";
 import Login from "./components/Login";
 import Login2FA from "./components/Login2FA";
-
 import ForgotPassword from "./components/ForgotPassword";
 import VerifyResetOTP from "./components/VerifyResetOTP";
 import ResetPassword from "./components/ResetPassword";
+
+import Home from "./Home";
+
+import { getPermissions } from "./api";
 
 import "./App.css";
 
@@ -20,28 +23,44 @@ function App() {
     const [accessToken, setAccessToken] =
         useState(null);
 
+    const [permissions, setPermissions] =
+        useState([]);
+
     const [resetEmail, setResetEmail] =
         useState(null);
 
     const [resetToken, setResetToken] =
         useState(null);
 
+    async function handleAuthenticated(token) {
+        setChallengeToken(null);
+        setAccessToken(token);
+
+        localStorage.setItem(
+            "access_token",
+            token
+        );
+
+        const result = await getPermissions(token);
+
+        if (result.status === 200) {
+            setPermissions(
+                result.data.permissions || []
+            );
+        }
+    }
+
     if (accessToken) {
         return (
-            <div className="app-container">
-                <div className="auth-container">
-                    <h1>Authenticated</h1>
-                    <p>Access token received.</p>
-                </div>
-            </div>
+            <Home
+                accessToken={accessToken}
+                permissions={permissions}
+            />
         );
     }
 
     let content;
 
-    /*
-     * REGISTER
-     */
     if (screen === "register") {
         content = (
             <Register
@@ -56,9 +75,6 @@ function App() {
         );
     }
 
-    /*
-     * INITIAL 2FA SETUP
-     */
     if (screen === "setup") {
         content = (
             <Setup2FA
@@ -71,62 +87,47 @@ function App() {
         );
     }
 
-    /*
-     * LOGIN
-     */
     if (screen === "login") {
         content = (
             <Login
-    onSetup={(token) => {
-        setChallengeToken(token);
-        setScreen("setup");
-    }}
-    onTwoFactor={(token) => {
-        setChallengeToken(token);
-        setScreen("login-2fa");
-    }}
-    onForgotPassword={() => {
-        setScreen("forgot-password");
-    }}
-/>
-        );
-    }
-
-    /*
-     * LOGIN 2FA
-     */
-    if (screen === "login-2fa") {
-        content = (
-            <Login2FA
-                challengeToken={challengeToken}
-                onAuthenticated={(token) => {
-                    setChallengeToken(null);
-                    setAccessToken(token);
+                onSetup={(token) => {
+                    setChallengeToken(token);
+                    setScreen("setup");
+                }}
+                onTwoFactor={(token) => {
+                    setChallengeToken(token);
+                    setScreen("login-2fa");
+                }}
+                onForgotPassword={() => {
+                    setScreen("forgot-password");
                 }}
             />
         );
     }
 
-    /*
-     * FORGOT PASSWORD
-     */
-    if (screen === "forgot-password") {
-    content = (
-        <ForgotPassword
-            onOtpSent={(email) => {
-                setResetEmail(email);
-                setScreen("verify-reset-otp");
-            }}
-            onBack={() => {
-                setScreen("login");
-            }}
-        />
-    );
-}
+    if (screen === "login-2fa") {
+        content = (
+            <Login2FA
+                challengeToken={challengeToken}
+                onAuthenticated={handleAuthenticated}
+            />
+        );
+    }
 
-    /*
-     * VERIFY RESET OTP
-     */
+    if (screen === "forgot-password") {
+        content = (
+            <ForgotPassword
+                onOtpSent={(email) => {
+                    setResetEmail(email);
+                    setScreen("verify-reset-otp");
+                }}
+                onBack={() => {
+                    setScreen("login");
+                }}
+            />
+        );
+    }
+
     if (screen === "verify-reset-otp") {
         content = (
             <VerifyResetOTP
@@ -142,9 +143,6 @@ function App() {
         );
     }
 
-    /*
-     * RESET PASSWORD
-     */
     if (screen === "reset-password") {
         content = (
             <ResetPassword
