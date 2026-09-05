@@ -1,4 +1,5 @@
 const API_URL = "http://127.0.0.1:5000/api";
+
 const AUTH_URL = `${API_URL}/auth`;
 
 async function request(url, options = {}) {
@@ -27,7 +28,9 @@ async function request(url, options = {}) {
         return {
             status: 0,
             data: {
-                message: error.message || "Could not connect to the server",
+                message:
+                    error.message ||
+                    "Could not connect to the server",
             },
         };
     }
@@ -168,4 +171,67 @@ export function getTransactionSummary(
             },
         }
     );
+}
+export function getTasks(accessToken) {
+    return request(`${API_URL}/tasks/`, {
+        method: "GET",
+        headers: {
+            ...authHeaders(accessToken)
+        }
+    })
+}
+
+export function createTask(
+    accessToken,
+    name,
+    description,
+    status
+) {
+    return request(`${API_URL}/tasks/`, {
+        method: "POST",
+        headers: {
+            ...authHeaders(accessToken),
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            name,
+            description,
+            status
+        })
+    })
+}
+
+export function updateTaskStatus(
+    accessToken,
+    taskId,
+    status
+) {
+    return request(
+        `${API_URL}/tasks/${taskId}/status`,
+        {
+            method: "PATCH",
+            headers: {
+                ...authHeaders(accessToken),
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                status
+            })
+        }
+    )
+}
+
+export function deleteTask(
+    accessToken,
+    taskId
+) {
+    return request(
+        `${API_URL}/tasks/${taskId}`,
+        {
+            method: "DELETE",
+            headers: {
+                ...authHeaders(accessToken)
+            }
+        }
+    )
 }
