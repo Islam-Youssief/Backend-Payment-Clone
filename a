@@ -1,0 +1,26 @@
+[33mcommit 85c4d43f9a835a81162a2ff111b3f34fc4d8f989[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mpermissions[m[33m, [m[1;31morigin/permissions[m[33m)[m
+Author: Exil <abdalrahmankay2019@gmail.com>
+Date:   Tue Sep 1 00:25:00 2026 +0300
+
+    Add permissions
+
+ api/controllers/images.py                          |   4 [32m+[m[31m-[m
+ api/controllers/permissions.py                     |  11 [32m++[m
+ api/models/__init__.py                             |   9 [32m+[m[31m-[m
+ api/models/permission.py                           |  11 [32m++[m
+ api/models/userPermission.py                       |  11 [32m++[m
+ api/routes/__init__.py                             |   4 [32m+[m[31m-[m
+ api/routes/dashboard.py                            |  48 [32m+++++[m
+ api/routes/permissions.py                          |  11 [32m++[m
+ api/services/image.py                              |   2 [32m+[m[31m-[m
+ api/services/permissions.py                        |  21 [32m++[m
+ .../90e168f6bb8c_added_permissions_tables.py       |  47 [32m+++++[m
+ src/App.jsx                                        | 110 [32m++++++[m[31m-----[m
+ src/Home.jsx                                       |  66 [32m+++++++[m
+ src/api.js                                         | 124 [32m++++++++++[m[31m--[m
+ src/components/Gallery.jsx                         | 208 [32m++++++++++++++++++++[m
+ src/components/PieChart.jsx                        |  32 [32m+++[m
+ src/components/Transactions.jsx                    | 189 [32m++++++++++++++++++[m
+ src/components/index.css                           | 215 [32m+++++++++++++++++++++[m
+ src/index.css                                      | 215 [32m+++++++++++++++++++++[m
+ 19 files changed, 1264 insertions(+), 74 deletions(-)

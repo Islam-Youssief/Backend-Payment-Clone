@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import Kanban_board from "./components/KanbanBoard"; 
 import Register from "./components/Register";
 import Setup2FA from "./components/Setup2FA";
 import Login from "./components/Login";
@@ -163,6 +163,7 @@ function App() {
             </div>
         </div>
     );
+    //return <Kanban_board />;
 }
 
 export default App;

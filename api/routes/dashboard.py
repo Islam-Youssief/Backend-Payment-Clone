@@ -28,8 +28,7 @@ def get_images(user):
 @dashboard_api.route("/transactions/customer/<int:customer_id>",methods=["GET"])
 @require_authentication
 def get_transactions(user, customer_id):
-    if not PermissionService.has_permission(
-        user.id,"transactions_allowed"):
+    if not PermissionService.has_permission(user.id,"transactions_allowed"):
         return {
             "message": "You do not have permission to access transactions"
         }, 403

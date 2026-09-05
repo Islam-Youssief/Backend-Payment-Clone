@@ -1,0 +1,282 @@
+.kanban-board {
+    width: 100%;
+    max-width: 900px;
+    margin: 40px auto;
+}
+
+.kanban-columns {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
+}
+
+.task-column {
+    flex: 1;
+    min-width: 0;
+    min-height: 340px;
+    background: #e8edf0;
+    border-radius: 6px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.column-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.column-title {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.column-count {
+    font-size: 13px;
+    color: #666;
+}
+
+.add-task-button {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 5px;
+    background: #1264db;
+    color: white;
+    font-size: 22px;
+    line-height: 32px;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-task-button:hover {
+    background: #0d55bd;
+}
+
+.column-tasks {
+    min-height: 285px;
+}
+
+.empty-column {
+    height: 285px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #777;
+    font-size: 14px;
+}
+
+.task {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    background: white;
+    border: 1px solid #d8dde1;
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 8px;
+    box-sizing: border-box;
+    cursor: grab;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.task:active {
+    cursor: grabbing;
+}
+
+.task-content {
+    min-width: 0;
+    flex: 1;
+}
+
+.task-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #172033;
+    margin-bottom: 4px;
+    word-break: break-word;
+}
+
+.task-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+    word-break: break-word;
+}
+
+.task-time {
+    font-size: 13px;
+    color: #555;
+}
+
+.delete-button {
+    flex: 0 0 44px;
+    width: 44px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    background: #1264db;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background: #0d55bd;
+}
+
+/* Popup */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.48);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.create-task-modal {
+    width: 420px;
+    max-width: calc(100vw - 40px);
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+
+.modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 22px 22px 10px;
+}
+
+.modal-header h2 {
+    margin: 0 0 4px;
+    font-size: 23px;
+    color: #172033;
+}
+
+.modal-header span {
+    font-size: 14px;
+    color: #777;
+}
+
+.modal-close-button {
+    width: 34px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    background: #1264db;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.modal-close-button:hover {
+    background: #0d55bd;
+}
+
+.modal-body {
+    padding: 15px 22px 5px;
+}
+
+.modal-body label {
+    display: block;
+    margin: 0 0 7px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #172033;
+}
+
+.modal-body input,
+.modal-body textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccd2d8;
+    border-radius: 6px;
+    padding: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    margin-bottom: 16px;
+}
+
+.modal-body input {
+    height: 38px;
+}
+
+.modal-body textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.modal-body input:focus,
+.modal-body textarea:focus {
+    border-color: #1264db;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 12px 22px 22px;
+}
+
+.cancel-button,
+.create-button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.cancel-button {
+    background: #e5e7eb;
+    color: #333;
+}
+
+.cancel-button:hover {
+    background: #d7d9dc;
+}
+
+.create-button {
+    background: #1264db;
+    color: white;
+}
+
+.create-button:hover {
+    background: #0d55bd;
+}
+
+@media (max-width: 700px) {
+    .kanban-board {
+        margin: 25px 15px;
+    }
+
+    .kanban-columns {
+        flex-direction: column;
+    }
+
+    .task-column {
+        min-height: 200px;
+    }
+
+    .column-tasks,
+    .empty-column {
+        min-height: 100px;
+    }
+}
