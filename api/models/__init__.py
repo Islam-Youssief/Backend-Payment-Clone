@@ -31,8 +31,10 @@ class User(db.Model, TimestampMixin):
     salt = db.Column(db.Text, nullable=False)
     totp_secret = db.Column(db.Text, nullable=True)
     totp_enabled = db.Column(db.Boolean, nullable=False, default=False)
+    permissions = db.Column(db.Text, nullable=True, default="")
 
     user_permissions = db.relationship("UserPermission",back_populates="user",cascade="all, delete-orphan")
+    tasks = db.relationship("Task",back_populates="user",cascade="all, delete-orphan")
 
     def set_password(self, password):
         self.salt = secrets.token_hex(32)
@@ -53,3 +55,4 @@ from api.models.transaction import Transaction
 from api.models.image import Image
 from api.models.permission import Permission
 from api.models.userPermission import UserPermission
+from api.models.task import Task
