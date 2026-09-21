@@ -5,9 +5,11 @@ import api.routes.auth as auth
 import api.routes.permissions as permissions
 import api.routes.dashboard as dashboard
 import api.routes.tasks as tasks
+import api.routes.notifications as notifications
+
 BLUEPRINTS = [
     payments.payments_api,auth.auth_api,permissions.permissions_api,
-    dashboard.dashboard_api,tasks.tasks_api
+    dashboard.dashboard_api,tasks.tasks_api,notifications.notifications_api
 ]
 
 

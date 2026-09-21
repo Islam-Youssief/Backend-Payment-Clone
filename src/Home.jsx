@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Gallery from "./components/Gallery";
 import Transactions from "./components/Transactions";
 import Kanban_board from "./components/KanbanBoard";
+import NotificationLab from "./components/NotificationLab";
 import { getPermissions } from "./api";
 import "./index.css";
 
@@ -131,29 +132,53 @@ function Home() {
                     )}
 
                     <div className="home-buttons">
+
                         <button
-                            type="button"
-                            onClick={openTransactions}
-                            disabled={!canViewTransactions}
+                            onClick={() =>
+                                setActiveTab("transactions")
+                            }
                         >
                             Transactions
                         </button>
 
+
                         <button
-                            type="button"
-                            onClick={openGallery}
-                            disabled={!canViewGallery}
+                            onClick={() =>
+                                setActiveTab("gallery")
+                            }
                         >
                             Gallery
                         </button>
 
+
                         <button
-                            type="button"
-                            onClick={openKanban}
+                            onClick={() =>
+                                setActiveTab("notifications")
+                            }
                         >
-                            Kanban
+                            Notification Lab
                         </button>
+
                     </div>
+
+
+                    {activeTab === "transactions" && (
+                        <Transactions
+                            accessToken={accessToken}
+                        />
+                    )}
+
+
+                    {activeTab === "gallery" && (
+                        <Gallery
+                            accessToken={accessToken}
+                        />
+                    )}
+
+
+                    {activeTab === "notifications" && (
+                        <NotificationLab />
+                    )}
 
                     {activeTab === "transactions" && canViewTransactions && (
                         <Transactions
