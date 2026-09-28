@@ -377,3 +377,202 @@ home-buttons {
 .delete-task:hover {
     background: #1258bd;
 }
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f5f7fb;
+    color: #172033;
+}
+
+button {
+    font: inherit;
+}
+
+.notification-lab {
+    width: 100%;
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 24px;
+}
+
+.notification-lab h1 {
+    margin: 0 0 30px;
+    font-size: 32px;
+    font-weight: 700;
+    color: #172033;
+}
+
+.transport-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.transport-grid button {
+    min-height: 120px;
+    padding: 20px;
+    border: 1px solid #d9dee7;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #172033;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.transport-grid button:hover {
+    transform: translateY(-2px);
+    border-color: #94a3b8;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.transport-grid button:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.transport-grid button:nth-child(1) {
+    background: #eff6ff;
+    border-color: #93c5fd;
+}
+
+.transport-grid button:nth-child(2) {
+    background: #fff7ed;
+    border-color: #fdba74;
+}
+
+.transport-grid button:nth-child(3) {
+    background: #f0fdf4;
+    border-color: #86efac;
+}
+
+.transport-grid button:nth-child(4) {
+    background: #f5f3ff;
+    border-color: #8b5cf6;
+    color: #5b21b6;
+}
+
+.transport-grid button:nth-child(4):hover {
+    border-color: #7c3aed;
+    box-shadow: 0 6px 18px rgba(124, 58, 237, 0.15);
+}
+
+.notification-log {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+.log-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.log-header h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #172033;
+}
+
+.log-header button {
+    padding: 9px 15px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #374151;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.log-header button:hover {
+    background: #f8fafc;
+}
+
+.notification-log > p {
+    margin: 8px 0;
+    color: #64748b;
+}
+
+.notification-log > p strong {
+    color: #172033;
+}
+
+.notification-log table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+.notification-log th {
+    padding: 13px 15px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e5e7eb;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.notification-log td {
+    padding: 14px 15px;
+    border-bottom: 1px solid #eef1f5;
+    color: #374151;
+    font-size: 14px;
+}
+
+.notification-log tbody tr:hover {
+    background: #fafafa;
+}
+
+.notification-log td:last-child {
+    color: #15803d;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.notification-log td[colspan="5"] {
+    padding: 35px;
+    color: #94a3b8;
+    text-align: center;
+}
+
+@media (max-width: 850px) {
+    .transport-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .notification-lab {
+        padding: 0 15px;
+    }
+
+    .transport-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .log-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .notification-log {
+        overflow-x: auto;
+    }
+
+    .notification-log table {
+        min-width: 700px;
+    }
+}
