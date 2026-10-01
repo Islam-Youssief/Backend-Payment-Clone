@@ -1,20 +1,20 @@
 {
-  "request":{
-    "urlPath":"/api.stripe.com/v1/payments_intents",
-    "method":"POST",
+  "request": {
+    "urlPath": "/api.stripe.com/v1/payments_intents",
+    "method": "POST",
     "bodyPatterns": [
-    {
-    "matchesJsonPath": "$[?(@.cardNumber == '4294294294294294')]"
-    }
-  ]
+      {
+        "matchesJsonPath": "$[?(@.cardNumber == '2222222222222222')]"
+      }
+    ]
   },
-  "response":{
-    "status":200,
-    "headers":{
-      "content-type":"application/json"
+  "response": {
+    "status": 429,
+    "headers": {
+      "Content-Type": "application/json"
     },
-    "jsonBody":{
-      "message":"Too many requests",
+    "jsonBody": {
+      "message": "Too many requests",
       "status": "rate_limited"
     }
   }
