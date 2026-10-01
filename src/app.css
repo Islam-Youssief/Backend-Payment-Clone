@@ -1,0 +1,78 @@
+.app-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 30px;
+    text-align: center;
+}
+
+.auth-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.auth-container input:not([type="radio"]) {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.auth-container button {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.auth-container textarea {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.error {
+    color: red;
+}
+
+/* Forgot Password method selector */
+
+.method-options {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.method-option {
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: auto !important;
+    margin: 0;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.method-option input[type="radio"] {
+    display: inline-block !important;
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px;
+    max-width: 16px;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex: 0 0 16px;
+}
+
+.method-option span {
+    display: inline-block;
+}

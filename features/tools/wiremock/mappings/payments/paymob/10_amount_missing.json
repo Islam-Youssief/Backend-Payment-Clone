@@ -1,0 +1,39 @@
+{
+  "request": {
+    "urlPath": "/accept.paymob.com/v1/intention/",
+    "method": "POST",
+    "headers": {
+      "Authorization": {
+        "equalTo": "Token SECRET_KEY_HAHAHA"
+      }
+    },
+    "bodyPatterns": [
+      {
+        "equalToJson": {
+          "currency": "EGP",
+          "payment_methods": [158],
+          "card_number": "4111111111111111",
+          "card_holder": "Rudeus greyrat",
+          "cvv": "679",
+          "items": [
+              {"name": "Staff", "amount": 2000}
+          ],
+          "billing_data": {
+              "first_name": "Roxy",
+              "last_name": "Migurdia",
+              "phone": "010010010101"
+          }
+        }
+      }
+    ]
+  },
+  "response": {
+    "status": 400,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+        "amount": ["This field is required."]
+    }
+  }
+}
