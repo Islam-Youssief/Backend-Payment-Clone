@@ -51,6 +51,3 @@ storage/
 *.dir
 
 flask.log
-
-/node_modules/
-/public/
