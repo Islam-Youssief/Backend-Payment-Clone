@@ -13,6 +13,7 @@ Feature: Stripe Payment Processing
         And request headers
             | param         | value         |
             | Authorization | Bearer STRIPE_SECRET_KEY |
+            | X-Test-Scenario | successful-payment |
         And a request json payload
           """
           {
@@ -41,6 +42,7 @@ Feature: Stripe Payment Processing
         And request headers
             | param         | value         |
             | Authorization | Bearer STRIPE_SECRET_KEY |
+            | X-Test-Scenario | declined-payment |
         And a request json payload
           """
           {
@@ -65,6 +67,8 @@ Feature: Stripe Payment Processing
         And request headers
             | param         | value         |
             | Authorization | Bearer STRIPE_SECRET_KEY |
+            | X-Test-Scenario | error-stripe-service |
+
         And a request json payload
           """
           {
@@ -81,30 +85,30 @@ Feature: Stripe Payment Processing
       And the response json at $.message is equal to "Payment server unavailable"
       And the response json at $.status is equal to "server_error"
 
-  Scenario: 4. Return rate limit response when too many requests are sent
-    Verify that the application returns a rate limit response
-    after too many requests are sent to the Stripe API within a short period of time.
 
-    Given a request url ${BASE_URL}/api/payments/stripe
-        And request headers
-            | param         | value         |
-            | Authorization | Bearer STRIPE_SECRET_KEY |
-        And a request json payload
-          """
-          {
-              "cardHolder":"${VALID_CARD_HOLDER}",
-              "cardNumber":"${MANY_REQUEST_CARD_NUMBER}",
-              "amount":100,
-              "cardExpiryYear":"25",
-              "cardExpiryMonth":"12",
-              "cvv":"123"
-          }
-          """
-    When the request sends POST
-    Then the response status is TOO_MANY_REQUESTS
-      And the response json at $.message is equal to "Too many requests"
-      And the response json at $.status is equal to "rate_limited"
+  Scenario: 4 Reject request when the rate limit is exceeded
+    Verify that the application rejects requests
+    after the client exceeds the allowed request limit.
 
+  Given a request url ${BASE_URL}/api/payments/stripe
+    And request headers
+      | param           | value                    |
+      | Authorization | Bearer STRIPE_SECRET_KEY   |
+      | X-Test-Scenario | RATE_LIMIT               |
+    And a request json payload
+    """
+    {
+        "cardHolder":"${VALID_CARD_HOLDER}",
+        "cardNumber":"${RATE_LIMIT}",
+        "amount":100,
+        "cardExpiryYear":"25",
+        "cardExpiryMonth":"12",
+        "cvv":"123"
+    }
+    """
+  When the client sends 6 POST requests
+  Then the response status is TOO_MANY_REQUESTS
+    And the response json at $.message is equal to "Too many requests"
 
   Scenario: 5. Reject payment when the secret key is invalid
     Verify that the application rejects the payment request
@@ -114,6 +118,7 @@ Feature: Stripe Payment Processing
     And request headers
       | param         | value                        |
       | Authorization | Bearer INVALID_SECRET_KEY    |
+      | X-Test-Scenario | secret-key-is-invalid |
     And a request json payload
       """
       {
@@ -138,6 +143,7 @@ Feature: Stripe Payment Processing
     And request headers
       | param         | value                        |
       | Authorization | Bearer None                  |
+      | X-Test-Scenario | secret-key-is-missing |
     And a request json payload
       """
       {
@@ -153,3 +159,4 @@ Feature: Stripe Payment Processing
   Then the response status is UNAUTHORIZED
     And the response json at $.message is equal to "Unauthorized"
     And the response json at $.status is equal to "unauthorized"
+

@@ -4,27 +4,39 @@ import logging
 import api.controllers.base as base
 import api.services.payment.payment_history as payment_history
 import api.core.exceptions as exceptions
-
+from api.extensions import cache
 
 class PaymentsHistoryController:
     def __init__(self, flask_request, config, handler=None):
         self._flask_request = flask_request
         self._config = config
         self._handler = handler or _PaymentHistoryHandler(self._config)
+        self._cache = cache
 
     @property
     def _body(self):
         return self._flask_request.json
 
     def get_payment(self, payment_id):
-        try:
-            payment = self._handler.get_payment(payment_id)
+        cache_key = f"payment:{payment_id}"
+        cached_payment = self._cache.get(cache_key)
+
+        if cached_payment:
             return (
-                _PaymentSerializer(payment).serialize(
-                    self._flask_request.path
-                ),
+                cached_payment,
                 http.HTTPStatus.OK,
             )
+
+        try:
+            payment = self._handler.get_payment(payment_id)
+            serialized = _PaymentSerializer(payment).serialize(
+                self._flask_request.path
+            )
+            self._cache.set(cache_key, serialized,ttl=300)
+            return (
+                serialized,
+                http.HTTPStatus.OK,
+                )
         except exceptions.RecordNotFoundError as exc:
             return self._as_error_response(
                 exc,
@@ -85,7 +97,7 @@ class _PaymentSerializer:
             "currency": self._payment.currency,
             "status": self._payment.status,
             "failure_reason": self._payment.failure_reason,
-            "created_at": self._payment.created_at,
+            "created_at": self._payment.created_at.isoformat(),
         }
 
 

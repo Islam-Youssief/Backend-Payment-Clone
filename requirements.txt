@@ -2,5 +2,9 @@ dotenv
 flask
 Flask-Migrate
 flask_sqlalchemy
-requests
+request
 psycopg2-binary
+Flask-Limiter
+redis
+rabbitmq
+celery
