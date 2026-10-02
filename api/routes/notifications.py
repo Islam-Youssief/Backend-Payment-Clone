@@ -4,6 +4,8 @@ import api.services.notifications.long_polling as long_polling
 import api.services.notifications.sse as sse
 from api.extentions import sock
 import api.services.notifications.websocket as ws
+from api.services.webhook import send_discord_message
+import traceback
 
 notifications_api = fl.Blueprint("notification", __name__ , url_prefix='/notifications')
 
@@ -38,3 +40,19 @@ def sse_notifications():
 @sock.route("/api/notifications/websocket")
 def ws_notifcations(websocket):
     ws.WebSocketService.sent_test(websocket,"WebSocket")
+
+@notifications_api.route("/webhook",methods=["POST"])
+def error_hit():
+    try:
+        result = 10/0
+    except ZeroDivisionError as err:
+        result = 0
+        data = fl.request.get_json() or {}
+        message = data.get("message")
+        trace = traceback.format_exc()
+        msg = f"```Signature from Islam : {message or err}\n {trace}```"
+        send_discord_message(msg)
+
+        return {
+            "message": f"{err}"
+        }, 200

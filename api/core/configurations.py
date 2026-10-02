@@ -91,7 +91,7 @@ class SmtpConfig:
     smtp_username = os.environ.get('SMTP_USERNAME')
     smtp_password = os.environ.get('SMTP_PASSWORD')
     smtp_from = os.environ.get('SMTP_FROM')
-
+    smtp_log_email = os.environ.get('SMTP_LOG_EMAIL')
 class WhatsAppConfig: #Local
     api_url = os.environ.get("WHATSAPP_API_URL","http://localhost:2785/api")
     api_key = os.environ.get("WHATSAPP_API_KEY")
@@ -100,3 +100,12 @@ class WhatsAppConfig: #Local
 class WaConfig: #using wasenderapi.com
     api_url = os.environ.get("WA_SENDER_API_URL","https://www.wasenderapi.com/api/send-message")
     api_key = os.environ.get("WA_API_KEY")
+
+class WebhookConfig:
+    discord_url = os.environ.get("DISCORD_WEBHOOK_URL")
+    teams_url = os.environ.get("TEAMS_WEBHOOK_URL")
+    trello_board = os.environ.get("TRELLO_BOARD")
+    trello_api_key = os.environ.get("TRELLO_API_KEY")
+    trello_token = os.environ.get("TRELLO_TOKEN")
+    trello_url = os.environ.get("TRELLO_URL")
+    trello_list = os.environ.get("TRELLO_LIST")

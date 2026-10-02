@@ -1,232 +1,64 @@
-/* App.css */
-
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
-  background: #f5f7fb;
-  color: #172033;
+    margin: 0;
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f5f7fb;
+    color: #172033;
 }
 
 button {
-  font: inherit;
+    font: inherit;
 }
 
 /* Home */
 
 .home {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 40px;
 }
 
 .home h1 {
-  margin: 0 0 10px;
-  font-size: 36px;
-  font-weight: 700;
+    margin: 0 0 10px;
+    font-size: 36px;
+    font-weight: 700;
 }
 
 .home p {
-  margin: 0 0 35px;
-  color: #6b7280;
+    margin: 0 0 35px;
+    color: #6b7280;
 }
 
 .home-buttons {
-  display: flex;
-  gap: 20px;
-}
-
-.home-buttons button {
-  width: 220px;
-  padding: 18px 24px;
-  border: 0;
-  border-radius: 12px;
-  background: #172033;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.home-buttons button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-}
-
-/* Transactions */
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 50px 30px;
-}
-
-.container h1 {
-  margin: 0;
-  font-size: 30px;
-}
-
-.subtitle {
-  margin: 8px 0 30px;
-  color: #6b7280;
-}
-
-/* Table */
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-thead {
-  background: #f8fafc;
-}
-
-th {
-  padding: 16px;
-  text-align: left;
-  font-size: 13px;
-  font-weight: 600;
-  color: #64748b;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-}
-
-td {
-  padding: 17px 16px;
-  border-top: 1px solid #eef1f5;
-  font-size: 14px;
-}
-
-tbody tr {
-  transition: background 0.15s ease;
-}
-
-tbody tr:hover {
-  background: #f8fafc;
-}
-
-/* Direction */
-
-.direction {
-  font-weight: 600;
-}
-
-.direction.credit {
-  color: #16a34a;
-}
-
-.direction.debit {
-  color: #dc2626;
-}
-
-/* Amount */
-
-.amount {
-  font-weight: 600;
-}
-
-.amount.credit {
-  color: #16a34a;
-}
-
-.amount.debit {
-  color: #dc2626;
-}
-
-/* Pagination */
-
-.pagination {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 25px;
-}
-
-.pagination button {
-  min-width: 100px;
-  padding: 10px 18px;
-  border: 1px solid #d9dee7;
-  border-radius: 8px;
-  background: white;
-  color: #172033;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.pagination button:hover:not(:disabled) {
-  background: #172033;
-  color: white;
-}
-
-.pagination button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-/* Mobile */
-
-@media (max-width: 800px) {
-  .container {
-    padding: 30px 15px;
-  }
-
-  table {
-    min-width: 850px;
-  }
-
-  .container {
-    overflow-x: auto;
-  }
-
-  .home-buttons {
-    flex-direction: column;
-  }
-
-  .home-buttons button {
-    width: 260px;
-  }
-}
-
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-
-.gallery-grid img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-home-buttons {
     display: flex;
     gap: 20px;
     margin: 20px 0;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .home-buttons button {
-    padding: 12px 24px;
+    width: 220px;
+    padding: 18px 24px;
+    border: 0;
+    border-radius: 12px;
+    background: #172033;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .home-buttons button:hover:not(:disabled) {
     transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 .home-buttons button:disabled {
@@ -236,11 +68,181 @@ home-buttons {
     box-shadow: none;
 }
 
-.home-buttons button:disabled:hover {
+/* Dashboard navigation */
+
+.dashboard-back-button {
+    padding: 10px 18px;
+    border: 1px solid #d9dee7;
+    border-radius: 8px;
+    background: white;
+    color: #172033;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 25px;
+}
+
+.dashboard-back-button:hover {
+    background: #172033;
+    color: white;
+}
+
+.home-content {
+    width: 100%;
+    max-width: 1200px;
+    margin: 10px auto 0;
+}
+
+/* Transactions */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px 30px;
+}
+
+.container h1 {
+    margin: 0;
+    font-size: 30px;
+}
+
+.subtitle {
+    margin: 8px 0 30px;
+    color: #6b7280;
+}
+
+/* Table */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+thead {
+    background: #f8fafc;
+}
+
+th {
+    padding: 16px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+td {
+    padding: 17px 16px;
+    border-top: 1px solid #eef1f5;
+    font-size: 14px;
+}
+
+tbody tr {
+    transition: background 0.15s ease;
+}
+
+tbody tr:hover {
+    background: #f8fafc;
+}
+
+/* Direction */
+
+.direction {
+    font-weight: 600;
+}
+
+.direction.credit {
+    color: #16a34a;
+}
+
+.direction.debit {
+    color: #dc2626;
+}
+
+/* Amount */
+
+.amount {
+    font-weight: 600;
+}
+
+.amount.credit {
+    color: #16a34a;
+}
+
+.amount.debit {
+    color: #dc2626;
+}
+
+/* Pagination */
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.pagination button {
+    min-width: 100px;
+    padding: 10px 18px;
+    border: 1px solid #d9dee7;
+    border-radius: 8px;
+    background: white;
+    color: #172033;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.pagination button:hover:not(:disabled) {
+    background: #172033;
+    color: white;
+}
+
+.pagination button:disabled {
     opacity: 0.4;
     cursor: not-allowed;
-    transform: none;
-    box-shadow: none;}
+}
+
+/* Gallery */
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.gallery-grid img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Kanban */
+
+.kanban-page {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 30px;
+}
+
+.kanban-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.kanban-header h1 {
+    margin: 0;
+    font-size: 30px;
+}
 
 .kanban-board {
     width: 100%;
@@ -377,20 +379,92 @@ home-buttons {
 .delete-task:hover {
     background: #1258bd;
 }
-* {
-    box-sizing: border-box;
+
+/* Trello */
+
+.trello-page {
+    width: 100%;
+    min-height: 100vh;
+    padding: 40px 30px;
 }
 
-body {
-    margin: 0;
-    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background: #f5f7fb;
+.trello-container {
+    width: 100%;
+    max-width: 700px;
+    margin: 30px auto;
+}
+
+.trello-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 30px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+.trello-card h1 {
+    margin: 0 0 25px;
+    font-size: 28px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #374151;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: white;
     color: #172033;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
 }
 
-button {
-    font: inherit;
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #172033;
 }
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.trello-card form button {
+    width: 100%;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    background: #172033;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.trello-card form button:hover {
+    background: #25314a;
+}
+
+.trello-status {
+    margin-top: 20px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #374151;
+}
+
+/* Notification Lab */
 
 .notification-lab {
     width: 100%;
@@ -406,6 +480,12 @@ button {
     color: #172033;
 }
 
+.notification-lab button{
+    border: 1px solid #ffbbbb;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #172033;
+}
 .transport-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -423,7 +503,9 @@ button {
     font-size: 18px;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    transition: transform 0.15s ease,
+        box-shadow 0.15s ease,
+        border-color 0.15s ease;
 }
 
 .transport-grid button:hover {
@@ -456,11 +538,6 @@ button {
     background: #f5f3ff;
     border-color: #8b5cf6;
     color: #5b21b6;
-}
-
-.transport-grid button:nth-child(4):hover {
-    border-color: #7c3aed;
-    box-shadow: 0 6px 18px rgba(124, 58, 237, 0.15);
 }
 
 .notification-log {
@@ -547,6 +624,22 @@ button {
     text-align: center;
 }
 
+/* Responsive */
+
+@media (max-width: 1000px) {
+    .home-buttons {
+        max-width: 700px;
+    }
+
+    .kanban-columns {
+        grid-template-columns: 1fr;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 850px) {
     .transport-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -554,6 +647,33 @@ button {
 }
 
 @media (max-width: 600px) {
+    .home {
+        padding: 30px 15px;
+    }
+
+    .home-buttons {
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+    }
+
+    .home-buttons button {
+        width: 260px;
+    }
+
+    .container {
+        padding: 30px 15px;
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 850px;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+
     .notification-lab {
         padding: 0 15px;
     }
@@ -575,4 +695,148 @@ button {
     .notification-log table {
         min-width: 700px;
     }
+    
+
+    .trello-page,
+    .kanban-page {
+        padding: 25px 15px;
+    }
+
+    .trello-card {
+        padding: 20px;
+    }
+
+    .kanban-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+    .home {
+        padding: 25px 15px;
+    }
+
+    .home h1 {
+        font-size: 30px;
+    }
+
+    .home-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .home-buttons button {
+        width: 100%;
+    }
+
+    .container {
+        padding: 30px 15px;
+        overflow-x: auto;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .notification-lab {
+        padding: 0 15px;
+        margin: 25px auto;
+    }
+
+    .notification-lab h1 {
+        font-size: 27px;
+    }
+
+    .transport-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .transport-grid button {
+        min-height: 90px;
+    }
+
+    .log-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .notification-log {
+        overflow-x: hidden;
+        padding: 15px;
+    }
+
+    .notification-log table {
+        min-width: 0;
+        table-layout: fixed;
+    }
+
+    .notification-log th,
+    .notification-log td {
+        padding: 10px 8px;
+        font-size: 12px;
+    }
+
+    .notification-log th:nth-child(1),
+    .notification-log td:nth-child(1) {
+        width: 7%;
+    }
+
+    .notification-log th:nth-child(2),
+    .notification-log td:nth-child(2) {
+        width: 17%;
+    }
+
+    .notification-log th:nth-child(3),
+    .notification-log td:nth-child(3) {
+        width: 16%;
+    }
+
+    .notification-log th:nth-child(4),
+    .notification-log td:nth-child(4) {
+        width: 45%;
+    }
+
+    .notification-log th:nth-child(5),
+    .notification-log td:nth-child(5) {
+        width: 15%;
+    }
+
+    .error-traceback {
+        font-size: 10px;
+        padding: 7px;
+    }
+
+    .task-form {
+        flex-direction: column;
+    }
+
+    .kanban-board {
+        padding: 0 15px;
+    }
+
+    .trello-container {
+        padding: 0 15px;
+    }
+}
+
+.notification-log tbody tr.error-notification-row {
+    background: #f26363 ;
+}
+
+.notification-log tbody tr.error-notification-row:hover {
+    background: #f26363 ;
+}
+
+.notification-log tbody tr.error-notification-row td {
+    background: #f26363 ;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.notification-log tbody tr.error-notification-row td:last-child {
+    color: white ;
+    font-weight: 700;
 }

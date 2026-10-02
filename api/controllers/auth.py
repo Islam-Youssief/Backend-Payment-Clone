@@ -211,7 +211,8 @@ def forgot_password(data):
     PasswordResetService.store_otp(email,otp)
 
     if method == "email":
-     EmailService.send_password_reset_otp(email,otp)
+     email_service = EmailService()
+     email_service.send_password_reset_otp(email,otp)
 
     elif method == "whatsapp":
         WaSenderService.send_password_reset_otp(user.phone,otp)
